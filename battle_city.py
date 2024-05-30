@@ -12,8 +12,9 @@ game = True
 
 while game:
     for event in pg.event.get():
-        if event.type == pg.K_ESCAPE:
-            game = False
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_ESCAPE:
+                game = False
 
 
     pg.display.update()

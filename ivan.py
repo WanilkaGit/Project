@@ -107,10 +107,10 @@ def keys_building():
     if key_pressed[K_d]:
         pass
 
-    if key_pressed[K_esc]:
+    if key_pressed[K_SPACE]:
         pass
 
-    if key_pressed[K_a]:
+    if key_pressed[K_ESCAPE]:
         pass
 
 

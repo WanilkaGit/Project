@@ -7,11 +7,11 @@ map_lvlq1 = {
   "|gb    b  b  b bg/",#player1 - p
   "|gb bbbb  bbbb bg/",#lose - l
   "|gb  bb    bb  bg/",#win - w
-  "|gb  bb bb bb  bg/",
-  "|gb    bbbb    bg/",
-  "|gggggggggggggggg/",
-  "|u     b b      u/",
-  "|g  b  bbb   b bg/",
+  "|gb  bb bb bb  bg/",#кожен елемент цього
+  "|gb    bbbb    bg/",#є частиню карти окрім
+  "|gggggggggggggggg/",#пробілів
+  "|u     b b      u/",#що вони означають написано вище
+  "|g  b  bbb   b bg/",#теж зі знаком коментаря
   "|gb b  b b   b bg/",
   "|gb bu      ub bg/",
   "|gb b  bbb   b bg/",
@@ -21,9 +21,8 @@ map_lvlq1 = {
 
 x = 0
 y = 0
-def start_pos():# стартова позиція
-    global items, camera, hero, block_r, block_l, plat, coins, door, coin
-    global stairs_lst, enemy_lst, p6, p11, p7, p8, open_d, open_ch, manas# робимо глобальними змінни
+def start_pos():# функція що розставляє все по стартових місцях
+    global #все треба буде глобалізувати
     hero = Player(300, 650, 50, 50 , 15, hero_l)
 
 
@@ -34,16 +33,48 @@ def start_pos():# стартова позиція
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 0
-    for r in level1:# фор як раб почав ходити по списками перевіряєм індекси
-        for c in r:#  стучим в двері перевіряєм чи
+    for r in level1:# р дорівнює ряддку
+        for c in r:#  с дорівнює символу з рядка р
             if c == "-":# дім полу
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм платформу спочатку координати, розмір, швидкість та картинка
+                plat.append(p1)# додаємо до списку платформ
+                items.add(p1)# додаємо до списку всього що є на карті
+            if c == "-":# для лівої стіни
                 p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
                 plat.append(p1)# 
                 items.add(p1)
-            if c == "-":# дім полу
+            if c == "-":# для правої стіни
                 p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
                 plat.append(p1)# 
                 items.add(p1)
+
+            if c == "-":# для трави
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
+                plat.append(p1)# 
+                items.add(p1)
+
+            if c == "-":# для кирпічної стіни
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
+                plat.append(p1)# 
+                items.add(p1)
+              
+            if c == "-":# для не взламної стіни
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
+                plat.append(p1)# 
+                items.add(p1)
+
+            if c == "-":# для не взламної стіни
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
+                plat.append(p1)# 
+                items.add(p1)
+
+            if c == "-":# для еміків
+                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
+                plat.append(p1)# 
+                items.add(p1)
+
+
+
 
             x += 40#  ікси плюс 40
         y += 40#  перміщаємось в низ

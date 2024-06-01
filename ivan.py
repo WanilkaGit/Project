@@ -1,3 +1,19 @@
+"""Класи"""
+class Settings(sprite.Sprite):# основний клас тут основні параметри
+    def __init__(self, x, y, width, height, speed, img):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.speed = speed
+        self.image = transform.scale(image.load(img), (self.width, self.height))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def reset(self):# тут прописана функція ресет
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+"""Map build"""
 map_lvlq1 = {
   "_________________",#Unbreakeble - u
   "|gggggggggggggggg/",#breakeable - b
@@ -75,3 +91,26 @@ def start_pos():# функція що розставляє все по стар�
         y += 40#  перміщаємось в низ
         x = 0#  ікси 0
     items.add(hero)
+
+"""Key bulding"""
+
+def keys_building():
+    key_pressed = key.get_pressed()
+    if key_pressed[K_a]:
+        pass
+    if key_pressed[K_w]:
+        pass
+
+    if key_pressed[K_s]:
+        pass
+
+    if key_pressed[K_d]:
+        pass
+
+    if key_pressed[K_esc]:
+        pass
+
+    if key_pressed[K_a]:
+        pass
+
+

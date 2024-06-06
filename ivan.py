@@ -1,3 +1,4 @@
+from pygame import *
 """Класи"""
 class Settings(sprite.Sprite):# основний клас тут основні параметри
     def __init__(self, x, y, width, height, speed, img):
@@ -15,25 +16,25 @@ class Settings(sprite.Sprite):# основний клас тут основні 
 
 """Map build"""
 map_lvlq1 = {
-  "_________________",#Unbreakeble - u
-  "|gggggggggggggggg/",#breakeable - b
-  "|gb bbbb  bbbb bg/",#green_hide - g
-  "|gb b  b  b  b bg/",#dark_white_hide - d
-  "|gb bbbb  b  b bg/",#enemy - e
-  "|gb    b  b  b bg/",#player1 - p
-  "|gb bbbb  bbbb bg/",#lose - l
-  "|gb  bb    bb  bg/",#win - w
-  "|gb  bb bb bb  bg/",#кожен елемент цього
-  "|gb    bbbb    bg/",#є частиню карти окрім
-  "|gggggggggggggggg/",#пробілів
-  "|u     b b      u/",#що вони означають написано вище
-  "|g  b  bbb   b bg/",#теж зі знаком коментаря
-  "|gb b  b b   b bg/",
-  "|gb bu      ub bg/",
-  "|gb b  bbb   b bg/",
-  "|ggg   blb    gg /",
-  "------------------"
-}
+    "_________________",#Unbreakeble - u
+    "|gggggggggggggggg/",#breakeable - b
+    "|gb bbbb  bbbb bg/",#green_hide - g
+    "|gb b  b  b  b bg/",#dark_white_hide - d
+    "|gb bbbb  b  b bg/",#enemy - e
+    "|gb    b  b  b bg/",#player1 - p
+    "|gb bbbb  bbbb bg/",#lose - l
+    "|gb  bb    bb  bg/",#win - w
+    "|gb  bb bb bb  bg/",#кожен елемент цього
+    "|gb    bbbb    bg/",#є частиню карти окрім
+    "|gggggggggggggggg/",#пробілів
+    "|u     b b      u/",#що вони означають написано вище
+    "|g  b  bbb   b bg/",#теж зі знаком коментаря
+    "|gb b  b b   b bg/",
+    "|gb bu      ub bg/",
+    "|gb b  bbb   b bg/",
+    "|ggg   blb    gg /",
+    "------------------"
+    }
 
 x = 0
 y = 0
@@ -73,12 +74,12 @@ def start_pos():# функція що розставляє все по стар�
                 p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
                 plat.append(p1)# 
                 items.add(p1)
-              
+
             if c == "u":# для не взламної стіни
                 p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
                 plat.append(p1)# 
                 items.add(p1)
- 
+
             if c == "e":# для еміків
                 p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
                 plat.append(p1)# 
@@ -96,21 +97,21 @@ def start_pos():# функція що розставляє все по стар�
 
 def keys_building():
     key_pressed = key.get_pressed()
-    if key_pressed[K_a]:
+    if key_pressed["K_a"]:
         pass
-    if key_pressed[K_w]:
-        pass
-
-    if key_pressed[K_s]:
+    if key_pressed["K_w"]:
         pass
 
-    if key_pressed[K_d]:
+    if key_pressed["K_s"]:
         pass
 
-    if key_pressed[K_SPACE]:
+    if key_pressed["K_d"]:
         pass
 
-    if key_pressed[K_ESCAPE]:
+    if key_pressed["K_SPACE"]:
+        pass
+
+    if key_pressed["K_ESCAPE"]:
         pass
 
 

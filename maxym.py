@@ -2,7 +2,7 @@ import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
 
-'''усе пов'язане з кнопками'''
+'''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
 class Button:
     '''Звичайна кнопка використовуй якщо не потрібна текстура і вона не має рухатися якщо фон не потрібен то пропусти введення його кольору'''
@@ -16,7 +16,7 @@ class Button:
     #метод для відмальовки сюди треба вказати поверхню на якій буде малюватись кнопка pg.display також працює якщо що
     def draw(self, display: pg.Surface):
         '''Метод для відмальовки кнопки'''
-        if self.color is not None: pg.draw.rect(display, self.color, self.rect)
+        if self.color is not None: pg.draw.rect(display, self.color, self.rect) #якщо колір не вказано то немалюємо саму кнопку
         text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         display.blit(text_surface, text_rect)
@@ -41,7 +41,7 @@ class MovableButton:
     def draw(self, display: pg.Surface, x: int, y: int):
         '''Метод для відмальовки кнопки якщо тобы не треба щоб кнопка рухалась використовуй звичайний класс Button()'''
         self.rect = pg.Rect(x, y, self.width, self.height)
-        if self.color is not None: pg.draw.rect(display, self.color, self.rect)
+        if self.color is not None: pg.draw.rect(display, self.color, self.rect) #якщо колір не вказано то немалюємо саму кнопку
         text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center= self.rect.center)
         display.blit(text_surface, text_rect)
@@ -76,7 +76,7 @@ class TextureButton(pg.sprite.Sprite):
         '''повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)'''
         return self.rect.collidepoint(pos)
 
-'''усе пов'язане з танками'''
+'''-------------------------------------------------усе пов'язане з танками------------------------------------------------------------------------------------------'''
 
 #цей класс підходить і для кулі гравця
 class Bullet(pg.sprite.Sprite):
@@ -235,10 +235,11 @@ class Enemy(pg.sprite.Sprite):
         pg.sprite.groupcollide(self.bullets, self.blocks, True, True)
     
     def take_damage(self, damage: Union[int, float]):
+        '''Функція для нанесення шкоди ворогу якщо кількість життів ворога дорівнює нулю то видаляємо ворога'''
         self.health -= damage
         if self.health <= 0:
             self.kill()
-            del self
+            del self #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
 
     def new(self, pos: Tuple[int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
@@ -301,7 +302,7 @@ class EnemySpawner:
         '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''
         self.enemy_group.update(display)
 
-'''просто функції'''
+'''------------------------------------------------------просто функції----------------------------------------------------------------------------------------'''
 
 def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
     '''перевіряє чи знаходиться хоч один піксель обєкта у вказанному діапазоні'''

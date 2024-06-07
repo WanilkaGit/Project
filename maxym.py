@@ -1,5 +1,8 @@
 import pygame as pg
+from random import randint, choice
 from typing import Union, Optional, Tuple
+
+'''усе пов'язане з кнопками'''
 
 class Button:
     '''Звичайна кнопка використовуй якщо не потрібна текстура і вона не має рухатися якщо фон не потрібен то пропусти введення його кольору'''
@@ -72,3 +75,239 @@ class TextureButton(pg.sprite.Sprite):
     def is_pressed(self, pos: Tuple[int, int]) -> bool:
         '''повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)'''
         return self.rect.collidepoint(pos)
+
+'''усе пов'язане з танками'''
+
+#цей класс підходить і для кулі гравця
+class Bullet(pg.sprite.Sprite):
+    '''
+    Простий клас кулі яка летить в заданому напрямку та ламає стіни з якими стикається
+    
+    texture - це має бути екземпляр класу Surface
+
+    тобто її треба робити за таким шаблоном ім'я_текстури = pg.image.load(шлях_до_спрайта.тип_його_файлу)
+
+    speed - швидкість кулі за кадр в пікселях
+
+    damage - шкада яку задає куля ворогу при влучанні
+    '''
+    def __init__(self, texture: pg.Surface, speed: Union[int, float], damage: Union[int, float]):
+        super().__init__()
+        self.image = texture
+        self.rect = self.image.get_rect()
+        self.speed = speed
+        self.damage = damage
+        self.dir = 0
+
+    def update(self, display: pg.Surface):
+        '''оновлює позицію кулі та відальовує її на вказаній поверхні'''
+
+        #в залежності від значення dir куля летить в потрібну сторону
+        #не придумав як це автоматизувати тому тут така гілка з іфів
+        if self.dir == 1:
+            self.rect.y -= self.speed
+        elif self.dir == 2:
+            self.rect.x -= self.speed
+        elif self.dir == 3:
+            self.rect.y += self.speed
+        elif self.dir == 4:
+            self.rect.x += self.speed
+        display.blit(self.image, self.rect)
+
+        #якщо куля не на карті то видаляємо її
+        #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк вмпадок
+        if not is_on_screen(self, 800, 800):
+            self.kill()
+            del self
+  
+    def new(self, dir: int):
+        '''робить новий екземпляр классу Bullet на основі себе'''
+
+        new_bullet = Bullet(self.image, self.speed, self.damage)
+        new_bullet.dir = dir
+        new_bullet.image = pg.transform.rotate(new_bullet.image, 90 * dir)
+        return new_bullet
+
+class Enemy(pg.sprite.Sprite):
+    '''
+    основний класс ворога
+    
+    texture - це має бути екземпляр класу Surface
+
+    тобто його треба робити за таким шаблоном ім'я_текстури = pg.image.load(шлях_до_спрайта.тип_його_файлу)
+    
+    speed - швидкість танку за кадр в пікселях
+
+    agility - шанс що танк в цьому кадрі повернеться чим менше agility тим частіше танк буде обертатись
+    
+    якщо дорівнює 0 то танк повертається тільки коли стикається зі стіною
+
+    firing_rate - шанс що танк в цьому кадрі зробить постріл чим менше firing_rate тим частіше танк буде стріляти
+
+    якщо дорівнює 0 то танк не буде стріляти
+
+    health - кількість життів в танка
+
+    blocks - сюди треба вказати группу блоків танк буде оброблювати усі зіткнення саме з цією группою
+    
+    '''
+    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group):
+        super().__init__()
+        self.original_texture = texture
+        self.image = texture
+        self.rect = self.image.get_rect()
+        self.speed = speed
+        self.agility = agility
+        self.firing_rate = firing_rate
+        self.score = score
+        self.health = health
+        self.bullet = bullet
+        self.dir = 4
+        self.blocks = blocks
+        self.bullets = pg.sprite.Group()
+
+    def __random_rotate(self):
+        '''повертає танк в одному з чотирьох напрямків'''        
+        self.dir = randint(1,4)
+        self.image = pg.transform.rotate(self.original_texture, 90 * self.dir) 
+
+    def __collide(self):
+        '''колізія ворога зі стінами чі краєм карти'''
+
+        #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+        collided_blocks = pg.sprite.spritecollide(self, self.blocks, False)
+        if collided_blocks:
+            block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
+            if self.dir == 1:
+                self.rect.top = block.rect.bottom
+            elif self.dir == 2:
+                self.rect.left = block.rect.right 
+            elif self.dir == 3:
+                self.rect.bottom = block.rect.top      
+            elif self.dir == 4:
+                self.rect.right = block.rect.left
+
+            self.__random_rotate()
+
+        #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
+        if self.rect.right > 800:
+            self.rect.x = 800 - self.rect.width
+            self.__random_rotate()
+        elif self.rect.left < 0:
+            self.rect.x = 0
+            self.__random_rotate()
+        if self.rect.bottom > 800:
+            self.rect.y = 800 - self.rect.height
+            self.__random_rotate()
+        elif self.rect.top < 0:
+            self.rect.y = 0
+            self.__random_rotate()
+        
+    def update(self, display: pg.Surface):
+        '''оновлює стан ворога та відмалюовує його на вказаній поверхні'''
+
+        #тут генеруємо випадкове число якщо воно рівне одиниці то танк повертається в випадковому напрямці
+        if randint(0, self.agility) == 1:
+            self.__random_rotate()
+
+        #тут генеруємо випадкове число якщо воно рівне одиниці то танк зробить постріл
+        if randint(0, self.firing_rate) == 1:
+            new_bullet = self.bullet.new(self.dir)
+            new_bullet.rect.center = self.rect.center
+            self.bullets.add(new_bullet)
+
+        display.blit(self.image, self.rect)
+
+        #тан їде в ту або іншу сторону в залешності від значення dir
+        if self.dir == 1:
+            self.rect.y -= self.speed
+        elif self.dir == 2:
+            self.rect.x -= self.speed
+        elif self.dir == 3:
+            self.rect.y += self.speed
+        elif self.dir == 4:
+            self.rect.x += self.speed
+        
+        self.__collide() #перевірка всіх потрібних зіткнень
+
+        #оновлюємо позицію пулі та якщо вона пересікається з self.blocks то видаляємо і те і те
+        self.bullets.update(display)
+        pg.sprite.groupcollide(self.bullets, self.blocks, True, True)
+    
+    def take_damage(self, damage: Union[int, float]):
+        self.health -= damage
+        if self.health <= 0:
+            self.kill()
+            del self
+
+    def new(self, pos: Tuple[int, int]):
+        '''робить новий екземпляр классу Enemy на основі себе'''
+
+        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.bullet, self.blocks)
+        new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
+        return new_enemy
+
+#при виклику методу spawn() в классі EnemySpawner просто одразу спавниться ворог 
+#я зробив це для того щоб було легше прописувати різну логіку спавну для різних рівнів
+#
+#наприклад так:
+#last_call_time = pg.time.get_ticks()
+#random_interval = 100
+#
+#і в ігровому циклі:
+#current_time = pg.time.get_ticks()
+#if current_time - last_call_time > random_interval:
+#    назва_спавнеру.spawn()
+#    last_call_time = current_time
+#    random_interval = randint(900, 2500)
+#
+#або так:
+#if randint(0, 200) == 1:
+#   назва_спавнеру.spawn()
+
+class EnemySpawner:
+    '''
+    клас для спавну ворогів
+    
+    enemys - cписок ворогів вони будуть спавнитись по черзі при виклику spawn()
+    
+    записувати так (екземпляр_класу_ворога, екземпляр_класу_ворога) екземпляри класу ворога можна записувати до нескінченсті коли вони закінчуться вороги перестануть з'являтися
+
+    spawns - список можливих місць спавну ворогів
+    
+    записувати так ((координата_X,координата_Y)) таких списків в цьому списку може бути скільки завгодно
+
+    enemy_group - це группа спрайтів сюди можна вказати любу группу але це придназначено для группи ворогів
+
+    якщо нічого не вказувати то класс зробить свою группу ворогів але тоді до неї буде складніше отримати доступ і оновлювати доведеться через цей класс
+    '''
+    def __init__(self, enemys: Union[list, tuple], spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
+        self.enemys = enemys
+        self.spawns = spawns
+
+        #якщо при створенні вказано enemy_group то присвоюємо її до властивості self.enemy_group інакше робимо нову enemy_group
+        if enemy_group is not None: self.enemy_group = enemy_group
+        else: self.enemy_group = pg.sprite.Group()
+
+    def spawn(self):
+        '''спавнить і видаляє ворога зі списку'''
+        
+        #якщо список не пустий ми записуємо в змінну enemy перший елемент цього списку та видаляємо його піся чого додаємо enemy до группи enemy_group
+        if self.enemys: 
+            enemy = self.enemys.pop(0)
+            self.enemy_group.add(enemy.new(choice(self.spawns)))
+
+    def update(self, display):
+        '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''
+        self.enemy_group.update(display)
+
+'''просто функції'''
+
+def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
+    '''перевіряє чи знаходиться хоч один піксель обєкта у вказанному діапазоні'''
+    return sprite.rect.right > 0 and sprite.rect.left < screen_width and sprite.rect.bottom > 0 and sprite.rect.top < screen_height
+
+#так я її вже не використовую але подумав що нехай буде
+def is_edge_touched(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
+    '''перевіряє чі виходить обєкт за межі екрану хоч на піксель'''
+    return sprite.rect.right >= screen_width or sprite.rect.left <= 0 or sprite.rect.bottom >= screen_height or sprite.rect.top <= 0

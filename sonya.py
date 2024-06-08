@@ -17,3 +17,15 @@ def main_menu():
     how_to_play_btn.draw(display)
     play_btn.draw(display)
     setting_btn.draw(display)
+        ### змінні в яких зберігається стан кнопок(натиснута чи ні) ###
+    press_set = setting_btn.is_pressed([630, 400])
+    press_play = setting_btn.is_pressed([630, 300])
+    press_how_play = setting_btn.is_pressed([630, 200])
+    if press_set == True and event.type == pg.MOUSEBUTTONDOWN:
+        setting()
+
+    if press_play == True and  event.type == pg.MOUSEBUTTONDOWN:
+        start_pos()
+
+    if press_how_play == True and  event.type == pg.MOUSEBUTTONDOWN:
+        pass

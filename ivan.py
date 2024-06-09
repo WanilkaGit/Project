@@ -98,9 +98,7 @@ class Player(Settings):# клас гравця з супер класом сет
 x = 0
 y = 0
 def start_pos():# стартова позиція
-    global items, camera, hero, block_r, block_l, plat, coins, door, coin
-    global stairs_lst, enemy_lst, p6, p11, p7, p8, open_d, open_ch, manas# робимо глобальними змінни
-    hero = Player(300, 650, 50, 50 , 15, hero_l)
+    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys
     
     items = sprite.Group()#  створюємо тусу
     
@@ -133,10 +131,15 @@ def start_pos():# стартова позиція
 		items.add(d)
 	    if c == "e":
 		e = Settings(x, y, texture_size, texture_size, 0, platform)
-            x += 40#  ікси плюс 40
-        y += 40#  перміщаємось в низ
+		enemys.append(e)
+		items.add(e)
+	    if c == "p":
+		hero = Player(300, 650, 50, 50 , 15, hero_l)
+		items.add(hero)
+	    if c == "l":
+		l = Settings(x, y, texture_size, texture_size, 0, platform)
+            x += texture_size#  ікси плюс 40
+        y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0
-    items.add(hero)
 
 start_pos()# запускаєм дві функції
-lvl_1()

@@ -76,6 +76,79 @@ class TextureButton(pg.sprite.Sprite):
         '''повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)'''
         return self.rect.collidepoint(pos)
 
+class CheckButton:
+    '''
+    Клас для перемикача сам по собі існувати не може для нормальної функціональності його треба додати до представника классу CheckButtonGroup
+    '''
+    def __init__(self, x: int, y: int, size: int, font: pg.font.Font, text: Union[str, bytes] = '', button_color: Tuple[int, int, int] = (0, 0, 0), text_color: Optional[Tuple[int, int, int]] = None):
+
+        self.rect = pg.Rect(x, y, size, size)
+
+        mini_size = size / 1.3
+        self.mini_rect = pg.Rect(0, 0, mini_size, mini_size)
+        self.mini_rect.center = self.rect.center
+
+        status_size = size / 1.5
+        self.status_rect = pg.Rect(0, 0, status_size, status_size)
+        self.status_rect.center = self.mini_rect.center
+
+        self.color = button_color
+        self.font = font
+        self.text = text
+        self.text_color = text_color if text_color is not None else button_color
+        self.button_pressed = False
+    
+    #метод для відмальовки сюди треба вказати поверхню на якій буде малюватись кнопка pg.display також працює якщо що
+    def draw(self, display: pg.Surface):
+        '''Метод для відмальовки кнопки'''
+        pg.draw.rect(display, self.color, self.rect)
+        pg.draw.rect(display, (255, 255, 255), self.mini_rect)
+        if self.button_pressed: pg.draw.rect(display, self.color, self.status_rect)
+        text_surface = self.font.render(self.text, True, self.text_color)
+        text_rect = text_surface.get_rect(center=self.rect.midbottom)
+        text_rect.y += 9
+        display.blit(text_surface, text_rect)
+
+    #цей метод існує тільки для більшої читабельності коду в методі update в классі CheckButtonGroup
+    def is_pressed(self, pos: Tuple[int, int]) -> bool:
+        '''
+        повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні
+        
+        а взагалі цей метод тобі не потрібен викликай замість нього метод update в классі CheckButtonGroup
+        '''
+        return self.rect.collidepoint(pos)
+
+class CheckButtonGroup:
+    '''
+    Клас для створення гриппи перемикачів
+
+    при створенні вкажи перемикачі які будуть до нього входити через кому
+
+    для відмальовки і перевірки натискання всіх кнопок достатньо визвати метод апдейт в екземпляру цього классу
+    '''
+    def __init__(self, *buttons: CheckButton):
+        self.buttons = []
+        for button in buttons:
+            self.buttons.append(button)
+
+    def update(self, display: pg.Surface):
+        '''
+        відмальовує кнопки та перевіряє яка кнопка була натиснута
+
+        статус кнопки зберігається в змінній button_pressed
+        
+        '''
+        for button in self.buttons:
+            button.draw(display)
+        if pg.mouse.get_pressed()[0]:
+            for button in self.buttons:
+                if button.is_pressed(pg.mouse.get_pos()):
+                    for button in self.buttons:
+                        button.button_pressed = False
+                        if button.is_pressed(pg.mouse.get_pos()):
+                            button.button_pressed = True
+                    break
+                
 '''-------------------------------------------------усе пов'язане з танками------------------------------------------------------------------------------------------'''
 
 #цей класс підходить і для кулі гравця

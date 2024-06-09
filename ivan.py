@@ -8,23 +8,23 @@ init()# ініціалізуєм пайгейм
 """Map build"""
 map_lvl1 = {
     "_________________",#Unbreakeble - u
-    "|gggggggggggggggg/",#breakeable - b
-    "|gb bbbb  bbbb bg/",#green_hide - g
-    "|gb b  b  b  b bg/",#dark_white_hide - d
-    "|gb bbbb  b  b bg/",#enemy - e
-    "|gb    b  b  b bg/",#player1 - p
-    "|gb bbbb  bbbb bg/",#lose - l
-    "|gb  bb    bb  bg/",#win - w
-    "|gb  bb bb bb  bg/",#кожен елемент цього
-    "|gb    bbbb    bg/",#є частиню карти окрім
-    "|gggggggggggggggg/",#пробілів
-    "|u     b b      u/",#що вони означають написано вище
-    "|g  b  bbb   b bg/",#теж зі знаком коментаря
-    "|gb b  b b   b bg/",
-    "|gb bu      ub bg/",
-    "|gb b  bbb   b bg/",
-    "|ggg   blb    gg /",
-    "------------------"
+    "|gggggggggggggggg|",#breakeable - b
+    "|gb bbbb  bbbb bg|",#green_hide - g
+    "|gb b  b  b  b bg|",#dark_white_hide - d
+    "|gb bbbb  b  b bg|",#enemy - e
+    "|gb    b  b  b bg|",#player1 - p
+    "|gb bbbb  bbbb bg|",#lose - l
+    "|gb  bb    bb  bg|",#win - w
+    "|gb  bb bb bb  bg|",#кожен елемент цього
+    "|gb    bbbb    bg|",#є частиню карти окрім
+    "|gggggggggggggggg|",#пробілів
+    "|u     b b      u|",#що вони означають написано вище
+    "|g  b  bbb   b bg|",#теж зі знаком коментаря
+    "|gb b  b b   b bg|",
+    "|gb bu      ub bg|",
+    "|gb b  bbb   b bg|",
+    "|ggg   blb    gg |",
+    "__________________"
     }
 
 """Картинки щоб швидше вставляти бо по іншому довго"""
@@ -49,14 +49,11 @@ boss = "images/nothing.png"
 h_m_c = 0
 font1 = font.SysFont("Arial", 35)
 font2 = font.SysFont(('font/ariblk.ttf'), 60)
-e_tap = font2.render('press (e)', True, (255, 0, 255))
-k_need = font2.render('You need a key to open!', True, (255, 0, 255))
-space = font2.render('press (space) to kill the enemy', True, (255, 0, 255))
 
-
+texture_size = 40
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
-level1_width = len(level1[0]) * 40
-level1_height = len(level1) * 40
+level1_width = len(level1[0]) * texture_size
+level1_height = len(level1) * texture_size
 
 #розміри екрану
 W = 1280
@@ -118,46 +115,24 @@ def start_pos():# стартова позиція
     y = 0
     for r in level1:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
-            if c == "-":# дім полу
-                p1 = Settings(x,y, 40, 40, 0, platform)# створюєм раба платформа
-                plat.append(p1)# 
-                items.add(p1)
-            if c == "l":# дім "далі ходу нема"
-                p2 = Settings(x,y, 40, 40, 0, nothing)#  повітря
-                block_l.append(p2)# вони сидять на двух стулах список
-      dd(p2)# туса/група
-            if c == "r":#  дім "далі ходу тож нема"
-                p3 = Settings(x,y, 40, 40, 0, nothing)#  повітря
-                block_r.append(p3)#в ходять в спи
-                items.add(p3)# в туси/групи
-            if c == "°":# дім бабла
-                p4 = Settings(x,y, 40, 40, 0, coin_img)#  бабла/грошей
-                coins.append(p4)#в ходять в спи
-                items.add(p4)# в туси/групи
-            if c == "/":# дім рабів пояких мона ходить
-                p5 = Settings(x, y - 40, 40, 180, 0, stairs)# сходів
-                stairs_lst.append(p5)#в ходять в спи
-                items.add(p5)# в туси/групи
-            if c == "k":
-                p6 = Settings(x,y + 20, 40, 20, 0, key_img)#  ключа
-                items.add(p6)
-            if c == "g":
-                p7 = Settings(x,y + 20, 80, 60, 0, chest_close)#  ключа
-                items.add(p7)
-            if c == "d":
-                door = Settings(x,y, 40, 80, 0, door_img)#  ключа
-                items.add(door)
-            if c  == "e":
-                p9 = Enemy(x,y, 40, 40, 20, enemy_r, "right")
-                enemy_lst.append(p9)
-                items.add(p9)
-            if c  == "m":
-                p10 = Enemy(x,y, 40, 40, 20, enemy_l, "left")
-                enemy_lst.append(p10)
-                items.add(p10)
-            if c == "c":
-                p11 = Settings(x,y + 20, 40, 20, 0, key_img)#  ключа
-                items.add(p11)
+            if c == "b":# дім полу
+                b = Settings(x,y, texture_size, texture_size, 0, platform)# створюєм раба платформа
+                breakables.append(b)
+		items.add(b)
+	    if c == "u":
+		u = Settings(x, y, texture_size, texture_size, 0, platform)
+		unbreakables.append(u)
+		items.add(u)
+	    if c == "g":
+		g = Settings(x, y,texture_size, texture_size, 0, platform)
+		green_hides.append(g)
+		items.add(g)
+	    if c == "d":
+		d = Settings(x, y, texture_size, texture_size, 0, platform)
+		dark_white_hides.append(d)
+		items.add(d)
+	    if c == "e":
+		e = Settings(x, y, texture_size, texture_size, 0, platform)
             x += 40#  ікси плюс 40
         y += 40#  перміщаємось в низ
         x = 0#  ікси 0

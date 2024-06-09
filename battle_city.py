@@ -1,7 +1,7 @@
 import pygame as pg
 
 pg.init()
-pg.mixer.init()
+# pg.mixer.init()
 
 
 hero_lives = 1
@@ -15,7 +15,7 @@ text_game_over1 = font.render("Press ESC to restart", True, (51, 225, 249))
 
 display = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 pg.display.set_caption('Battle City')
-pg.mixer.music.load('lose.ogg')
+# pg.mixer.music.load('lose.ogg')
 
 game = True
 

@@ -1,11 +1,11 @@
-"""Імпорта"""
+"""------------------------------------Імпорта----------------------------------------"""
 import time
 
 from pygame import*# імпорт пайгейма
-
+print()
 init()# ініціалізуєм пайгейм
 
-"""Map build"""
+"""------------------------------------Map build--------------------------------------"""
 map_lvl1 = {
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
@@ -27,7 +27,7 @@ map_lvl1 = {
     "__________________"
     }
 
-"""Картинки щоб швидше вставляти бо по іншому довго"""
+"""----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 hero_r = "images/hero_r.png"
 hero_l = "images/hero_l.png"
 
@@ -46,7 +46,7 @@ power = "images/mana.png"
 nothing = "images/nothing.png"
 boss = "images/nothing.png"
 
-h_m_c = 0
+
 font1 = font.SysFont("Arial", 35)
 font2 = font.SysFont(('font/ariblk.ttf'), 60)
 
@@ -62,7 +62,7 @@ H = 720
 # створюєм вікно
 window = display.set_mode((W, H))
 
-"""Класи"""
+"""-------------------------------------Класи---------------------------------------"""
 class Settings(sprite.Sprite):# основний клас тут основні параметри
     def __init__(self, x, y, width, height, speed, img):
         super().__init__()
@@ -95,18 +95,20 @@ class Player(Settings):# клас гравця з супер класом сет
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
             self.rect.y -= self.speed# 
 
+
+"""----------------------------------ФУНКЦІЇ------------------------------------------"""
 x = 0
 y = 0
 def start_pos():# стартова позиція
-    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys
+    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
     
     items = sprite.Group()#  створюємо тусу
     
-	breakables = list()
-	unbreakables = list()
-	green_hides = list()
-	dark_white_hides = list()
-	enemys = list()
+    breakables = list()
+    unbreakables = list()
+    green_hides = list()
+    dark_white_hides = list()
+    enemys = list()
     
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів

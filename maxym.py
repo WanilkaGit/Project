@@ -170,7 +170,7 @@ class Bullet(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.speed = speed
         self.damage = damage
-        self.dir = 0
+        self.dir = 0 #dir це direction тобіш напрямок якщо хтось не зрозумів
 
     def update(self, display: pg.Surface):
         '''оновлює позицію кулі та відальовує її на вказаній поверхні'''
@@ -192,14 +192,22 @@ class Bullet(pg.sprite.Sprite):
         if not is_on_screen(self, 800, 800):
             self.kill()
             del self
+    
+    #я зробив це просто томущо іван попросив може буде корисно
+    def set_position(self, x: int, y: int):
+        '''Переміщує танк на вказані координати'''
+        self.rect.x = x
+        self.rect.y = y
   
     def new(self, dir: int):
         '''робить новий екземпляр классу Bullet на основі себе'''
 
         new_bullet = Bullet(self.image, self.speed, self.damage)
-        new_bullet.dir = dir
+        new_bullet.dir = dir #dir це direction тобіш напрямок якщо хтось не зрозумів
         new_bullet.image = pg.transform.rotate(new_bullet.image, 90 * dir)
         return new_bullet
+
+#dir це direction тобіш напрямок якщо хтось не зрозумів
 
 class Enemy(pg.sprite.Sprite):
     '''
@@ -235,7 +243,7 @@ class Enemy(pg.sprite.Sprite):
         self.score = score
         self.health = health
         self.bullet = bullet
-        self.dir = 4
+        self.dir = 4 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
         self.bullets = pg.sprite.Group()
 
@@ -246,7 +254,7 @@ class Enemy(pg.sprite.Sprite):
 
     def __collide(self):
         '''колізія ворога зі стінами чі краєм карти'''
-
+        
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
         collided_blocks = pg.sprite.spritecollide(self, self.blocks, False)
         if collided_blocks:
@@ -370,6 +378,26 @@ class EnemySpawner:
         if self.enemys: 
             enemy = self.enemys.pop(0)
             self.enemy_group.add(enemy.new(choice(self.spawns)))
+    
+    def spawn_random(self, del_enemy_from_list: bool = False):
+        '''
+        Функція для спавну ворогів в рандомному порядку
+        
+        якщо del_enemy_from_list дорівнює True то метод spawn_random буде пряцювати также як і метод spawn але порядок буде випадковий
+
+        також просто хотів додати примітку що чим більше ворогів одного типу
+        тим більше шанс що заспавниться саме цей тип тобіш наприклад якщо в enemys буде передано
+        [enemy1, enemy1, enemy1, enemy2] то шанс що заспавниться enemy1 75% а щанс на
+        спавн enemy2 25%
+        '''
+        #перевіряємо чи є в списку self.enemys хоч один елемент
+        if self.enemys:
+            if del_enemy_from_list: #якщо вибрана опція видаляти ворога зі списку при спавні то виконуємо цей блок
+                enemy = self.enemys.pop(randint(0, len(self.enemys) - 1))
+                self.enemy_group.add(enemy.new(choice(self.spawns)))
+            else: #інакще виконуємо цей блок коду
+                enemy = choice(self.enemys)
+                self.enemy_group.add(enemy.new(choice(self.spawns)))
 
     def update(self, display):
         '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''

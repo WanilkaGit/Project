@@ -52,8 +52,8 @@ font2 = font.SysFont(('font/ariblk.ttf'), 60)
 
 texture_size = 40
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
-level1_width = len(level1[0]) * texture_size
-level1_height = len(level1) * texture_size
+level1_width = len(map_lvl1[0]) * texture_size
+level1_height = len(map_lvl1) * texture_size
 
 #розміри екрану
 W = 1280

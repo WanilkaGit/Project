@@ -1,6 +1,5 @@
 import pygame as pg
 from maxym import *
-from ivan import *
 from sonya import main_menu, setting, push_btn
 
 pg.init()

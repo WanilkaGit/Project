@@ -1,14 +1,14 @@
 import pygame as pg
 from maxym import TextureButton
-from ivan import window
+#from ivan import window
 
-def display_rules(screen):
+def display_rules(window):
     window.fill((100, 100, 0))
     
     font = pg.font.Font(None, 36)
     
     rules = [
-        "Правила игры: Отбивайтесь от вражеских танков защищая свою базу!",
+        "Правила гри: Отбивайтесь от вражеских танков защищая свою базу!",
         "Вверх - W",
         "Вниз - S",
         "Направо - D",
@@ -22,7 +22,7 @@ def display_rules(screen):
         window.blit(text, (50, y_offset))
         y_offset += 50
     
-    pg.display.flip()
-    back_button = TextureButton(630, 300, 200, 80, "assets/textures/pngwing.com.png", font)
+    #pg.display.flip()
+    back_button = TextureButton(630, 300, 200, 80, "assets/textures/blocks/pngwing.com.png", font)
     # вывод кнопки и текста на экран
     button_rect = display_rules(window)

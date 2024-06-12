@@ -8,7 +8,7 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
-    "__________________",#Unbreakeble - u
+    "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
@@ -34,7 +34,15 @@ player1_moves = ""
 # player2 = "assets/player2.jpg"
 # player2_moves = ""
 
+#nemy_l = "images/enemy_l.png"
+#enemy_r = "images/enemy_r.png"
+#portal_img = "images/portal.png"
+platform = "assets/textures/seno.png"
+#power = "images/mana.png"
+#nothing = "images/nothing.png"
+#boss = "images/nothing.png"
 
+<<<<<<< HEAD
 # enemy = "assets/"
 
 breakable = choice(
@@ -47,8 +55,6 @@ breakable = choice(
 unbreakable = choice(
                 "assets/textures/obsidian1.png",
                 "assets/textures/obsidian2.png",)
-
-
 
 
 font1 = font.SysFont("Arial", 35)
@@ -118,6 +124,7 @@ def start_pos():# стартова позиція
     green_hides = list()
     dark_white_hides = list()
     enemys = list()
+    
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 0

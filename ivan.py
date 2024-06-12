@@ -6,8 +6,8 @@ print()
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
-map_lvl1 = {
-    "_________________",#Unbreakeble - u
+map_lvl1 = [
+    "__________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
@@ -25,7 +25,7 @@ map_lvl1 = {
     "|gb b  bbb   b bg|",
     "|ggg   blb    gg |",
     "__________________"
-    }
+]
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 hero_r = "assets/player1.jpg"
@@ -98,17 +98,7 @@ def creating_lists_coordinate(list, x, y):
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 x = 0
 y = 0
-<<<<<<< HEAD
-def start_pos():# функція що розставляє все по стартових місцях
-    global block_l, block_r, plat#все треба буде глобалізувати
-    hero = "Player(300, 650, 50, 50 , 15, hero_l)"
 
-    items = list()
-
-    block_r = []# список 1:
-    block_l = []# список 2:
-    plat = []# список 3:
-=======
 def start_pos():# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
     
@@ -119,8 +109,6 @@ def start_pos():# стартова позиція
     green_hides = list()
     dark_white_hides = list()
     enemys = list()
->>>>>>> 2fe34a968834bc33a4efe439f9302c909f0a1ee7
-    
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 0
@@ -144,8 +132,8 @@ def start_pos():# стартова позиція
                     items.add(d)
                 if c == "e":
                     enemy_coordinates = list()
-                    list = creating_lists_coordinate(enemy_coordinates, x, y)
-                    print(list)
+                    enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
+                    print(enemy_coordinates)
                 if c == "p":
                     hero = Player(300, 650, 50, 50 , 15, platform)
                     items.add(hero)

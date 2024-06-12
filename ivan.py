@@ -6,7 +6,7 @@ print()
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
-map_lvl1 = {
+map_lvl1 = [
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
@@ -25,21 +25,20 @@ map_lvl1 = {
     "|gb b  bbb   b bg|",
     "|ggg   blb    gg |",
     "__________________"
-    }
+]
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 hero_r = "assets/player1.jpg"
 hero_l = "assets/player1.jpg"
 
+#nemy_l = "images/enemy_l.png"
+#enemy_r = "images/enemy_r.png"
+#portal_img = "images/portal.png"
+platform = "assets/textures/seno.png"
+#power = "images/mana.png"
+#nothing = "images/nothing.png"
+#boss = "images/nothing.png"
 
-enemy_l = "images/enemy_l.png"
-enemy_r = "images/enemy_r.png"
-
-portal_img = "images/portal.png"
-platform = "images/platform.png"
-power = "images/mana.png"
-nothing = "images/nothing.png"
-boss = "images/nothing.png"
 
 
 font1 = font.SysFont("Arial", 35)
@@ -103,11 +102,11 @@ def start_pos():# стартова позиція
     
     items = sprite.Group()#  створюємо тусу
     
-    breakables = list()
-    unbreakables = list()
-    green_hides = list()
-    dark_white_hides = list()
-    enemys = list()
+    breakables = []
+    unbreakables = []
+    green_hides = []
+    dark_white_hides = []
+    enemys = []
     
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів

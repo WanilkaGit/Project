@@ -6,6 +6,7 @@ from ivan import *
 from kostya import *
 
 pg.init()
+pg.font.init()
 pg.mixer.init()
 
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)

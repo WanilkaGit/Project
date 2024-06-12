@@ -1,5 +1,5 @@
 import pygame as pg
-
+from oleksii import *
 from maxym import *
 from sonya import *
 from ivan import *
@@ -39,6 +39,8 @@ while game:
             if play_btn.is_pressed(event.pos):
                 print(True, 'play working')
                 start_pos()
+    if hero_lives == 0:
+        lose()
 
 
     pg.display.update()

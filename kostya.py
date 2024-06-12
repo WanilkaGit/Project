@@ -20,8 +20,7 @@ def display_rules(window):
         window.blit(text, (50, y_offset))
         y_offset += 50
     
-    pg.display.flip()
-    back_button = TextureButton(630, 300, 200, 80, r"assets\textures\pngwing.com.png", font)
 
-    # вывод кнопки и текста на экран
-    #button_rect = display_rules(window)
+    back_button = TextureButton(130, 600, 200, 80, r"assets/textures/pngwing.com.png", font)
+    back_button.draw(window)
+

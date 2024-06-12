@@ -116,28 +116,28 @@ def start_pos():# стартова позиція
             if c == "b":# дім полу
                 b = Settings(x,y, texture_size, texture_size, 0, platform)# створюєм раба платформа
                 breakables.append(b)
-	        	items.add(b)
-	        if c == "u":
-	            u = Settings(x, y, texture_size, texture_size, 0, platform)
-	            unbreakables.append(u)
-		        items.add(u)
-	        if c == "g":
-		        g = Settings(x, y,texture_size, texture_size, 0, platform)
-		        green_hides.append(g)
-		        items.add(g)
-	        if c == "d":
-		        d = Settings(x, y, texture_size, texture_size, 0, platform)
-	 	        dark_white_hides.append(d)
-		        items.add(d)
-	        if c == "e":
-		        enemy_coordinates = list()
-                list = creating_list_coordinate(enemy_coordinates, x, y)
-                print(list)
-	        if c == "p":
-		        hero = Player(300, 650, 50, 50 , 15, platform)
-		        items.add(hero)
-	        if c == "l":
-		        l = Settings(x, y, texture_size, texture_size, 0, platform)
+                items.add(b)
+                if c == "u":
+                    u = Settings(x, y, texture_size, texture_size, 0, platform)
+                    unbreakables.append(u)
+                    items.add(u)
+                if c == "g":
+                    g = Settings(x, y,texture_size, texture_size, 0, platform)
+                    green_hides.append(g)
+                    items.add(g)
+                if c == "d":
+                    d = Settings(x, y, texture_size, texture_size, 0, platform)
+                    dark_white_hides.append(d)
+                    items.add(d)
+                if c == "e":
+                    enemy_coordinates = list()
+                    list = creating_lists_coordinate(enemy_coordinates, x, y)
+                    print(list)
+                if c == "p":
+                    hero = Player(300, 650, 50, 50 , 15, platform)
+                    items.add(hero)
+                if c == "l":
+                    l = Settings(x, y, texture_size, texture_size, 0, platform)
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0

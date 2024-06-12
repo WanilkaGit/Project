@@ -6,7 +6,7 @@ print()
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
-map_lvl1 = {
+map_lvl1 = [
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g

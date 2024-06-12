@@ -27,6 +27,6 @@ def setting():
     btn2 = CheckButton(250, 150, 50, font2, 'Середній')
     btn3 = CheckButton(450, 150, 50, font2, 'Важкий')
     btn = CheckButtonGroup(btn1, btn2, btn3)
-    pg.display.flip()
+
     btn.update(window)
     window.blit(title, (500, 30))

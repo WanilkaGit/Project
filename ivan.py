@@ -34,16 +34,16 @@ player1_moves = "assets/textures/player/player1_move.png"
 # player2 = "assets/player2.jpg"
 # player2_moves = ""
 
-breakable = choices(
+breakable = choice([
                 "assets/textures/blocks/derevaskawitch4uglblenia.png",
                 "assets/textures/blocks/derevaskawitchuglblenie.png",
                 "assets/textures/blocks/derewaska.png",
                 "assets/textures/blocks/oboi.png",
-                "assets/textures/blocks/seno.png")
+                "assets/textures/blocks/seno.png"])
 
-unbreakable = choice(
+unbreakable = choice([
                 "assets/textures/blocks/obsidian1.png",
-                "assets/textures/blocks/obsidian2.png",)
+                "assets/textures/blocks/obsidian2.png"])
 
 
 font1 = font.SysFont("Arial", 35)

@@ -29,6 +29,7 @@ map_lvl1 = [
 ]
 
 items = sprite.Group()#  створюємо тусу
+pl_items = sprite.Group()
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
@@ -105,7 +106,7 @@ x = 0
 y = 0
 
 def start_pos():# стартова позиція
-    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
+    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
     
     
     breakables = list()
@@ -141,7 +142,7 @@ def start_pos():# стартова позиція
                     print(enemy_coordinates)
                 if c == "p":
                     hero = Player(300, 650, 50, 50 , 15, breakable)
-                    items.add(hero)
+                    pl_items.add(hero)
                 if c == "l":
                     l = Settings(x, y, texture_size, texture_size, 0, breakable)
             x += texture_size#  ікси плюс 40

@@ -1,8 +1,9 @@
 """------------------------------------Імпорта----------------------------------------"""
 import time
 
+from random import choice
+
 from pygame import*# імпорт пайгейма
-print()
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
@@ -28,18 +29,26 @@ map_lvl1 = [
 ]
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
-hero_r = "assets/player1.jpg"
-hero_l = "assets/player1.jpg"
+player1 = "assets/player1.jpg"
+player1_moves = ""
+# player2 = "assets/player2.jpg"
+# player2_moves = ""
 
 
-enemy_l = "images/enemy_l.png"
-enemy_r = "images/enemy_r.png"
+# enemy = "assets/"
 
-portal_img = "images/portal.png"
-platform = "images/platform.png"
-power = "images/mana.png"
-nothing = "images/nothing.png"
-boss = "images/nothing.png"
+breakable = choice(
+                "assets/textures/derevaskawitch4uglblenia.png",
+                "assets/textures/derevaskawitchuglblenie.png",
+                "assets/textures/derewaska.png",
+                "assets/textures/oboi.png",
+                "assets/textures/seno.png")
+
+unbreakable = choice(
+                "assets/textures/obsidian1.png",
+                "assets/textures/obsidian2.png",)
+
+
 
 
 font1 = font.SysFont("Arial", 35)
@@ -115,19 +124,19 @@ def start_pos():# стартова позиція
     for r in map_lvl1:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
             if c == "b":# дім полу
-                b = Settings(x,y, texture_size, texture_size, 0, platform)# створюєм раба платформа
+                b = Settings(x,y, texture_size, texture_size, 0, breakable)# створюєм раба платформа
                 breakables.append(b)
                 items.add(b)
                 if c == "u":
-                    u = Settings(x, y, texture_size, texture_size, 0, platform)
+                    u = Settings(x, y, texture_size, texture_size, 0, breakable)
                     unbreakables.append(u)
                     items.add(u)
                 if c == "g":
-                    g = Settings(x, y,texture_size, texture_size, 0, platform)
+                    g = Settings(x, y,texture_size, texture_size, 0, breakable)
                     green_hides.append(g)
                     items.add(g)
                 if c == "d":
-                    d = Settings(x, y, texture_size, texture_size, 0, platform)
+                    d = Settings(x, y, texture_size, texture_size, 0, breakable)
                     dark_white_hides.append(d)
                     items.add(d)
                 if c == "e":
@@ -135,10 +144,10 @@ def start_pos():# стартова позиція
                     enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
                     print(enemy_coordinates)
                 if c == "p":
-                    hero = Player(300, 650, 50, 50 , 15, platform)
+                    hero = Player(300, 650, 50, 50 , 15, breakable)
                     items.add(hero)
                 if c == "l":
-                    l = Settings(x, y, texture_size, texture_size, 0, platform)
+                    l = Settings(x, y, texture_size, texture_size, 0, breakable)
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0

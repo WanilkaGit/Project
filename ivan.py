@@ -6,7 +6,7 @@ print()
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
-map_lvl1 = [
+map_lvl1 = {
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
@@ -97,16 +97,17 @@ def creating_lists_coordinate(list, x, y):
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 x = 0
 y = 0
+
 def start_pos():# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
     
     items = sprite.Group()#  створюємо тусу
     
-    breakables = []
-    unbreakables = []
-    green_hides = []
-    dark_white_hides = []
-    enemys = []
+    breakables = list()
+    unbreakables = list()
+    green_hides = list()
+    dark_white_hides = list()
+    enemys = list()
     
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
@@ -131,8 +132,8 @@ def start_pos():# стартова позиція
                     items.add(d)
                 if c == "e":
                     enemy_coordinates = list()
-                    list = creating_lists_coordinate(enemy_coordinates, x, y)
-                    print(list)
+                    enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
+                    print(enemy_coordinates)
                 if c == "p":
                     hero = Player(300, 650, 50, 50 , 15, platform)
                     items.add(hero)

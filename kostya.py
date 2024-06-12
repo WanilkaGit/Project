@@ -7,8 +7,6 @@ back_button = TextureButton(630, 300, 200, 80, r"assets\textures\pngwing.com.png
 def display_rules(window):
     window.fill((100, 100, 0))
     
-    font = pg.font.Font(None, 36)
-    
     rules = [
         "Правила гри: Отбивайтесь от вражеских танков защищая свою базу!",
         "Вверх - W",

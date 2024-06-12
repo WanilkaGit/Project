@@ -28,6 +28,8 @@ map_lvl1 = [
     "__________________"
 ]
 
+items = sprite.Group()#  створюємо тусу
+
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
 player1_moves = "assets/textures/player/player12.png"
@@ -105,7 +107,6 @@ y = 0
 def start_pos():# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
     
-    items = sprite.Group()#  створюємо тусу
     
     breakables = list()
     unbreakables = list()

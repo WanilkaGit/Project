@@ -1,6 +1,7 @@
 import pygame as pg
 from maxym import *
-from sonya import main_menu, setting, push_btn
+from sonya import *
+from ivan import *
 
 pg.init()
 pg.mixer.init()
@@ -21,7 +22,18 @@ while game:
                 game = False
                         
         if event.type == pg.MOUSEBUTTONDOWN:
-            push_btn()
+            if setting_btn.is_pressed(event.pos):
+                print(True, 'setting working')
+                setting()
+
+            if how_to_play_btn.is_pressed(event.pos):
+                print(True, 'rule working')
+                #didsplay_rules()
+
+            if play_btn.is_pressed(event.pos):
+                print(True, 'play working')
+                start_pos()
+
 
     pg.display.update()
 pg.quit()

@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import *
-from ivan import *
+from ivan import window, font2
 
 
 pg.init()
@@ -29,11 +29,18 @@ def push_btn():
     if press_set == True:
         setting()
 
-    if press_play == True:
-        start_pos()
+    #if press_play == True:
+       # start_pos()
 
     if press_how_play == True:
         pass
 
 def setting():
-    pass
+    window.fill((116, 85, 2))
+    title = font2.render('Налаштування', True, (0,0,0))
+    btn1 = CheckButton(50, 150, 50, font2, 'Легкий')
+    btn2 = CheckButton(250, 150, 50, font2, 'Середній')
+    btn3 = CheckButton(450, 150, 50, font2, 'Важкий')
+    btn = CheckButtonGroup(btn1, btn2, btn3)
+    btn.update()
+    window.blit(title, (500, 30))

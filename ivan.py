@@ -78,15 +78,14 @@ class Settings(sprite.Sprite):# основний клас тут основні 
 
 class Player(Settings):# клас гравця з супер класом сетінгс
     def r_l(self):# тут буде переміщення в право ліво
-        global mana
         key_pressed = key.get_pressed()# задаєм в зміну значення
         if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
             self.rect.x -= self.speed# якщо так той демо в ліво
-            self.image = transform.scale(image.load(hero_l), (self.width, self.height))# підсьтавляєм фотку
+            # self.image = transform.scale(image.load(hero_l), (self.width, self.height))# підсьтавляєм фотку
             
         if key_pressed[K_d]:#кнопка в низ натиснута
             self.rect.x += self.speed# х додаєм швидкість рухаємось
-            self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
+            # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
             
         if key_pressed[K_s]:# якщо в низ тобто в низ
             self.rect.y += self.speed# ми додає тобто спускаємось
@@ -147,5 +146,3 @@ def start_pos():# стартова позиція
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0
-
-start_pos()# запускаєм дві функції

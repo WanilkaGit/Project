@@ -1,46 +1,31 @@
 import pygame as pg
+from maxym import *
+from ivan import window, font2
+
+
 pg.init()
-from maxym import Button
 
-FPS = 60
+def main_menu():
+    global setting_btn, how_to_play_btn, play_btn
+    font = pg.font.Font(None, 32)
+   
+    pg.display.set_icon(pg.image.load('fon1.jpg'))  #завантажуєемо фото іконки
+    pg.display.set_caption('Battle city') #даємо назву вікну додатка
+         ### об'єкти кнопок ###
+    how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
+    play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
+    setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
+        # відмальовка об'єктів #
+    how_to_play_btn.draw(window)
+    play_btn.draw(window)
+    setting_btn.draw(window)
 
-font = pg.font.Font(None, 32)
-display = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-pg.display.set_caption('Battle City')
-back = pg.transform.scale(pg.image.load('fon1.jpg'), (1500, 1000))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
-pg.display.set_icon(pg.image.load('fon1.jpg'))  #завантажуєемо фото іконки
-pg.display.set_caption('Battle city') #даємо назву вікну додатка
-
-### об'єкти кнопок ###
-how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
-play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
-setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
-
-game = True
-clock = pg.time.Clock()
-
-while game:
-    display.blit(back, (0,0))
-
-    # відмальовка кнопок #
-    how_to_play_btn.draw(display)
-    play_btn.draw(display)
-    setting_btn.draw(display)
-        
-
-    for event in pg.event.get():
-
-        if event.type == pg.QUIT:
-            game = False
-
-
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_ESCAPE:
-                game = False
-
-        
-
-    pg.display.update()
-
-    clock.tick(FPS)
-pg.quit()
+def setting():
+    window.fill((116, 85, 2))
+    title = font2.render('Налаштування', True, (0,0,0))
+    btn1 = CheckButton(50, 150, 50, font2, 'Легкий')
+    btn2 = CheckButton(250, 150, 50, font2, 'Середній')
+    btn3 = CheckButton(450, 150, 50, font2, 'Важкий')
+    btn = CheckButtonGroup(btn1, btn2, btn3)
+    btn.update()
+    window.blit(title, (500, 30))

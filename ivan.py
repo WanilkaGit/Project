@@ -28,8 +28,9 @@ map_lvl1 = {
     }
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
-hero_r = "images/hero_r.png"
-hero_l = "images/hero_l.png"
+hero_r = "assets/player1.jpg"
+hero_l = "assets/player1.jpg"
+
 
 enemy_l = "images/enemy_l.png"
 enemy_r = "images/enemy_r.png"

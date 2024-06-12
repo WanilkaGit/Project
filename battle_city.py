@@ -27,20 +27,23 @@ while game:
             game = False
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_ESCAPE:
-                game = False
-                        
+                game = False         
         if event.type == pg.MOUSEBUTTONDOWN:
-            if setting_btn.is_pressed(event.pos):
-                print(True, 'setting working')
-                scene = 2
+            if scene == 0:
+                if setting_btn.is_pressed(event.pos):
+                    print(True, 'setting working')
+                    scene = 2
 
-            if how_to_play_btn.is_pressed(event.pos):
-                print(True, 'rule working')
-                scene = 3
+                if how_to_play_btn.is_pressed(event.pos):
+                    print(True, 'rule working')
+                    scene = 3
 
-            if play_btn.is_pressed(event.pos):
-                print(True, 'play working')
-                scene = 1
+                if play_btn.is_pressed(event.pos):
+                    print(True, 'play working')
+                    scene = 1
+            if scene == 3:
+                if back_button.is_pressed(event.pos):
+                    scene = 0
                 
     if scene == 0:
         main_menu()

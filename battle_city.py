@@ -2,6 +2,7 @@ import pygame as pg
 from maxym import *
 from sonya import *
 from ivan import *
+from kostya import *
 
 pg.init()
 pg.mixer.init()
@@ -28,7 +29,7 @@ while game:
 
             if how_to_play_btn.is_pressed(event.pos):
                 print(True, 'rule working')
-                #didsplay_rules()
+                display_rules()
 
             if play_btn.is_pressed(event.pos):
                 print(True, 'play working')

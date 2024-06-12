@@ -7,7 +7,7 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
-    "__________________",#Unbreakeble - u
+    "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
@@ -31,15 +31,14 @@ map_lvl1 = [
 hero_r = "assets/player1.jpg"
 hero_l = "assets/player1.jpg"
 
+#nemy_l = "images/enemy_l.png"
+#enemy_r = "images/enemy_r.png"
+#portal_img = "images/portal.png"
+platform = "assets/textures/seno.png"
+#power = "images/mana.png"
+#nothing = "images/nothing.png"
+#boss = "images/nothing.png"
 
-enemy_l = "images/enemy_l.png"
-enemy_r = "images/enemy_r.png"
-
-portal_img = "images/portal.png"
-platform = "images/platform.png"
-power = "images/mana.png"
-nothing = "images/nothing.png"
-boss = "images/nothing.png"
 
 
 font1 = font.SysFont("Arial", 35)
@@ -109,6 +108,7 @@ def start_pos():# стартова позиція
     green_hides = list()
     dark_white_hides = list()
     enemys = list()
+    
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 0

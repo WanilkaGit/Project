@@ -1,7 +1,7 @@
 """------------------------------------Імпорта----------------------------------------"""
 import time
 
-from random import choice
+from random import choices, choice
 
 from pygame import*# імпорт пайгейма
 init()# ініціалізуєм пайгейм
@@ -34,7 +34,7 @@ player1_moves = "assets/textures/player/player1_move.png"
 # player2 = "assets/player2.jpg"
 # player2_moves = ""
 
-breakable = choice(
+breakable = choices(
                 "assets/textures/blocks/derevaskawitch4uglblenia.png",
                 "assets/textures/blocks/derevaskawitchuglblenie.png",
                 "assets/textures/blocks/derewaska.png",

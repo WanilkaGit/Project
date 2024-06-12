@@ -40,7 +40,7 @@ x = 0
 y = 0
 def start_pos():# функція що розставляє все по стартових місцях
     global block_l, block_r, plat#все треба буде глобалізувати
-    hero = Player(300, 650, 50, 50 , 15, hero_l)
+    hero = "Player(300, 650, 50, 50 , 15, hero_l)"
 
     items = list()
 

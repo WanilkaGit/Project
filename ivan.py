@@ -29,10 +29,10 @@ map_lvl1 = [
 ]
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
-player1 = "assets/textures/player/player1.png"
-player1_moves = "assets/textures/player/player1_move.png"
-# player2 = "assets/player2.jpg"
-# player2_moves = ""
+player1 = "assets/textures/player/player11.png"
+player1_moves = "assets/textures/player/player12.png"
+player2 = "assets/textures/player/player21.png"
+player2_moves = "assets/textures/player/player22.png"
 
 breakable = choice([
                 "assets/textures/blocks/derevaskawitch4uglblenia.png",

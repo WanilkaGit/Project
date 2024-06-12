@@ -20,21 +20,6 @@ def main_menu():
     play_btn.draw(window)
     setting_btn.draw(window)
 
-    
-def push_btn():
-    press_set = setting_btn.is_pressed([630, 400])
-    press_play = play_btn.is_pressed([630, 300])
-    press_how_play = how_to_play_btn.is_pressed([630, 200])
-
-    if press_set == True:
-        setting()
-
-    #if press_play == True:
-       # start_pos()
-
-    if press_how_play == True:
-        pass
-
 def setting():
     window.fill((116, 85, 2))
     title = font2.render('Налаштування', True, (0,0,0))

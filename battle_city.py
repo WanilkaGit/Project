@@ -45,6 +45,8 @@ while game:
         main_menu()
     elif scene == 1:
         start_pos()
+        for item in items:
+            window.blit(item.image, (item.rect.x, item.rect.y))
     elif scene == 2:
         setting()
     elif scene == 3:

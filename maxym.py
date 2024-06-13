@@ -437,6 +437,7 @@ brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\de
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
 constructor_blocks = pg.sprite.Group()
 
+#сцена конструктора
 def map_constructor(display: pg.Surface):
     global choice_block
     display.fill((0,0,0))
@@ -452,7 +453,7 @@ def map_constructor(display: pg.Surface):
         elif choice_block == 2:
             block = ConstructorBlock(round_step(pg.mouse.get_pos()[0], 40), round_step(pg.mouse.get_pos()[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
             constructor_blocks.add(block)
-            
+
     brekable_button.draw(display)
     unbrekable_button.draw(display)
     constructor_blocks.draw(display)

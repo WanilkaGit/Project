@@ -1,9 +1,9 @@
 """------------------------------------Імпорта----------------------------------------"""
 import time
-
+from maxym import TextureButton
 from random import choices, choice
-
 from pygame import*# імпорт пайгейма
+from sonya import text_life
 init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
@@ -60,7 +60,7 @@ level1_height = len(map_lvl1) * texture_size
 #розміри екрану
 W = 1280
 H = 720
-
+pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\blocks\\pause.png", font2)
 # створюєм вікно
 window = display.set_mode((W, H))
 
@@ -108,7 +108,10 @@ y = 0
 def start_pos():# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
     
-    
+    pause_btn.draw(window)
+    window.blit(text_life, (700, 10))
+
+
     breakables = list()
     unbreakables = list()
     green_hides = list()

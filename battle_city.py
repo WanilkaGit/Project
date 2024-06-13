@@ -44,6 +44,20 @@ while game:
             if scene == 3:
                 if back_button.is_pressed(event.pos):
                     scene = 0
+
+            if scene == 2:
+                if back_button.is_pressed(event.pos):
+                    scene = 0
+
+            if scene == 1:
+                if pause_btn.is_pressed(event.pos):
+                    scene = 4
+            if scene == 4:
+                if start_button.is_pressed(event.pos):
+                    scene = 1
+                if exit_to_main.is_pressed(event.pos):
+                    scene = 0
+
                 
     if scene == 0:
         main_menu()
@@ -55,6 +69,8 @@ while game:
         setting()
     elif scene == 3:
         display_rules(window)
+    elif scene == 4:
+        pause()
     
 
     if hero_lives == 0:

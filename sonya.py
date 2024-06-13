@@ -6,6 +6,16 @@ from oleksii import *
 
 pg.init()
 
+font = pg.font.Font(None, 32)
+
+### об'єкти кнопок ###
+
+how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
+play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
+setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
+exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
+constructor_button = Button(630, 700, 200, 80, font, 'Constructor', (100, 10, 10))
+
 back_button_from_settings = TextureButton(630, 600, 100, 100, "assets\\textures\\ui\\back.png", font2)
 start_button = TextureButton(630, 400, 100, 80, "assets\\textures\\ui\\play.png", font2)
 exit_to_main = TextureButton(430, 400, 100, 80, "assets\\textures\\ui\\home.png", font2)
@@ -14,20 +24,15 @@ btn1 = CheckButton(50, 250, 50, font2, 'Легкий')
 btn2 = CheckButton(300, 250, 50, font2, 'Середній')
 btn3 = CheckButton(650, 250, 50, font2, 'Важкий')
 
+
+
 def main_menu():
-    global setting_btn, how_to_play_btn, play_btn
-    font = pg.font.Font(None, 32)
-   
-         ### об'єкти кнопок ###
-    how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
-    play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
-    setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
-    exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
         # відмальовка об'єктів #
     how_to_play_btn.draw(window)
     play_btn.draw(window)
     setting_btn.draw(window)
     exit_btn.draw(window)
+    constructor_button.draw(window)
 
 def setting():
     window.fill((116, 85, 2))

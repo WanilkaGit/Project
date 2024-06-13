@@ -47,6 +47,9 @@ while game:
                 if play_btn.is_pressed(event.pos):
                     scene = 1
 
+                if constructor_button.is_pressed(event.pos):
+                    scene = 5
+
             if scene == 3:
                 if back_button_from_htp.is_pressed(event.pos):
                     scene = 0
@@ -64,7 +67,6 @@ while game:
                     scene = 1
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
-
                 
     if scene == 0:
         main_menu()
@@ -80,6 +82,8 @@ while game:
         display_rules(window)
     elif scene == 4:
         pause()
+    elif scene == 5:
+        map_constructor(window)
     
 
     if hero_lives == 0:

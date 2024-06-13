@@ -53,12 +53,12 @@ def pause():
     exit_to_main.draw(window)
 
 
-def add_enemy():
-    enemy = pg.image.load("assets\\textures\\player\\tank1.png")
-    bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
-    bullet_obj = Bullet(bullet, 3, damage = 2)
-    enemy_tank = Enemy(enemy, 2, 1, 2, 3, 2, bullet_obj, 1)
-    enemy_tank.update(window)
+# def add_enemy():
+#     enemy = pg.image.load("assets\\textures\\player\\tank1.png")
+#     bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
+#     bullet_obj = Bullet(bullet, 3, damage = 2)
+#     enemy_tank = Enemy(enemy, 2, 1, 2, 3, 2, bullet_obj, 1)
+#     enemy_tank.update(window)
 
 
 

@@ -68,7 +68,7 @@ while game:
         start_pos()
         for item in items:
             window.blit(item.image, (item.rect.x, item.rect.y))
-        add_enemy()
+        #add_enemy()
     elif scene == 2:
         setting()
     elif scene == 3:

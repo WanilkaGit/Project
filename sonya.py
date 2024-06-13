@@ -55,7 +55,10 @@ def pause():
 
 def add_enemy():
     enemy = pg.image.load("assets\\textures\\player\\tank1.png")
-    enemy_tank = Enemy(enemy, 2, 1, 2, 3, 3)
-    enemy.__collide()
-    enemy.update(window)
+    bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
+    bullet_obj = Bullet(bullet, 3, damage = 2)
+    enemy_tank = Enemy(enemy, 2, 1, 2, 3, 2, bullet_obj, 1)
+    enemy_tank.update(window)
+
+
 

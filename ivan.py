@@ -3,8 +3,9 @@ import time
 from maxym import TextureButton
 from random import choices, choice
 from pygame import*# імпорт пайгейма
-from sonya import text_life
+from oleksii import text_life
 init()# ініціалізуєм пайгейм
+
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [

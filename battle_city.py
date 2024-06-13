@@ -17,6 +17,7 @@ game = True
 how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
 play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
 setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
+exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
 
 scene = 0
 
@@ -30,17 +31,18 @@ while game:
                 game = False         
         if event.type == pg.MOUSEBUTTONDOWN:
             if scene == 0:
+                if exit_btn.is_pressed(event.pos):
+                    game = False 
+
                 if setting_btn.is_pressed(event.pos):
-                    print(True, 'setting working')
                     scene = 2
 
                 if how_to_play_btn.is_pressed(event.pos):
-                    print(True, 'rule working')
                     scene = 3
 
                 if play_btn.is_pressed(event.pos):
-                    print(True, 'play working')
                     scene = 1
+
             if scene == 3:
                 if back_button.is_pressed(event.pos):
                     scene = 0
@@ -52,6 +54,7 @@ while game:
             if scene == 1:
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
+
             if scene == 4:
                 if start_button.is_pressed(event.pos):
                     scene = 1

@@ -2,7 +2,7 @@ import pygame as pg
 from maxym import TextureButton
 
 font = pg.font.Font(None, 36)
-back_button = TextureButton(630, 300, 200, 80, "assets\\textures\\pngwing.com.png", font)
+back_button = TextureButton(630, 300, 100, 80, "assets\\textures\\pngwing.com.png", font)
 
 def display_rules(window):
     window.fill((100, 100, 0))

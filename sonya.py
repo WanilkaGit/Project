@@ -9,7 +9,7 @@ pg.init()
 back_button = TextureButton(630, 400, 200, 80, "assets\\textures\\pngwing.com.png", font2)
 start_button = TextureButton(630, 400, 100, 80, "assets\\textures\\blocks\\play.png", font2)
 exit_to_main = TextureButton(430, 400, 100, 80, "assets\\textures\\blocks\\home.png", font2)
-text_life = font2.render('Life: ' + str(hero_lives), (0,0,0))
+
 
 def main_menu():
     global setting_btn, how_to_play_btn, play_btn
@@ -21,10 +21,12 @@ def main_menu():
     how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
     play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
     setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
+    exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
         # відмальовка об'єктів #
     how_to_play_btn.draw(window)
     play_btn.draw(window)
     setting_btn.draw(window)
+    exit_btn.draw(window)
 
 def setting():
     window.fill((116, 85, 2))

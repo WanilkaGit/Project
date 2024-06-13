@@ -6,7 +6,7 @@ from oleksii import *
 
 pg.init()
 
-back_button_from_settings = TextureButton(630, 600, 100, 100, "assets\\textures\\ui\\pngwing.com.png", font2)
+back_button_from_settings = TextureButton(630, 600, 100, 100, "assets\\textures\\ui\\back.png", font2)
 start_button = TextureButton(630, 400, 100, 80, "assets\\textures\\ui\\play.png", font2)
 exit_to_main = TextureButton(430, 400, 100, 80, "assets\\textures\\ui\\home.png", font2)
 

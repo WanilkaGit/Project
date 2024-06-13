@@ -9,9 +9,13 @@ pg.init()
 pg.font.init()
 pg.mixer.init()
 
+
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+W, H = pg.display.Info().current_w, pg.display.Info().current_h
+
 pg.display.set_caption('Battle City')
-back = pg.transform.scale(pg.image.load('fon1.jpg'), (1500, 1000))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
+pg.display.set_icon(pg.image.load('assets\\textures\\fon1.jpg'))  #завантажуєемо фото іконки
+back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 game = True
 
 how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
@@ -44,11 +48,11 @@ while game:
                     scene = 1
 
             if scene == 3:
-                if back_button.is_pressed(event.pos):
+                if back_button_from_htp.is_pressed(event.pos):
                     scene = 0
 
             if scene == 2:
-                if back_button.is_pressed(event.pos):
+                if back_button_from_settings.is_pressed(event.pos):
                     scene = 0
 
             if scene == 1:
@@ -66,8 +70,9 @@ while game:
         main_menu()
     elif scene == 1:
         start_pos()
-        for item in items:
-            window.blit(item.image, (item.rect.x, item.rect.y))
+        # for item in items:
+        #     window.blit(item.image, (item.rect.x, item.rect.y))
+        items.draw(window)
         #add_enemy()
     elif scene == 2:
         setting()

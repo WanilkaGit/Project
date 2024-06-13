@@ -61,7 +61,7 @@ level1_height = len(map_lvl1) * texture_size
 #розміри екрану
 W = 1280
 H = 720
-pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\blocks\\pause.png", font2)
+pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 # створюєм вікно
 window = display.set_mode((W, H))
 

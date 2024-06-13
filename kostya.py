@@ -2,7 +2,7 @@ import pygame as pg
 from maxym import TextureButton
 
 font = pg.font.Font(None, 36)
-back_button = TextureButton(630, 300, 100, 80, "assets\\textures\\pngwing.com.png", font)
+back_button_from_htp = TextureButton(630, 300, 100, 100, "assets\\textures\\ui\\pngwing.com.png", font)
 
 def display_rules(window):
     window.fill((100, 100, 0))
@@ -22,7 +22,7 @@ def display_rules(window):
         window.blit(text, (50, y_offset))
         y_offset += 50
     
-    back_button.draw(window)
+    back_button_from_htp.draw(window)
 
     pg.display.flip()
     

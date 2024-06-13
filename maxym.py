@@ -2,6 +2,8 @@ import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
 
+font = pg.font.Font(None, 32)
+
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
 class Button:
@@ -53,23 +55,25 @@ class MovableButton:
 
 class TextureButton(pg.sprite.Sprite):
     '''Кнопка з підтримкою текстури вона наслідується від Sprite тобу має всі його функції для коректної відмальовки використовуй метод draw()'''
-    def __init__(self, x: int, y: int, width: int, height: int, texture_path: str, font: pg.font.Font, text: Union[str, bytes] = '', text_color: Tuple[int, int, int] = (255, 255, 255)):
+    def __init__(self, x: int, y: int, width: int, height: int, texture_path: str, font: Optional[pg.font.Font] = None, text: Union[str, bytes] = '', text_color: Tuple[int, int, int] = (255, 255, 255)):
         super().__init__()
         self.image = pg.transform.scale(pg.image.load(texture_path), (width, height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.font = font
-        self.text = text
-        self.text_color = text_color
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-        self.text_rect = self.text_surface.get_rect(center=self.rect.center)
+        if font is not None:
+            self.font = font
+            self.text = text
+            self.text_color = text_color
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+            self.text_rect = self.text_surface.get_rect(center=self.rect.center)
+        else: self.font = None
     
     #метод для відмальовки сюди треба вказати поверхню на якій буде малюватись кнопка pg.display також працює якщо що
     def draw(self, display: pg.Surface):
         '''Метод для відмальовки кнопки. Використовуй його щоб текст також малювався на кнопці'''
         display.blit(self.image, self.rect)
-        display.blit(self.text_surface, self.text_rect)
+        if self.font is not None: display.blit(self.text_surface, self.text_rect)
     
     #повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)
     def is_pressed(self, pos: Tuple[int, int]) -> bool:
@@ -413,3 +417,42 @@ def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int
 def is_edge_touched(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
     '''перевіряє чі виходить обєкт за межі екрану хоч на піксель'''
     return sprite.rect.right >= screen_width or sprite.rect.left <= 0 or sprite.rect.bottom >= screen_height or sprite.rect.top <= 0
+
+def round_step(num, step):
+    return round((num - 25) / step) * step
+
+'''---------------------------------------------------------сцени-------------------------------------------------------------------------------------------'''
+
+class ConstructorBlock(pg.sprite.Sprite):
+    def __init__(self, x: int, y: int, width: int, height: int, texture: str, label: str):
+        super().__init__()
+        self.label = label
+        self.image = pg.transform.scale(pg.image.load(texture), (width, height))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+choice_block = 0
+brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
+unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
+constructor_blocks = pg.sprite.Group()
+
+def map_constructor(display: pg.Surface):
+    global choice_block
+    display.fill((0,0,0))
+    if pg.mouse.get_pressed()[0]:
+        if brekable_button.is_pressed(pg.mouse.get_pos()):
+            choice_block = 1
+        elif unbrekable_button.is_pressed(pg.mouse.get_pos()):
+            choice_block = 2
+
+        if choice_block == 1:
+            block = ConstructorBlock(round_step(pg.mouse.get_pos()[0], 40), round_step(pg.mouse.get_pos()[1], 40), 40, 40, 'assets\\textures\\blocks\\derewaska.png', 'b')
+            constructor_blocks.add(block)
+        elif choice_block == 2:
+            block = ConstructorBlock(round_step(pg.mouse.get_pos()[0], 40), round_step(pg.mouse.get_pos()[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+            constructor_blocks.add(block)
+            
+    brekable_button.draw(display)
+    unbrekable_button.draw(display)
+    constructor_blocks.draw(display)

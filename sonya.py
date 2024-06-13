@@ -51,3 +51,11 @@ def pause():
     window.blit(title3,(300, 250))
     start_button.draw(window)
     exit_to_main.draw(window)
+
+
+def add_enemy():
+    enemy = pg.image.load("assets\\textures\\player\\tank1.png")
+    enemy_tank = Enemy(enemy, 2, 1, 2, 3, 3)
+    enemy.__collide()
+    enemy.update(window)
+

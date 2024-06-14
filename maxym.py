@@ -1,6 +1,7 @@
 import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
+import json
 
 font = pg.font.Font(None, 32)
 
@@ -433,27 +434,89 @@ class ConstructorBlock(pg.sprite.Sprite):
         self.rect.y = y
 
 choice_block = 0
+redacted = False
+
 brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
+save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
+
 constructor_blocks = pg.sprite.Group()
+
+canvas = pg.rect.Rect(81, 81, 639, 639)
+
+def save_map():
+        row = []
+        block_map = []
+        for y in range(2, 18):
+            row = []
+            tronul = False
+            for x in range(2,18):
+                for block in constructor_blocks:
+                    if block.rect.collidepoint(x * 40 , y * 40):
+                        tronul = True
+                        row.append(block.label)
+                if not tronul:
+                    row.append(' ')
+                tronul = False
+            block_map.append(row)
+        for row in block_map:
+            print(f'{row},')
+        with open('map.json', 'w') as file:
+            json.dump(block_map, file)
 
 #сцена конструктора
 def map_constructor(display: pg.Surface):
-    global choice_block
+    global choice_block, redacted
+    mouse_pos = pg.mouse.get_pos()
     display.fill((0,0,0))
+    pg.draw.rect(display, (100,100,100), canvas)
     if pg.mouse.get_pressed()[0]:
-        if brekable_button.is_pressed(pg.mouse.get_pos()):
+        redacted = True
+        if brekable_button.is_pressed(mouse_pos):
             choice_block = 1
-        elif unbrekable_button.is_pressed(pg.mouse.get_pos()):
+        elif unbrekable_button.is_pressed(mouse_pos):
             choice_block = 2
 
-        if choice_block == 1:
-            block = ConstructorBlock(round_step(pg.mouse.get_pos()[0], 40), round_step(pg.mouse.get_pos()[1], 40), 40, 40, 'assets\\textures\\blocks\\derewaska.png', 'b')
-            constructor_blocks.add(block)
-        elif choice_block == 2:
-            block = ConstructorBlock(round_step(pg.mouse.get_pos()[0], 40), round_step(pg.mouse.get_pos()[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
-            constructor_blocks.add(block)
 
+        if canvas.collidepoint(mouse_pos):
+            for constructor_block in constructor_blocks:
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                    constructor_block.kill()
+            if choice_block == 1:
+                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                constructor_blocks.add(block)
+            elif choice_block == 2:
+                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                constructor_blocks.add(block)
+        
+    elif pg.mouse.get_pressed()[2]:
+        redacted = True
+        for constructor_block in constructor_blocks:
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                    constructor_block.kill()
+        
+    elif pg.key.get_pressed()[pg.K_s] and redacted:
+        row = []
+        block_map = []
+        for y in range(2, 18):
+            row = []
+            tronul = False
+            for x in range(2,18):
+                for block in constructor_blocks:
+                    if block.rect.collidepoint(x * 40 , y * 40):
+                        tronul = True
+                        row.append(block.label)
+                if not tronul:
+                    row.append(' ')
+                tronul = False
+            block_map.append(row)
+        for row in block_map:
+            print(f'{row},')
+        redacted = False
+        with open('map.json', 'w') as file:
+            json.dump(block_map, file)
+            
     brekable_button.draw(display)
     unbrekable_button.draw(display)
     constructor_blocks.draw(display)
+    save_map_button.draw(display)

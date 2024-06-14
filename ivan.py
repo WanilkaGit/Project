@@ -152,6 +152,3 @@ def start_pos():# стартова позиція
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0
-
-def build_map():
-    

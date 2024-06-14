@@ -9,6 +9,8 @@ pg.init()
 pg.font.init()
 pg.mixer.init()
 
+BLACK = [0, 0, 0]
+
 
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
@@ -74,6 +76,7 @@ while game:
         main_menu()
     elif scene == 1:
         start_pos()
+        window.fill((0,0,0))
         items.draw(window)   
         enemys.update(window)
         enemys.spawn()

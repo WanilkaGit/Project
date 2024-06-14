@@ -93,6 +93,7 @@ while game:
         display_rules(window)
     elif scene == 4:
         pause()
+        
     elif scene == 5:
         map_constructor(window)
     

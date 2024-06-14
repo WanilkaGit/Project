@@ -10,7 +10,7 @@ pg.font.init()
 pg.mixer.init()
 
 BLACK = [0, 0, 0]
-
+is_it_is = True
 
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
@@ -83,9 +83,11 @@ while game:
     if scene == 0:
         main_menu()
     elif scene == 1:
-        start_pos()
+        if is_it_is:
+            start_pos()
+            is_it_is = False
         window.fill((0,0,0))
-        items.draw(window)   
+        items.draw(window)
         enemys.update(window)
         enemys.spawn()
 

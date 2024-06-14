@@ -16,7 +16,7 @@ map_lvl1 = [
     "|gb bbbb  b  b bg|",#enemy - e
     "|gb    b  b  b bg|",#player1 - p
     "|gb bbbb  bbbb bg|",#lose - l
-    "|gb  bb    bb  bg|",#win - w
+    "|gb            bg|",#win - w
     "|gb  bb bb bb  bg|",#кожен елемент цього
     "|gb    bbbb    bg|",#є частиню карти окрім
     "|gggggggggggggggg|",#пробілів
@@ -106,7 +106,7 @@ def creating_lists_coordinate(list, x, y):
 x = 0
 y = 0
 
-def start_pos():# стартова позиція
+def start_pos(map: None):# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
     window.fill((116, 85, 2))
     pause_btn.draw(window)
@@ -122,7 +122,7 @@ def start_pos():# стартова позиція
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 0
-    for r in map_lvl1:# фор як раб почав ходити по списками перевіряєм індекси
+    for r in map:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
             if c == "b":# дім полу
                 b = Settings(x,y, texture_size, texture_size, 0, breakable)# створюєм раба платформа
@@ -149,6 +149,9 @@ def start_pos():# стартова позиція
                     pl_items.add(hero)
                 if c == "l":
                     l = Settings(x, y, texture_size, texture_size, 0, breakable)
+                if c == "|":
+                    p = Settings(x, y, texture_size, texture_size, 0, breakable)
+                    items.add(p)
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0

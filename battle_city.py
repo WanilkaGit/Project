@@ -75,7 +75,15 @@ while game:
         # for item in items:
         #     window.blit(item.image, (item.rect.x, item.rect.y))
         items.draw(window)
-        #add_enemy()
+        last_call_time = pg.time.get_ticks()
+        interval = 100
+        add_enemy()
+        
+        current_time = pg.time.get_ticks()
+        if current_time - last_call_time > interval:
+            last_call_time = current_time
+            interval = randint(900, 2500) 
+
     elif scene == 2:
         setting()
     elif scene == 3:

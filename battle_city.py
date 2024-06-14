@@ -76,14 +76,15 @@ while game:
                     scene = 1
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
+            if scene == 5:
+                if save_map_button.is_pressed(event.pos):
+                    save_map()
                 
     if scene == 0:
         main_menu()
     elif scene == 1:
         start_pos()
-        # for item in items:
-        #     window.blit(item.image, (item.rect.x, item.rect.y))
-        items.draw(window)
+        items.draw(window)   
         enemys.update(window)
         enemys.spawn()
 

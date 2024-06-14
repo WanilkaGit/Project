@@ -2,12 +2,14 @@ import pygame as pg
 from maxym import TextureButton
 
 font = pg.font.Font(None, 36)
-back_button = TextureButton(630, 300, 200, 80, r"assets\textures\pngwing.com.png", font)
+back_button_from_htp = TextureButton(630, 300, 100, 100, "assets\\textures\\ui\\back.png")
 
 def display_rules(window):
     window.fill((100, 100, 0))
     
     rules = [
+        "Складність гри можна обрати в налаштуваннях",
+        "Темні блоки - не ламаютья, світлі можна зламати. ",
         "Правила гри: Отбивайтесь от вражеских танков защищая свою базу!",
         "Вверх - W",
         "Вниз - S",
@@ -22,7 +24,7 @@ def display_rules(window):
         window.blit(text, (50, y_offset))
         y_offset += 50
     
-    back_button.draw(window)
+    back_button_from_htp.draw(window)
 
     pg.display.flip()
     

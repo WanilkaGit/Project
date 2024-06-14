@@ -1,10 +1,11 @@
 """------------------------------------Імпорта----------------------------------------"""
 import time
-
+from maxym import TextureButton
 from random import choices, choice
-
 from pygame import*# імпорт пайгейма
+from oleksii import text_life
 init()# ініціалізуєм пайгейм
+
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
@@ -29,6 +30,7 @@ map_lvl1 = [
 ]
 
 items = sprite.Group()#  створюємо тусу
+pl_items = sprite.Group()
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
@@ -59,7 +61,7 @@ level1_height = len(map_lvl1) * texture_size
 #розміри екрану
 W = 1280
 H = 720
-
+pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 # створюєм вікно
 window = display.set_mode((W, H))
 
@@ -105,9 +107,12 @@ x = 0
 y = 0
 
 def start_pos():# стартова позиція
-    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size
-    
-    
+    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
+    window.fill((116, 85, 2))
+    pause_btn.draw(window)
+    window.blit(text_life, (700, 10))
+
+
     breakables = list()
     unbreakables = list()
     green_hides = list()
@@ -141,7 +146,7 @@ def start_pos():# стартова позиція
                     print(enemy_coordinates)
                 if c == "p":
                     hero = Player(300, 650, 50, 50 , 15, breakable)
-                    items.add(hero)
+                    pl_items.add(hero)
                 if c == "l":
                     l = Settings(x, y, texture_size, texture_size, 0, breakable)
             x += texture_size#  ікси плюс 40

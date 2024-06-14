@@ -1,6 +1,9 @@
 import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
+import json
+
+font = pg.font.Font(None, 32)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
@@ -53,23 +56,25 @@ class MovableButton:
 
 class TextureButton(pg.sprite.Sprite):
     '''Кнопка з підтримкою текстури вона наслідується від Sprite тобу має всі його функції для коректної відмальовки використовуй метод draw()'''
-    def __init__(self, x: int, y: int, width: int, height: int, texture_path: str, font: pg.font.Font, text: Union[str, bytes] = '', text_color: Tuple[int, int, int] = (255, 255, 255)):
+    def __init__(self, x: int, y: int, width: int, height: int, texture_path: str, font: Optional[pg.font.Font] = None, text: Union[str, bytes] = '', text_color: Tuple[int, int, int] = (255, 255, 255)):
         super().__init__()
         self.image = pg.transform.scale(pg.image.load(texture_path), (width, height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.font = font
-        self.text = text
-        self.text_color = text_color
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-        self.text_rect = self.text_surface.get_rect(center=self.rect.center)
+        if font is not None:
+            self.font = font
+            self.text = text
+            self.text_color = text_color
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+            self.text_rect = self.text_surface.get_rect(center=self.rect.center)
+        else: self.font = None
     
     #метод для відмальовки сюди треба вказати поверхню на якій буде малюватись кнопка pg.display також працює якщо що
     def draw(self, display: pg.Surface):
         '''Метод для відмальовки кнопки. Використовуй його щоб текст також малювався на кнопці'''
         display.blit(self.image, self.rect)
-        display.blit(self.text_surface, self.text_rect)
+        if self.font is not None: display.blit(self.text_surface, self.text_rect)
     
     #повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)
     def is_pressed(self, pos: Tuple[int, int]) -> bool:
@@ -325,7 +330,7 @@ class Enemy(pg.sprite.Sprite):
     def new(self, pos: Tuple[int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
-        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.bullet, self.blocks)
+        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks)
         new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
         return new_enemy
 
@@ -363,7 +368,7 @@ class EnemySpawner:
 
     якщо нічого не вказувати то класс зробить свою группу ворогів але тоді до неї буде складніше отримати доступ і оновлювати доведеться через цей класс
     '''
-    def __init__(self, enemys: Union[list, tuple], spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
+    def __init__(self, enemys: list, spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
         self.enemys = enemys
         self.spawns = spawns
 
@@ -413,3 +418,105 @@ def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int
 def is_edge_touched(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
     '''перевіряє чі виходить обєкт за межі екрану хоч на піксель'''
     return sprite.rect.right >= screen_width or sprite.rect.left <= 0 or sprite.rect.bottom >= screen_height or sprite.rect.top <= 0
+
+def round_step(num, step):
+    return round((num - step / 2) / step) * step
+
+'''---------------------------------------------------------сцени-------------------------------------------------------------------------------------------'''
+
+class ConstructorBlock(pg.sprite.Sprite):
+    def __init__(self, x: int, y: int, width: int, height: int, texture: str, label: str):
+        super().__init__()
+        self.label = label
+        self.image = pg.transform.scale(pg.image.load(texture), (width, height))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+choice_block = 0
+redacted = False
+
+brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
+unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
+save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
+
+constructor_blocks = pg.sprite.Group()
+
+canvas = pg.rect.Rect(81, 81, 639, 639)
+
+def save_map():
+        row = []
+        block_map = []
+        for y in range(2, 18):
+            row = []
+            tronul = False
+            for x in range(2,18):
+                for block in constructor_blocks:
+                    if block.rect.collidepoint(x * 40 , y * 40):
+                        tronul = True
+                        row.append(block.label)
+                if not tronul:
+                    row.append(' ')
+                tronul = False
+            block_map.append(row)
+        for row in block_map:
+            print(f'{row},')
+        with open('map.json', 'w') as file:
+            json.dump(block_map, file)
+
+#сцена конструктора
+def map_constructor(display: pg.Surface):
+    global choice_block, redacted
+    mouse_pos = pg.mouse.get_pos()
+    display.fill((0,0,0))
+    pg.draw.rect(display, (100,100,100), canvas)
+    if pg.mouse.get_pressed()[0]:
+        redacted = True
+        if brekable_button.is_pressed(mouse_pos):
+            choice_block = 1
+        elif unbrekable_button.is_pressed(mouse_pos):
+            choice_block = 2
+
+
+        if canvas.collidepoint(mouse_pos):
+            for constructor_block in constructor_blocks:
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                    constructor_block.kill()
+            if choice_block == 1:
+                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                constructor_blocks.add(block)
+            elif choice_block == 2:
+                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                constructor_blocks.add(block)
+        
+    elif pg.mouse.get_pressed()[2]:
+        redacted = True
+        for constructor_block in constructor_blocks:
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                    constructor_block.kill()
+        
+    elif pg.key.get_pressed()[pg.K_s] and redacted:
+        row = []
+        block_map = []
+        for y in range(2, 18):
+            row = []
+            tronul = False
+            for x in range(2,18):
+                for block in constructor_blocks:
+                    if block.rect.collidepoint(x * 40 , y * 40):
+                        tronul = True
+                        row.append(block.label)
+                if not tronul:
+                    row.append(' ')
+                tronul = False
+            block_map.append(row)
+        for row in block_map:
+            print(f'{row},')
+        redacted = False
+        with open('map.json', 'w') as file:
+            json.dump(block_map, file)
+            
+    brekable_button.draw(display)
+    unbrekable_button.draw(display)
+    constructor_blocks.draw(display)
+    save_map_button.draw(display)

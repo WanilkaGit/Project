@@ -53,7 +53,7 @@ class Jump_text(pg.sprite.Sprite):
         self.rect.x += self.speed
 
     def stop(self):
-        time.sleep(7)
+        pg.time.delay(7)
 
     
 

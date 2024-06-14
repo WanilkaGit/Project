@@ -329,7 +329,7 @@ class Enemy(pg.sprite.Sprite):
     def new(self, pos: Tuple[int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
-        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.bullet, self.blocks)
+        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks)
         new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
         return new_enemy
 
@@ -367,7 +367,7 @@ class EnemySpawner:
 
     якщо нічого не вказувати то класс зробить свою группу ворогів але тоді до неї буде складніше отримати доступ і оновлювати доведеться через цей класс
     '''
-    def __init__(self, enemys: Union[list, tuple], spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
+    def __init__(self, enemys: list, spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
         self.enemys = enemys
         self.spawns = spawns
 
@@ -419,7 +419,7 @@ def is_edge_touched(sprite: pg.sprite.Sprite, screen_width: int, screen_height: 
     return sprite.rect.right >= screen_width or sprite.rect.left <= 0 or sprite.rect.bottom >= screen_height or sprite.rect.top <= 0
 
 def round_step(num, step):
-    return round((num - 25) / step) * step
+    return round((num - step / 2) / step) * step
 
 '''---------------------------------------------------------сцени-------------------------------------------------------------------------------------------'''
 

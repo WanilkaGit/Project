@@ -3,12 +3,13 @@ from maxym import *
 from ivan import window, font2, items
 from oleksii import *
 import time
-
 pg.init()
 
 font = pg.font.Font(None, 32)
 
 score = 0
+time_delay = 2
+
 ### об'єкти кнопок ###
 
 how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
@@ -30,6 +31,33 @@ bullet = pg.transform.scale(pg.image.load("assets\\textures\\blocks\\bullet.png"
 bullet_obj = Bullet(bullet, 15, damage = 1)
 enemy_tank1 = Enemy(enemy, 4, 0, 1, 1, 1, bullet_obj, items)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1], ((200, 50), (650,50)))
+
+
+restart_txt = font2.render('Restart', True, (255, 0, 255))
+
+class Jump_text(pg.sprite.Sprite):
+    def __init__(self, x, y, width, height, speed, image):    #конструктор класу
+        super().__init__()
+        self. width = width
+        self. height = height
+        self. speed = speed
+        self.image = restart_txt
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def reset(self):    #функція для відображення персонажів
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+    def plays(self):
+        self.rect.x += self.speed
+
+    def stop(self):
+        time.sleep(7)
+
+    
+
+restart_text = Jump_text(100, 300, 50, 50, time_delay, restart_txt)
 
 def main_menu():
         # відмальовка об'єктів #
@@ -60,4 +88,11 @@ def pause():
     window.blit(title3,(300, 250))
     start_button.draw(window)
     exit_to_main.draw(window)
+    
+def restart():
+    global score, scene
+    score = 0
+    hero_lives - 3
+    scene = 1
+    
 

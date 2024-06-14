@@ -74,11 +74,11 @@ while game:
 
             #if scene == 6:
                 #if restart_btn.is_pressed(event.pos):
-                   # restart()
-                  #  restart_text.reset()
-                  #  restart_text.plays()
-                  #  if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-                   #     restart_text.stop()
+                # restart()
+                #  restart_text.reset()
+                #  restart_text.plays()
+                #  if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                #     restart_text.stop()
                 
     if scene == 0:
         main_menu()

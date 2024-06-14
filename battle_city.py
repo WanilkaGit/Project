@@ -28,12 +28,6 @@ scene = 0
 last_call_time = pg.time.get_ticks()
 interval = 100
 
-enemy = pg.image.load("assets\\textures\\player\\tank1.png")
-bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
-bullet_obj = Bullet(bullet, 3, damage = 2)
-enemy_tank1 = Enemy(enemy, 2, 1, 2, 1, 2, bullet_obj, items)
-enemys = EnemySpawner([enemy_tank1, enemy_tank1], ((200, 50), (650,50)))
-
 while game:
     window.blit(back, (0,0))
     for event in pg.event.get():
@@ -91,7 +85,7 @@ while game:
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:
             last_call_time = current_time
-            interval = randint(900, 2500) 
+            interval = randint(100, 500) 
 
     elif scene == 2:
         setting()

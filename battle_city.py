@@ -18,10 +18,6 @@ pg.display.set_icon(pg.image.load('assets\\textures\\fon1.jpg'))  #завант�
 back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 game = True
 
-how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
-play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
-setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
-exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
 
 scene = 0
 

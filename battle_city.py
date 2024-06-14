@@ -86,10 +86,10 @@ while game:
         if is_it_is:
             start_pos(map_lvl1)
             is_it_is = False
-        window.fill((0,0,0))
+        # window.fill((0,0,0))
         items.draw(window)
-        # enemys.update(window)
-        # enemys.spawn()
+        enemys.update(window)
+        enemys.spawn()
 
         
         current_time = pg.time.get_ticks()

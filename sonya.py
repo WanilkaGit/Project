@@ -63,7 +63,7 @@ def add_enemy():
     bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
     bullet_obj = Bullet(bullet, 3, damage = 2)
     enemy_tank1 = Enemy(enemy, 2, 1, 2, 1, 2, bullet_obj, items)
-    enemys = EnemySpawner((enemy_tank1, enemy_tank1), ((200, 50), (650,50)))
+    enemys = EnemySpawner([enemy_tank1, enemy_tank1], ((200, 50), (650,50)))
     enemys.update(window)
     enemys.spawn()
 

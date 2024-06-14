@@ -25,6 +25,15 @@ exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
 
 scene = 0
 
+last_call_time = pg.time.get_ticks()
+interval = 100
+
+enemy = pg.image.load("assets\\textures\\player\\tank1.png")
+bullet = pg.image.load("assets\\textures\\blocks\\bullet.png")
+bullet_obj = Bullet(bullet, 3, damage = 2)
+enemy_tank1 = Enemy(enemy, 2, 1, 2, 1, 2, bullet_obj, items)
+enemys = EnemySpawner([enemy_tank1, enemy_tank1], ((200, 50), (650,50)))
+
 while game:
     window.blit(back, (0,0))
     for event in pg.event.get():
@@ -75,9 +84,9 @@ while game:
         # for item in items:
         #     window.blit(item.image, (item.rect.x, item.rect.y))
         items.draw(window)
-        last_call_time = pg.time.get_ticks()
-        interval = 100
-        add_enemy()
+        enemys.update(window)
+        enemys.spawn()
+
         
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:

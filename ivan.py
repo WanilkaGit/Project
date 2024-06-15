@@ -11,7 +11,7 @@ init()# ініціалізуєм пайгейм
 map_lvl1 = [
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
-    "|gb bbbb  bbbb bg|",#green_hide - g
+    "|gbebbbbe bbbbebg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
     "|gb bbbb  b  b bg|",#enemy - e
     "|gb    b  b  b bg|",#player1 - p
@@ -135,7 +135,7 @@ class Player(Blocks):# клас гравця з супер класом сеті
                 move_player1 += 1
 
 def creating_lists_coordinate(list, x, y):
-    list.append(tuple(x, y))
+    list.append((x, y))
     return list
 
 
@@ -150,7 +150,7 @@ def start_pos(map: None):# стартова позиція
     unbreakables = list()
     green_hides = list()
     dark_white_hides = list()
-    enemys = list()
+    enemy_coordinates = []
     
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
@@ -174,11 +174,10 @@ def start_pos(map: None):# стартова позиція
                 dark_white_hides.append(d)
                 items.add(d)
             if c == "e":
-                enemy_coordinates = list()
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
                 print(enemy_coordinates)
             if c == "p":
-                hero = Player(300, 650, 50, 50 , 1, player1, True, False)
+                hero = Player(x, y, 34, 34 , 1, player1, True, False)
                 players.add(hero)
             if c == "l":
                 l = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)

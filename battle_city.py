@@ -4,6 +4,7 @@ from maxym import *
 from sonya import *
 from ivan import *
 from kostya import *
+import ivan
 
 pg.init()
 pg.font.init()
@@ -98,6 +99,7 @@ while game:
         #window.blit(text_life, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
+            enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
         players.draw(window)
         players.update()

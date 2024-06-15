@@ -203,7 +203,7 @@ class Bullet(pg.sprite.Sprite):
         '''Переміщує танк на вказані координати'''
         self.rect.x = x
         self.rect.y = y
-  
+
     def new(self, dir: int):
         '''робить новий екземпляр классу Bullet на основі себе'''
 

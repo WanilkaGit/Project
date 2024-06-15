@@ -92,6 +92,7 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
         self.rect.y = y
 
 class Player(Blocks):# клас гравця з супер класом сетінгс
+    rotate = 0
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення

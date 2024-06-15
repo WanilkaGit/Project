@@ -99,16 +99,15 @@ while game:
         if is_it_is:
             start_pos(map_lvl1)
             is_it_is = False
-        # window.fill((0,0,0))
-        items.draw(window)
         enemys.update(window)
-        enemys.spawn()
+        items.draw(window)
 
         
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:
             last_call_time = current_time
-            interval = randint(100, 500) 
+            enemys.spawn()
+            interval = randint(100, 2500) 
 
     elif scene == 2:
         setting(window)
@@ -129,6 +128,3 @@ while game:
     clock.tick(60)
     pg.display.update()
 pg.quit()
-
-
-

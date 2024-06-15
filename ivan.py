@@ -108,9 +108,7 @@ y = 0
 
 def start_pos(map: None):# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
-    window.fill((116, 85, 2))
-    pause_btn.draw(window)
-    window.blit(text_life, (700, 10))
+
 
 
     breakables = list()

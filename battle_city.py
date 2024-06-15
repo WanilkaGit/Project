@@ -83,6 +83,9 @@ while game:
     if scene == 0:
         main_menu()
     elif scene == 1:
+        window.fill((135, 95, 22))
+        pause_btn.draw(window)
+        window.blit(text_life, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
             is_it_is = False

@@ -31,3 +31,4 @@ def display_rules(window):
     
     # вывод кнопки и текста на экран
     #button_rect = display_rules(window)
+    # test coment 

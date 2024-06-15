@@ -69,7 +69,7 @@ while game:
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
                 if restart_btn.is_pressed(event.pos):
-                    restart()
+                    restart(window)
                     scene = 1
                     restart_text.reset()
                     restart_text.plays()
@@ -83,14 +83,14 @@ while game:
 
             if scene == 6:      #якщо рестарт гри
                 if restart_btn.is_pressed(event.pos):
-                    restart()
+                    restart(window)
                     restart_text.reset()
                     restart_text.plays()
                     if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
                         restart_text.stop()
                 
     if scene == 0:
-        main_menu()
+        main_menu(window)
     elif scene == 1:
         window.fill((135, 95, 22))
         pause_btn.draw(window)
@@ -110,18 +110,18 @@ while game:
             interval = randint(100, 500) 
 
     elif scene == 2:
-        setting()
+        setting(window)
     elif scene == 3:
         display_rules(window)
     elif scene == 4:
-        pause()
+        pause(window)
         
     elif scene == 5:
         map_constructor(window)
     
 
     if hero_lives == 0:
-        lose()
+        lose(window)
 
 
     pg.display.update()

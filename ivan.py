@@ -59,11 +59,11 @@ level1_width = len(map_lvl1[0]) * texture_size
 level1_height = len(map_lvl1) * texture_size
 
 #розміри екрану
-W = 1280
-H = 720
+
 pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 # створюєм вікно
-window = display.set_mode((W, H))
+#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+#W, H = pg.display.Info().current_w, pg.display.Info().current_h
 
 """-------------------------------------Класи---------------------------------------"""
 class Settings(sprite.Sprite):# основний клас тут основні параметри
@@ -77,7 +77,7 @@ class Settings(sprite.Sprite):# основний клас тут основні 
         self.rect.x = x
         self.rect.y = y
 
-    def reset(self):# тут прописана функція ресет
+    def reset(self, window):# тут прописана функція ресет
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(Settings):# клас гравця з супер класом сетінгс

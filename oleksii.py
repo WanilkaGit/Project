@@ -13,7 +13,7 @@ text_game_over = font.render("You lose", True, (51, 225, 249))
 text_game_over1 = font.render("Press r to restart", True, (51, 225, 249)) 
 text_life = font.render('Life: ' + str(hero_lives), True, (0,0,0))
 
-def lose():
+def lose(screen):
     global scene
     screen.blit(text_game_over, [20, 170])
     screen.blit(text_game_over1, [20, 200])

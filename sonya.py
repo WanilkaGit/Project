@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import *
-from ivan import window, font2, items
+from ivan import  font2, items
 from oleksii import *
 import time
 pg.init()
@@ -30,8 +30,8 @@ btn3 = CheckButton(650, 250, 50, font2, 'Важкий')
 
 enemy = pg.transform.scale(pg.image.load("assets\\textures\\player\\tank1.png"), (70, 70))
 bullet = pg.transform.scale(pg.image.load("assets\\textures\\blocks\\bullet.png"), (30, 10))
-bullet_obj = Bullet(bullet, 1, damage = 1)
-enemy_tank1 = Enemy(enemy, 1 , 0, 9, 0, 0, bullet_obj, items)
+bullet_obj = Bullet(bullet, 3, damage = 1)
+enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, items)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1], ((650,250),(650,250)))
 
 
@@ -48,7 +48,7 @@ class Jump_text(pg.sprite.Sprite):          #клас для з'являня т�
         self.rect.x = x
         self.rect.y = y
 
-    def reset(self):    #функція для відображення персонажів
+    def reset(self, window):    #функція для відображення персонажів
         window.blit(self.image, (self.rect.x, self.rect.y))
 
     def plays(self):
@@ -60,7 +60,7 @@ class Jump_text(pg.sprite.Sprite):          #клас для з'являня т�
     
 restart_text = Jump_text(100, 300, 50, 50, time_delay, restart_txt)
 
-def main_menu():        #головне меню гри
+def main_menu(window):        #головне меню гри
         # відмальовка об'єктів #
     how_to_play_btn.draw(window)
     play_btn.draw(window)
@@ -68,7 +68,7 @@ def main_menu():        #головне меню гри
     exit_btn.draw(window)
     constructor_button.draw(window)
 
-def setting():      #меню налаштувань
+def setting(window):      #меню налаштувань
     window.fill((135, 95, 22))
     title = font2.render('Налаштування', True, (0,0,0))
     title2 = font2.render('Складність гри', True, (0,0,0))
@@ -79,7 +79,7 @@ def setting():      #меню налаштувань
     window.blit(title, (500, 30))
     window.blit(title2, (100, 100))
 
-def pause():            #меню паузи
+def pause(window):            #меню паузи
     window.fill((135, 95, 22))
     title = font2.render('---Pause---', True, (0,0,0))
     title2 = font2.render('Рахунок: '+ str(score), True, (0,0,0))
@@ -99,6 +99,6 @@ def restart():      #рестарт гри
     restart_text.reset()
     restart_text.plays()
     if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-        restart_text.stop()
-    
+        restart_text.stop()   
+
 

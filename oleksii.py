@@ -1,4 +1,5 @@
 import pygame as pg
+from sonya import *
 
 pg.init()
 
@@ -10,7 +11,7 @@ WHITE = (255, 255, 255)
 screen = pg.display.set_mode()
 font = pg.font.SysFont('Aharoni', 65, True, False) 
 text_game_over = font.render("You lose", True, (51, 225, 249)) 
-text_game_over1 = font.render("Press r to restart", True, (51, 225, 249)) 
+
 text_life = font.render('Life: ' + str(hero_lives), True, (0,0,0))
 
 def lose():
@@ -26,7 +27,6 @@ else:
     
 if game == False:
     window.blit(text_game_over, [600, 280])
-    window.blit(text_game_over1, [600, 320])
     pg.mixer.music.play()
     window.blit(restart_btn)
     window.blit(exit_to_main)

@@ -131,15 +131,15 @@ def start_pos(map: None):# стартова позиція
                 breakables.append(b)
                 items.add(b)
             if c == "u":
-                u = Blocks(x, y, texture_size, texture_size, 0, breakable)
+                u = Blocks(x, y, texture_size, texture_size, 0, unbreakable, False, False)
                 unbreakables.append(u)
                 items.add(u)
             if c == "g":
-                g = Blocks(x, y,texture_size, texture_size, 0, breakable)
+                g = Blocks(x, y,texture_size, texture_size, 0, green_hide, False, True)
                 green_hides.append(g)
                 items.add(g)
             if c == "d":
-                d = Blocks(x, y, texture_size, texture_size, 0, breakable)
+                d = Blocks(x, y, texture_size, texture_size, 0, green_hide, False, True)
                 dark_white_hides.append(d)
                 items.add(d)
             if c == "e":
@@ -147,13 +147,13 @@ def start_pos(map: None):# стартова позиція
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
                 print(enemy_coordinates)
             if c == "p":
-                hero = Player(300, 650, 50, 50 , 15, breakable)
+                hero = Player(300, 650, 50, 50 , 15, breakable, True, False)
                 pl_items.add(hero)
             if c == "l":
-                l = Blocks(x, y, texture_size, texture_size, 0, breakable)
+                l = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)
             if c == "|":
-                p = Blocks(x, y, texture_size, texture_size, 0, breakable)
+                p = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)
                 items.add(p)
-        x += texture_size#  ікси плюс 40
-    y += texture_size#  перміщаємось в низ
-    x = 0#  ікси 0
+            x += texture_size#  ікси плюс 40
+        y += texture_size#  перміщаємось в низ
+        x = 0#  ікси 0

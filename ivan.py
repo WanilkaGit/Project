@@ -7,7 +7,7 @@ from pygame import*# імпорт пайгейма
 init()# ініціалізуєм пайгейм
 
 
-"""------------------------------------Map build--------------------------------------"""
+"""------------------------------------Map--------------------------------------"""
 map_lvl1 = [
     "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
@@ -25,16 +25,29 @@ map_lvl1 = [
     "|gb b  b b   b bg|",
     "|gb bu      ub bg|",
     "|gb b  bbb   b bg|",
-    "|ggg   blb    gg |",
+    "|ggg  pblb    gg |",
     "__________________"
 ]
 
+
+""" ----------------------------------ЗМІННІ-------------------------------------"""
+move_player1 = 1
+texture_size = 40
+# це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
+level1_width = len(map_lvl1[0]) * texture_size
+level1_height = len(map_lvl1) * texture_size
+
+
+""" ----------------------------------ГРУПИ-------------------------------------"""
 items = sprite.Group()#  створюємо тусу
-pl_items = sprite.Group()
+players = sprite.Group()
+
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
 player1_moves = "assets/textures/player/player12.png"
+players_image = [player1, player1_moves]
+
 player2 = "assets/textures/player/player21.png"
 player2_moves = "assets/textures/player/player22.png"
 
@@ -52,20 +65,17 @@ unbreakable = choice([
 green_hide = "assets/textures/blocks/kuvsinka.png"
 
 
+""" ----------------------------------ШРИФТИ-------------------------------------"""
 font1 = font.SysFont("Arial", 35)
 font2 = font.SysFont(('font/ariblk.ttf'), 60)
 
-texture_size = 40
-# це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
-level1_width = len(map_lvl1[0]) * texture_size
-level1_height = len(map_lvl1) * texture_size
 
-#розміри екрану
-
+""" ----------------------------------Кнопки-------------------------------------"""
 pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 # створюєм вікно
 #window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 #W, H = pg.display.Info().current_w, pg.display.Info().current_h
+
 
 """-------------------------------------Класи---------------------------------------"""
 class Blocks(sprite.Sprite):# основний клас тут основні параметри
@@ -81,25 +91,48 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
         self.rect.x = x
         self.rect.y = y
 
-    def reset(self, window):# тут прописана функція ресет
-        window.blit(self.image, (self.rect.x, self.rect.y))
-
 class Player(Blocks):# клас гравця з супер класом сетінгс
-    def r_l(self):# тут буде переміщення в право ліво
+    rotate = 0
+    def update(self):# тут буде переміщення в право ліво
+        global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
+
+        if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
+            self.rect.y -= self.speed#
+            if move_player1 % 2 == 0:
+                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+            else:
+                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+
         if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
-            self.rect.x -= self.speed# якщо так той демо в ліво
-            # self.image = transform.scale(image.load(hero_l), (self.width, self.height))# підсьтавляєм фотку
-            
+            self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
+            if move_player1 % 2 == 0:
+                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+            else:
+                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+
+        if key_pressed[K_s]:# якщо в низ тобто в низ
+            self.rect.y += self.speed# ми додає тобто спускаємось
+            if move_player1 % 2 == 0:
+                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+            else:
+                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+
         if key_pressed[K_d]:#кнопка в низ натиснута
             self.rect.x += self.speed# х додаєм швидкість рухаємось
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
-            
-        if key_pressed[K_s]:# якщо в низ тобто в низ
-            self.rect.y += self.speed# ми додає тобто спускаємось
-            
-        if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
-            self.rect.y -= self.speed# 
+            if move_player1 % 2 == 0:
+                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
+            else:
+                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+                move_player1 += 1
 
 def creating_lists_coordinate(list, x, y):
     list.append(tuple(x, y))
@@ -111,9 +144,7 @@ x = 0
 y = 0
 
 def start_pos(map: None):# стартова позиція
-    global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
-
-
+    global items, players, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
 
     breakables = list()
     unbreakables = list()
@@ -147,8 +178,8 @@ def start_pos(map: None):# стартова позиція
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
                 print(enemy_coordinates)
             if c == "p":
-                hero = Player(300, 650, 50, 50 , 15, breakable, True, False)
-                pl_items.add(hero)
+                hero = Player(300, 650, 50, 50 , 1, player1, True, False)
+                players.add(hero)
             if c == "l":
                 l = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)
             if c == "|":

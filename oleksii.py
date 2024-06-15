@@ -16,7 +16,7 @@ text_life = font.render('Life: ' + str(hero_lives), True, (0,0,0))
 
 def lose(window):
     global scene
-    screen.blit(text_game_over, [20, 170])
+    window.blit(text_game_over, [20, 170])
     scene = 6
     window.blit(restart_btn)
     window.blit(exit_to_main)

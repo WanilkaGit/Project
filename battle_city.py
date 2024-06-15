@@ -71,9 +71,8 @@ while game:
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
                 if restart_btn.is_pressed(event.pos):
-                    restart(window)
-                    scene = 1
-                    restart_text.reset()
+                    restart()
+                    restart_text.reset(window)
                     restart_text.plays()
                     if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
                         restart_text.stop()
@@ -85,8 +84,8 @@ while game:
 
             if scene == 6:      #якщо рестарт гри
                 if restart_btn.is_pressed(event.pos):
-                    restart(window)
-                    restart_text.reset()
+                    restart()
+                    restart_text.reset(window)
                     restart_text.plays()
                     if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
                         restart_text.stop()
@@ -96,7 +95,7 @@ while game:
     elif scene == 1:
         window.fill((135, 95, 22))
         pause_btn.draw(window)
-        window.blit(text_life, (700, 10))
+        #window.blit(text_life, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
             is_it_is = False

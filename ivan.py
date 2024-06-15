@@ -3,7 +3,7 @@ import time
 from maxym import TextureButton
 from random import choices, choice
 from pygame import*# імпорт пайгейма
-from oleksii import text_life
+
 init()# ініціалізуєм пайгейм
 
 

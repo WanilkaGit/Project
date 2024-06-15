@@ -2,7 +2,7 @@ import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
 import json
-
+pg.font.init()
 font = pg.font.Font(None, 32)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''

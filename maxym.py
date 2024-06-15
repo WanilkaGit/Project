@@ -248,14 +248,14 @@ class Enemy(pg.sprite.Sprite):
         self.score = score
         self.health = health
         self.bullet = bullet
-        self.dir = 4 #dir це direction тобіш напрямок якщо хтось не зрозумів
+        self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
         self.bullets = pg.sprite.Group()
 
     def __random_rotate(self):
         '''повертає танк в одному з чотирьох напрямків'''        
         self.dir = randint(1,4)
-        self.image = pg.transform.rotate(self.original_texture, 90 * self.dir) 
+        self.image = pg.transform.rotate(self.original_texture, 90 * self.dir - 90)
 
     def __collide(self):
         '''колізія ворога зі стінами чі краєм карти'''
@@ -264,16 +264,17 @@ class Enemy(pg.sprite.Sprite):
         collided_blocks = pg.sprite.spritecollide(self, self.blocks, False)
         if collided_blocks:
             block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
-            if self.dir == 1:
-                self.rect.top = block.rect.bottom
-            elif self.dir == 2:
-                self.rect.left = block.rect.right 
-            elif self.dir == 3:
-                self.rect.bottom = block.rect.top      
-            elif self.dir == 4:
-                self.rect.right = block.rect.left
+            if not block.ghost_skills:
+                if self.dir == 1:
+                    self.rect.top = block.rect.bottom
+                elif self.dir == 2:
+                    self.rect.left = block.rect.right 
+                elif self.dir == 3:
+                    self.rect.bottom = block.rect.top      
+                elif self.dir == 4:
+                    self.rect.right = block.rect.left
 
-            self.__random_rotate()
+                self.__random_rotate() 
 
         #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
         if self.rect.right > 800:
@@ -318,7 +319,13 @@ class Enemy(pg.sprite.Sprite):
 
         #оновлюємо позицію пулі та якщо вона пересікається з self.blocks то видаляємо і те і те
         self.bullets.update(display)
-        pg.sprite.groupcollide(self.bullets, self.blocks, True, True)
+        collides = pg.sprite.groupcollide(self.bullets, self.blocks, False, False)
+        for bullet, blocks in collides.items():
+            for block in blocks:
+                if not block.ghost_skills:
+                    if block.breaking_ables:
+                        block.kill()
+                    bullet.kill()
     
     def take_damage(self, damage: Union[int, float]):
         '''Функція для нанесення шкоди ворогу якщо кількість життів ворога дорівнює нулю то видаляємо ворога'''

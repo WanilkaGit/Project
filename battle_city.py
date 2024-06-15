@@ -23,6 +23,8 @@ game = True
 
 scene = 0
 
+clock = pg.time.Clock()
+
 last_call_time = pg.time.get_ticks()
 interval = 100
 
@@ -123,7 +125,9 @@ while game:
     if hero_lives == 0:
         lose()
 
-
+    fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
+    window.blit(fps, (900, 700))
+    clock.tick(60)
     pg.display.update()
 pg.quit()
 

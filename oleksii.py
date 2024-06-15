@@ -33,7 +33,7 @@ if game == False:
 else:
     pass
 
-text_lives = font.render("Score: " + str(hero_lives), True, WHITE)
+
 
     
 

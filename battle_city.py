@@ -101,6 +101,8 @@ while game:
             is_it_is = False
         # window.fill((0,0,0))
         items.draw(window)
+        players.draw(window)
+        players.update()
         enemys.update(window)
         enemys.spawn()
 

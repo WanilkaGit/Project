@@ -18,6 +18,22 @@ def lose():
     screen.blit(text_game_over, [20, 170])
     screen.blit(text_game_over1, [20, 200])
     scene = 6
+    
+if hero_lives == 0:
+    game = False        
+else:
+    pass
+    
+if game == False:
+    window.blit(text_game_over, [600, 280])
+    window.blit(text_game_over1, [600, 320])
+    pg.mixer.music.play()
+    window.blit(restart_btn)
+    window.blit(exit_to_main)
+else:
+    pass
+
+text_lives = font.render("Score: " + str(hero_lives), True, WHITE)
 
     
 

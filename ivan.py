@@ -110,7 +110,6 @@ class Player(Blocks):# клас гравця з супер класом сеті
             if move_player1 % 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1
-
             else:
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1

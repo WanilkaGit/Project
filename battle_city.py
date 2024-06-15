@@ -51,34 +51,43 @@ while game:
                 if constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            if scene == 3:
+            if scene == 3:          #якщо правила гри
                 if back_button_from_htp.is_pressed(event.pos):
                     scene = 0
 
-            if scene == 2:
+            if scene == 2:          #якщо налаштування
                 if back_button_from_settings.is_pressed(event.pos):
                     scene = 0
 
-            if scene == 1:
+            if scene == 1:          #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
-            if scene == 4:
+            if scene == 4:              #якщо пауза
                 if start_button.is_pressed(event.pos):
                     scene = 1
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
-            if scene == 5:
+                if restart_btn.is_pressed(event.pos):
+                    restart()
+                    scene = 1
+                    restart_text.reset()
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
+                    
+
+            if scene == 5:          #якщо редактор карт
                 if save_map_button.is_pressed(event.pos):
                     save_map()
 
-            #if scene == 6:
-                #if restart_btn.is_pressed(event.pos):
-                # restart()
-                #  restart_text.reset()
-                #  restart_text.plays()
-                #  if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-                #     restart_text.stop()
+            if scene == 6:      #якщо рестарт гри
+                if restart_btn.is_pressed(event.pos):
+                    restart()
+                    restart_text.reset()
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
                 
     if scene == 0:
         main_menu()
@@ -113,7 +122,6 @@ while game:
 
     if hero_lives == 0:
         lose()
-        scene = 6
 
 
     pg.display.update()

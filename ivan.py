@@ -9,24 +9,24 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
-    "_________________",#Unbreakeble - u
-    "|gggggggggggggggg|",#breakeable - b
-    "|gb bbbb  bbbb bg|",#green_hide - g
-    "|gb b  b  b  b bg|",#dark_white_hide - d
-    "|gb bbbb  b  b bg|",#enemy - e
-    "|gb    b  b  b bg|",#player1 - p
-    "|gb bbbb  bbbb bg|",#lose - l
-    "|gb            bg|",#win - w
-    "|gb  bb bb bb  bg|",#кожен елемент цього
-    "|gb    bbbb    bg|",#є частиню карти окрім
-    "|gggggggggggggggg|",#пробілів
-    "|u     b b      u|",#що вони означають написано вище
-    "|g  b  bbb   b bg|",#теж зі знаком коментаря
-    "|gb b  b b   b bg|",
-    "|gb bu      ub bg|",
-    "|gb b  bbb   b bg|",
-    "|ggg   blb    gg |",
-    "__________________"
+    "___________________________________________________",#Unbreakeble - u
+    "|dddddddddddddddddddddddddddddddddu dbbbbbwbbbbbd |",#breakeable - b
+    "|   bbbb  bbbb   udb bbbb  bbbb bdu  ddbbbbbbbdd  |",#green_hide - g
+    "|u  b  b  b g u  udb bl b  b  b bdu    ddbbbdd    |",#dark_white_hide - d
+    "|   bbbb  bbbb u udb bbbb  b  b bdu u   ddddd  u  |",#enemy - e
+    "|   b  b   g b   udb    b  b  b bdu  d            |",#player1 - p
+    "|   bbbb  bbbb   udb bbbb  bbbb bdu     u     g   |",#lose - l
+    "|  u             udb            bdu   b    g      |",#win - w
+    "|    bbbbbbbbbbb udb  bb bb bb  bdu     b      g  |",#кожен елемент цього
+    "|     uuuu   gg  udb    bbbb    bdu d       u     |",#є частиню карти окрім
+    "|  bbbg gg       uggggggggggggggggu   bbbb  bbbb  |",#пробілів
+    "|  gg       buub uu     b  b     uu   b  b  b     |",#що вони означають написано вище
+    "|    u  bub gggg ug  b  bbbb  b bgu   bbbb  bbbb  |",#теж зі знаком коментаря
+    "|  bub  ggg      ugb b  b  b  b bgu      b     b  |",
+    "|  ggg       bub ugb bu      ub bgu   bbbb  bbbb  |",
+    "|       bbb  ggg ugb b  bbb   b bgu               |",
+    "|       blb      uggg    ggggggggggggggggggggggggg|",
+    "___________________________________________________"
 ]
 
 items = sprite.Group()#  створюємо тусу
@@ -128,30 +128,30 @@ def start_pos(map: None):# стартова позиція
                 b = Settings(x,y, texture_size, texture_size, 0, breakable)# створюєм раба платформа
                 breakables.append(b)
                 items.add(b)
-                if c == "u":
-                    u = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    unbreakables.append(u)
-                    items.add(u)
-                if c == "g":
-                    g = Settings(x, y,texture_size, texture_size, 0, breakable)
-                    green_hides.append(g)
-                    items.add(g)
-                if c == "d":
-                    d = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    dark_white_hides.append(d)
-                    items.add(d)
-                if c == "e":
-                    enemy_coordinates = list()
-                    enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
-                    print(enemy_coordinates)
-                if c == "p":
-                    hero = Player(300, 650, 50, 50 , 15, breakable)
-                    pl_items.add(hero)
-                if c == "l":
-                    l = Settings(x, y, texture_size, texture_size, 0, breakable)
-                if c == "|":
-                    p = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    items.add(p)
-            x += texture_size#  ікси плюс 40
-        y += texture_size#  перміщаємось в низ
-        x = 0#  ікси 0
+            if c == "u":
+                u = Settings(x, y, texture_size, texture_size, 0, breakable)
+                unbreakables.append(u)
+                items.add(u)
+            if c == "g":
+                g = Settings(x, y,texture_size, texture_size, 0, breakable)
+                green_hides.append(g)
+                items.add(g)
+            if c == "d":
+                d = Settings(x, y, texture_size, texture_size, 0, breakable)
+                dark_white_hides.append(d)
+                items.add(d)
+            if c == "e":
+                enemy_coordinates = list()
+                enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
+                print(enemy_coordinates)
+            if c == "p":
+                hero = Player(300, 650, 50, 50 , 15, breakable)
+                pl_items.add(hero)
+            if c == "l":
+                l = Settings(x, y, texture_size, texture_size, 0, breakable)
+            if c == "|":
+                p = Settings(x, y, texture_size, texture_size, 0, breakable)
+                items.add(p)
+        x += texture_size#  ікси плюс 40
+    y += texture_size#  перміщаємось в низ
+    x = 0#  ікси 0

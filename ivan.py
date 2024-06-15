@@ -150,6 +150,6 @@ def start_pos(map: None):# стартова позиція
             if c == "|":
                 p = Settings(x, y, texture_size, texture_size, 0, breakable)
                 items.add(p)
-        x += texture_size#  ікси плюс 40
-    y += texture_size#  перміщаємось в низ
-    x = 0#  ікси 0
+            x += texture_size#  ікси плюс 40
+        y += texture_size#  перміщаємось в низ
+        x = 0#  ікси 0

@@ -3,13 +3,13 @@ import time
 from maxym import TextureButton
 from random import choices, choice
 from pygame import*# імпорт пайгейма
-from oleksii import text_life
+
 init()# ініціалізуєм пайгейм
 
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
-    "__________________",#Unbreakeble - u
+    "_________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
@@ -61,11 +61,11 @@ level1_width = len(map_lvl1[0]) * texture_size
 level1_height = len(map_lvl1) * texture_size
 
 #розміри екрану
-W = 1280
-H = 720
+
 pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 # створюєм вікно
-window = display.set_mode((W, H))
+#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+#W, H = pg.display.Info().current_w, pg.display.Info().current_h
 
 """-------------------------------------Класи---------------------------------------"""
 class Blokcs(sprite.Sprite):# основний клас тут основні параметри
@@ -81,7 +81,7 @@ class Blokcs(sprite.Sprite):# основний клас тут основні п
         self.rect.x = x
         self.rect.y = y
 
-    def reset(self):# тут прописана функція ресет
+    def reset(self, window):# тут прописана функція ресет
         window.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(Blokcs):# клас гравця з супер класом сетінгс
@@ -112,9 +112,7 @@ y = 0
 
 def start_pos(map: None):# стартова позиція
     global items, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
-    window.fill((116, 85, 2))
-    pause_btn.draw(window)
-    window.blit(text_life, (700, 10))
+
 
 
     breakables = list()
@@ -132,33 +130,30 @@ def start_pos(map: None):# стартова позиція
                 b = Blokcs(x,y, texture_size, texture_size, 0, breakable, True, False)# створюєм раба платформа
                 breakables.append(b)
                 items.add(b)
-            if c == "u":
-                u = Blokcs(x, y, texture_size, texture_size, 0, unbreakable, False, False)
-                unbreakables.append(u)
-                items.add(u)
-            if c == "g":
-                g = Blokcs(x, y,texture_size, texture_size, 0, green_hide, True, True)
-                green_hides.append(g)
-                items.add(g)
-            if c == "d":
-                d = Blokcs(x, y, texture_size, texture_size, 0, breakable, True, True)
-                dark_white_hides.append(d)
-                items.add(d)
-            if c == "e":
-                enemy_coordinates = list()
-                enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
-                print(enemy_coordinates)
-            if c == "p":
-                hero = Player(300, 650, 50, 50 , 15, breakable, True)
-                pl_items.add(hero)
-            if c == "l":
-                l = Blokcs(x, y, texture_size, texture_size, 0, breakable)
-            if c == "|":
-                p = Blokcs(x, y, texture_size, texture_size, 0, breakable, False)
-                items.add(p)
-            if c == "_":
-                u = Blokcs(x, y, texture_size, texture_size, 0, breakable, False)
-                items.add(u)
+                if c == "u":
+                    u = Settings(x, y, texture_size, texture_size, 0, breakable)
+                    unbreakables.append(u)
+                    items.add(u)
+                if c == "g":
+                    g = Settings(x, y,texture_size, texture_size, 0, breakable)
+                    green_hides.append(g)
+                    items.add(g)
+                if c == "d":
+                    d = Settings(x, y, texture_size, texture_size, 0, breakable)
+                    dark_white_hides.append(d)
+                    items.add(d)
+                if c == "e":
+                    enemy_coordinates = list()
+                    enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
+                    print(enemy_coordinates)
+                if c == "p":
+                    hero = Player(300, 650, 50, 50 , 15, breakable)
+                    pl_items.add(hero)
+                if c == "l":
+                    l = Settings(x, y, texture_size, texture_size, 0, breakable)
+                if c == "|":
+                    p = Settings(x, y, texture_size, texture_size, 0, breakable)
+                    items.add(p)
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0

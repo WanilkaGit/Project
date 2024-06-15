@@ -23,6 +23,8 @@ game = True
 
 scene = 0
 
+clock = pg.time.Clock()
+
 last_call_time = pg.time.get_ticks()
 interval = 100
 
@@ -51,38 +53,49 @@ while game:
                 if constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            if scene == 3:
+            if scene == 3:          #якщо правила гри
                 if back_button_from_htp.is_pressed(event.pos):
                     scene = 0
 
-            if scene == 2:
+            if scene == 2:          #якщо налаштування
                 if back_button_from_settings.is_pressed(event.pos):
                     scene = 0
 
-            if scene == 1:
+            if scene == 1:          #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
-            if scene == 4:
+            if scene == 4:              #якщо пауза
                 if start_button.is_pressed(event.pos):
                     scene = 1
                 if exit_to_main.is_pressed(event.pos):
                     scene = 0
-            if scene == 5:
+                if restart_btn.is_pressed(event.pos):
+                    restart()
+                    restart_text.reset(window)
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
+                    
+
+            if scene == 5:          #якщо редактор карт
                 if save_map_button.is_pressed(event.pos):
                     save_map()
 
-            #if scene == 6:
-                #if restart_btn.is_pressed(event.pos):
-                # restart()
-                #  restart_text.reset()
-                #  restart_text.plays()
-                #  if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-                #     restart_text.stop()
+            if scene == 6:      #якщо рестарт гри
+                if restart_btn.is_pressed(event.pos):
+                    restart()
+                    restart_text.reset(window)
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
                 
     if scene == 0:
-        main_menu()
+        main_menu(window)
     elif scene == 1:
+        window.fill((135, 95, 22))
+        pause_btn.draw(window)
+        #window.blit(text_life, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
             is_it_is = False
@@ -98,21 +111,22 @@ while game:
             interval = randint(100, 500) 
 
     elif scene == 2:
-        setting()
+        setting(window)
     elif scene == 3:
         display_rules(window)
     elif scene == 4:
-        pause()
+        pause(window)
         
     elif scene == 5:
         map_constructor(window)
     
 
     if hero_lives == 0:
-        lose()
-        scene = 6
+        lose(window)
 
-
+    fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
+    window.blit(fps, (900, 700))
+    clock.tick(60)
     pg.display.update()
 pg.quit()
 

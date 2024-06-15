@@ -1,8 +1,8 @@
 import pygame as pg
+from sonya import restart_btn, exit_to_main
 
 pg.init()
-
-hero_lives = 3
+pg.font.init()
 
 WHITE = (255, 255, 255)
 
@@ -10,11 +10,16 @@ WHITE = (255, 255, 255)
 screen = pg.display.set_mode()
 font = pg.font.SysFont('Aharoni', 65, True, False) 
 text_game_over = font.render("You lose", True, (51, 225, 249)) 
-text_game_over1 = font.render("Press r to restart", True, (51, 225, 249)) 
-text_life = font.render('Life: ' + str(hero_lives), True, (0,0,0))
 
-def lose():
-    screen.blit(text_game_over, [20, 170])
-    screen.blit(text_game_over1, [20, 200])
+
+def lose(window):
+    global scene
+    window.blit(text_game_over, [20, 170])
+    restart_btn.draw(window)
+    exit_to_main.draw(window)
+    
+
+
+
     
 

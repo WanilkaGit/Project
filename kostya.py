@@ -5,7 +5,7 @@ font = pg.font.Font(None, 36)
 back_button_from_htp = TextureButton(630, 300, 100, 100, "assets\\textures\\ui\\back.png")
 
 def display_rules(window):
-    window.fill((100, 100, 0))
+    window.fill((135, 95, 22))
     
     rules = [
         "Складність гри можна обрати в налаштуваннях",

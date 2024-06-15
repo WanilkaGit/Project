@@ -96,8 +96,9 @@ class Player(Blocks):# клас гравця з супер класом сеті
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
-        if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
-            self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
+
+        if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
+            self.rect.y -= self.speed#
             if move_player1 % 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1
@@ -105,9 +106,8 @@ class Player(Blocks):# клас гравця з супер класом сеті
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1
 
-        if key_pressed[K_d]:#кнопка в низ натиснута
-            self.rect.x += self.speed# х додаєм швидкість рухаємось
-            # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
+        if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
+            self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
             if move_player1 % 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1
@@ -124,8 +124,9 @@ class Player(Blocks):# клас гравця з супер класом сеті
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1
 
-        if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
-            self.rect.y -= self.speed#
+        if key_pressed[K_d]:#кнопка в низ натиснута
+            self.rect.x += self.speed# х додаєм швидкість рухаємось
+            # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
             if move_player1 % 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
                 move_player1 += 1

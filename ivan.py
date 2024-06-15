@@ -9,7 +9,7 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map build--------------------------------------"""
 map_lvl1 = [
-    "_________________",#Unbreakeble - u
+    "__________________",#Unbreakeble - u
     "|gggggggggggggggg|",#breakeable - b
     "|gb bbbb  bbbb bg|",#green_hide - g
     "|gb b  b  b  b bg|",#dark_white_hide - d
@@ -49,6 +49,8 @@ unbreakable = choice([
                 "assets/textures/blocks/obsidian1.png",
                 "assets/textures/blocks/obsidian2.png"])
 
+green_hide = "assets/textures/blocks/kuvsinka.png"
+
 
 font1 = font.SysFont("Arial", 35)
 font2 = font.SysFont(('font/ariblk.ttf'), 60)
@@ -66,13 +68,15 @@ pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", f
 window = display.set_mode((W, H))
 
 """-------------------------------------Класи---------------------------------------"""
-class Settings(sprite.Sprite):# основний клас тут основні параметри
-    def __init__(self, x, y, width, height, speed, img):
+class Blokcs(sprite.Sprite):# основний клас тут основні параметри
+    def __init__(self, x, y, width, height, speed, img, breaking_ables: bool, ghost_skills: bool):
         super().__init__()
         self.width = width
         self.height = height
         self.speed = speed
         self.image = transform.scale(image.load(img), (self.width, self.height))
+        self.breaking_ables = breaking_ables
+        self.ghost_skills = ghost_skills
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -80,7 +84,7 @@ class Settings(sprite.Sprite):# основний клас тут основні 
     def reset(self):# тут прописана функція ресет
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-class Player(Settings):# клас гравця з супер класом сетінгс
+class Player(Blokcs):# клас гравця з супер класом сетінгс
     def r_l(self):# тут буде переміщення в право ліво
         key_pressed = key.get_pressed()# задаєм в зміну значення
         if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
@@ -125,33 +129,36 @@ def start_pos(map: None):# стартова позиція
     for r in map:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
             if c == "b":# дім полу
-                b = Settings(x,y, texture_size, texture_size, 0, breakable)# створюєм раба платформа
+                b = Blokcs(x,y, texture_size, texture_size, 0, breakable, True, False)# створюєм раба платформа
                 breakables.append(b)
                 items.add(b)
-                if c == "u":
-                    u = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    unbreakables.append(u)
-                    items.add(u)
-                if c == "g":
-                    g = Settings(x, y,texture_size, texture_size, 0, breakable)
-                    green_hides.append(g)
-                    items.add(g)
-                if c == "d":
-                    d = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    dark_white_hides.append(d)
-                    items.add(d)
-                if c == "e":
-                    enemy_coordinates = list()
-                    enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
-                    print(enemy_coordinates)
-                if c == "p":
-                    hero = Player(300, 650, 50, 50 , 15, breakable)
-                    pl_items.add(hero)
-                if c == "l":
-                    l = Settings(x, y, texture_size, texture_size, 0, breakable)
-                if c == "|":
-                    p = Settings(x, y, texture_size, texture_size, 0, breakable)
-                    items.add(p)
+            if c == "u":
+                u = Blokcs(x, y, texture_size, texture_size, 0, unbreakable, False, False)
+                unbreakables.append(u)
+                items.add(u)
+            if c == "g":
+                g = Blokcs(x, y,texture_size, texture_size, 0, green_hide, True, True)
+                green_hides.append(g)
+                items.add(g)
+            if c == "d":
+                d = Blokcs(x, y, texture_size, texture_size, 0, breakable, True, True)
+                dark_white_hides.append(d)
+                items.add(d)
+            if c == "e":
+                enemy_coordinates = list()
+                enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
+                print(enemy_coordinates)
+            if c == "p":
+                hero = Player(300, 650, 50, 50 , 15, breakable, True)
+                pl_items.add(hero)
+            if c == "l":
+                l = Blokcs(x, y, texture_size, texture_size, 0, breakable)
+            if c == "|":
+                p = Blokcs(x, y, texture_size, texture_size, 0, breakable, False)
+                items.add(p)
+            if c == "_":
+                u = Blokcs(x, y, texture_size, texture_size, 0, breakable, False)
+                items.add(u)
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0

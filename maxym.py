@@ -464,9 +464,11 @@ def save_map():
         with open('map.json', 'w') as file:
             json.dump(block_map, file)
 
+from ivan import start_pos
+
 #сцена конструктора
 def map_constructor(display: pg.Surface):
-    global choice_block, redacted
+    global choice_block, redacted, constructor_blocks
     mouse_pos = pg.mouse.get_pos()
     display.fill((0,0,0))
     pg.draw.rect(display, (100,100,100), canvas)
@@ -515,7 +517,12 @@ def map_constructor(display: pg.Surface):
         redacted = False
         with open('map.json', 'w') as file:
             json.dump(block_map, file)
-            
+    elif pg.key.get_pressed()[pg.K_l] and redacted:
+        with open('map.json', 'r') as file:
+            block_map = json.load(file)
+            file.close()
+        constructor_blocks = start_pos(block_map)
+
     brekable_button.draw(display)
     unbrekable_button.draw(display)
     constructor_blocks.draw(display)

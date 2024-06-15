@@ -157,3 +157,4 @@ def start_pos(map: None):# стартова позиція
             x += texture_size#  ікси плюс 40
         y += texture_size#  перміщаємось в низ
         x = 0#  ікси 0
+    return items

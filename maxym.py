@@ -2,10 +2,6 @@ import pygame as pg
 from random import randint, choice
 from typing import Union, Optional, Tuple
 import json
-<<<<<<< HEAD
-
-=======
->>>>>>> f98753cb2777d6da665adafd27cc05d3d1be2ccd
 pg.font.init()
 font = pg.font.Font(None, 32)
 

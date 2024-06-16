@@ -2,7 +2,7 @@ import pygame as pg
 from maxym import TextureButton
 
 font = pg.font.Font(None, 36)
-back_button_from_htp = TextureButton(630, 300, 230, 100, "assets\\textures\\ui\\back2.png")
+back_button_from_htp = TextureButton(20, 760, 230, 100, "assets\\textures\\ui\\back2.png")
 
 def render_text_with_spacing(text, font, color, spacing):
     text_surface = pg.Surface((font.size(text)[0] + spacing * (len(text) - 1), font.size(text)[1]), pg.SRCALPHA)
@@ -16,12 +16,17 @@ def render_text_with_spacing(text, font, color, spacing):
 
     return text_surface
 
+window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+W, H = pg.display.Info().current_w, pg.display.Info().current_h
+background_image = pg.image.load(r'assets\textures\background.jpg')
+background_image = pg.transform.scale(background_image, (W, H))
+
 def display_rules(window):
-    window.fill((135, 95, 22))
+    window.blit(background_image, (0, 0))
     
     rules = [
         "Сложность игры можно настроить в настройках.",
-        "Темные блоки не ломаются. Только белые!.",
+        "Темные блоки не ломаются. Только белые!",
         "Правила гри: Отбивайтесь от вражеских танков защищая свою базу!",
         "Вверх - W",
         "Вниз - S",
@@ -30,7 +35,7 @@ def display_rules(window):
         "Стрелять - R"
     ]
     
-    font_path = r"fonts\tankrusbyme.otf"
+    font_path = r"assets\fonts\tankrusbyme.otf"
     font_size = 36
     font = pg.font.Font(font_path, font_size)
     

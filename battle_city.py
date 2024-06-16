@@ -60,7 +60,7 @@ while game:
             elif scene == 2:          #якщо налаштування
                 if back_button_from_settings.is_pressed(event.pos):
                     scene = 0
-     
+
             elif scene == 3:          #якщо правила гри
                 if back_button_from_htp.is_pressed(event.pos):
                     scene = 0

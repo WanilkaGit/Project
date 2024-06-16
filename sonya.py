@@ -1,6 +1,7 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import items, font2, players
+from ivan import items, font2, players, map_lvl1
+from random import randint
 pg.init()
 
 
@@ -125,5 +126,16 @@ def games():
     players.update()
     items.draw(window)
     enemys.update(window)
+
+coin_img = pg.image.load("assets\\textures\\ui\\coin.png")
+class Buster:
+    def __init__(self, image, x, y, time):
+        self.image = image
+        self.x = x
+        self.y = y
+        self.time = time
+    
+
+
 
 

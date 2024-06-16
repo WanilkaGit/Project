@@ -38,7 +38,7 @@ map_lvl1 = [
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 move_player1 = 1
-texture_size = 37
+texture_size = 32
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * texture_size
 level1_height = len(map_lvl1) * texture_size
@@ -163,7 +163,6 @@ def start_pos(map: None):# стартова позиція
         for c in r:#  стучим в двері перевіряєм чи
             if c == " ":
                 empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
-                print(empty_coordinates)
             if c == "b":# дім полу
                 b = Blocks(x,y, texture_size, texture_size, 0, breakable, True, False)# створюєм раба платформа
                 breakables.append(b)
@@ -182,7 +181,6 @@ def start_pos(map: None):# стартова позиція
                 items.add(d)
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
-                print(enemy_coordinates)
             if c == "p":
                 hero = Player(x, y, 34, 34 , 1, player1, True, False)
                 players.add(hero)

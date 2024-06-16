@@ -71,11 +71,7 @@ while game:
                 elif exit_to_main.is_pressed(event.pos):
                     scene = 0
                 if restart_btn.is_pressed(event.pos):
-                    restart()
-                    restart_text.reset(window)
-                    restart_text.plays()
-                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-                        restart_text.stop()
+                    scene = 6
                     
 
             if scene == 5:          #якщо редактор карт
@@ -84,32 +80,17 @@ while game:
                 elif load_map_button.is_pressed(event.pos):
                     load_constructor_map()
                 elif main_menu_button.is_pressed(event.pos):
+                    map_constructor_uninit()
                     scene = 0
-
-            if scene == 6:      #якщо рестарт гри
-                if restart_btn.is_pressed(event.pos):
-                    restart()
-                    restart_text.reset(window)
-                    restart_text.plays()
-                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
-                        restart_text.stop()
                 
     if scene == 0:
         main_menu(window)
     elif scene == 1:
-        window.fill((135, 95, 22))
-        window.blit(score_txt, (1100, 40))
-        pause_btn.draw(window)
-        window.blit(life_txt, (700, 10))
+        games()
         if is_it_is:
             start_pos(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
-        players.draw(window)
-        players.update()
-        items.draw(window)
-        enemys.update(window)
-
         
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:

@@ -81,6 +81,28 @@ class TextureButton(pg.sprite.Sprite):
         '''повертає bool в залежності від того пересікся курсор миші з кнопкою чи ні(так це тойже collidepoint але так як на мене зручніше)'''
         return self.rect.collidepoint(pos)
 
+class ButtonGroup:
+    '''
+    Клас для створення гриппи кнопок
+
+    при створенні вкажи кнопки які будуть до нього входити через кому
+
+    для відмальовки кнопок використовуй метод draw() цього классу
+
+    також є метод check_group_pressed він повертає натиснуту кнопку я не знаю навщо зробив його
+    '''
+    def __init__(self, *buttons: Union[Button, TextureButton]):
+        self.buttons = buttons
+    
+    def draw(self, display: pg.Surface):
+        for button in self.buttons:
+            button.draw(display)
+    
+    def check_group_pressed(self, pos):
+        for button in self.buttons:
+            if button.rect.collidepoint(pos):
+                return button
+
 class CheckButton:
     '''
     Клас для перемикача сам по собі існувати не може для нормальної функціональності його треба додати до представника классу CheckButtonGroup
@@ -441,7 +463,6 @@ class ConstructorBlock(pg.sprite.Sprite):
         self.rect.y = y
 
 choice_block = 0
-redacted = False
 
 brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
@@ -453,6 +474,8 @@ save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 1
 load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
 
 constructor_blocks = pg.sprite.Group()
+
+constructor_buttons = ButtonGroup(brekable_button, unbrekable_button, green_hide_button, main_menu_button, save_map_button, load_map_button)
 
 texture_size = 40
 
@@ -537,10 +560,10 @@ def map_constructor(display: pg.Surface):
                 if constructor_block.rect.collidepoint(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size)):
                     constructor_block.kill()
 
-    brekable_button.draw(display)
-    unbrekable_button.draw(display)
-    green_hide_button.draw(display)
+    constructor_buttons.draw(display)
     constructor_blocks.draw(display)
-    save_map_button.draw(display)
-    load_map_button.draw(display)
-    main_menu_button.draw(display)
+
+def map_constructor_uninit():
+    global choice_block, constructor_blocks
+    choice_block = 0
+    constructor_blocks = pg.sprite.Group()

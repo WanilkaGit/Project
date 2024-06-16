@@ -25,7 +25,7 @@ map_lvl1 = [
     "|  bub  ggg      ugb b  b  b  b bgu      b     b  |",
     "|  ggg       bub ugb bu      ub bgu   bbbb  bbbb  |",
     "|       bbb  ggg ugb b  bbb   b bgu               |",
-    "|       blb      uggg    ggggggggggggggggggggggggg|",
+    "|      pblb      uggg    ggggggggggggggggggggggggg|",
     "___________________________________________________"
 ]
 

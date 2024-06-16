@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import items
+from ivan import items, font2, players
 pg.init()
 
 
@@ -21,6 +21,8 @@ score_txt = font.render("Score: "+str(score), True, (0,0,0))
 time_delay = 2
 hero_lives = 3
 life_txt = font.render('Life: ' + str(hero_lives), True, (0,0,0))
+
+pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
 
 ### об'єкти кнопок ###
                     ###  кнопки, що в головному меню  ###
@@ -110,8 +112,18 @@ def pause(window):            #меню паузи
     restart_btn.draw(window)
     
 def restart():      #рестарт гри
-    global score, hero_livess
+    global score, hero_lives
     score = 0
     hero_lives = 3
+
+def games():
+    window.fill((93, 62, 10))
+    window.blit(score_txt, (1000, 90))
+    pause_btn.draw(window)
+    window.blit(life_txt, (1000, 140))
+    players.draw(window)
+    players.update()
+    items.draw(window)
+    enemys.update(window)
 
 

@@ -86,19 +86,11 @@ while game:
     if scene == 0:
         main_menu(window)
     elif scene == 1:
-        window.fill((93, 62, 10))
-        window.blit(score_txt, (1000, 90))
-        pause_btn.draw(window)
-        window.blit(life_txt, (1000, 140))
+        games()
         if is_it_is:
             start_pos(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
-        players.draw(window)
-        players.update()
-        items.draw(window)
-        enemys.update(window)
-
         
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:

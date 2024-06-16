@@ -77,7 +77,7 @@ font2 = font.SysFont(('font/ariblk.ttf'), 60)
 
 
 """ ----------------------------------Кнопки-------------------------------------"""
-pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
+
 # створюєм вікно
 #window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 #W, H = pg.display.Info().current_w, pg.display.Info().current_h

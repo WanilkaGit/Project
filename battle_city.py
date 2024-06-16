@@ -84,6 +84,7 @@ while game:
                 elif load_map_button.is_pressed(event.pos):
                     load_constructor_map()
                 elif main_menu_button.is_pressed(event.pos):
+                    map_constructor_uninit()
                     scene = 0
 
             if scene == 6:      #якщо рестарт гри

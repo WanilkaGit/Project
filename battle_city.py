@@ -96,7 +96,7 @@ while game:
         if current_time - last_call_time > interval:
             last_call_time = current_time
             enemys.spawn()
-            interval = randint(100, 2500) 
+            interval = randint(100, 2500)
 
     elif scene == 2:
         setting(window)
@@ -126,6 +126,6 @@ while game:
 
     fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
     window.blit(fps, (10, 10))
-    clock.tick(60)
+    clock.tick(30)
     pg.display.update()
 pg.quit()

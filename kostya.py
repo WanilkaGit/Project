@@ -35,12 +35,12 @@ def display_rules(window):
         "Стріляти - R"
     ]
     
-    font_path = r"assets\textures\fonts\TankLite-Regular.ttf"
+    font_path = r"assets\textures\fonts\Blazma-Regular.otf"
     font_size = 36
     font = pg.font.Font(font_path, font_size)
     
     text_color = (255, 255, 255)
-    letter_spacing = 5
+    letter_spacing = 1
 
     y_offset = 50
     for rule in rules:

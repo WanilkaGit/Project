@@ -18,10 +18,10 @@ background_image = pg.transform.scale(background_image, (W, H))
 score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
-life = 3
-life_txt = font.render('Life: ' + str(life), True, (0,0,0))
 time_delay = 2
 hero_lives = 3
+life_txt = font.render('Life: ' + str(hero_lives), True, (0,0,0))
+
 ### об'єкти кнопок ###
                     ###  кнопки, що в головному меню  ###
 play_btn = Button(630, 200, 260, 100, font, 'Play', (100, 10, 10))
@@ -112,6 +112,6 @@ def pause(window):            #меню паузи
 def restart():      #рестарт гри
     global score, hero_livess
     score = 0
-    life = 3
+    hero_lives = 3
 
 

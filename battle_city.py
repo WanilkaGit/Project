@@ -41,45 +41,58 @@ while game:
                 if exit_btn.is_pressed(event.pos):
                     game = False 
 
-                if setting_btn.is_pressed(event.pos):
+                elif setting_btn.is_pressed(event.pos):
                     scene = 2
 
-                if how_to_play_btn.is_pressed(event.pos):
+                elif how_to_play_btn.is_pressed(event.pos):
                     scene = 3
 
-                if play_btn.is_pressed(event.pos):
+                elif play_btn.is_pressed(event.pos):
                     scene = 1
 
                 if constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            if scene == 3:          #якщо правила гри
-                if back_button_from_htp.is_pressed(event.pos):
-                    scene = 0
-
-            if scene == 2:          #якщо налаштування
-                if back_button_from_settings.is_pressed(event.pos):
-                    scene = 0
-
             if scene == 1:          #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
-            if scene == 4:              #якщо пауза
+            elif scene == 2:          #якщо налаштування
+                if back_button_from_settings.is_pressed(event.pos):
+                    scene = 0
+     
+            elif scene == 3:          #якщо правила гри
+                if back_button_from_htp.is_pressed(event.pos):
+                    scene = 0
+
+            elif scene == 4:              #якщо пауза
                 if start_button.is_pressed(event.pos):
                     scene = 1
-                if exit_to_main.is_pressed(event.pos):
+                elif exit_to_main.is_pressed(event.pos):
                     scene = 0
                 if restart_btn.is_pressed(event.pos):
-                    scene = 6
+                    restart()
+                    restart_text.reset(window)
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
+                    
+
             if scene == 5:          #якщо редактор карт
                 if save_map_button.is_pressed(event.pos):
                     save_map()
+                elif load_map_button.is_pressed(event.pos):
+                    load_constructor_map()
+                elif main_menu_button.is_pressed(event.pos):
+                    scene = 0
 
-            #if scene == 6:      #якщо рестарт гри
-                #if restart_btn.is_pressed(event.pos):
-                    #restart()
-
+            if scene == 6:      #якщо рестарт гри
+                if restart_btn.is_pressed(event.pos):
+                    restart()
+                    restart_text.reset(window)
+                    restart_text.plays()
+                    if restart_text.rect.x >= 550 and restart_text.rect.x <= 1000:
+                        restart_text.stop()
                 
     if scene == 0:
         main_menu(window)

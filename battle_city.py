@@ -130,8 +130,8 @@ while game:
         map_constructor(window)
     
     elif scene == 6:
-       # restart()
-        #scene = 1
+        restart()
+        scene = 1
         restart_text.reset(window)
         
         if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:

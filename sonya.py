@@ -5,6 +5,11 @@ pg.init()
 
 font = pg.font.Font(None, 32)
 pg.font.init()
+
+font_path = r"assets\textures\fonts\Blazma-Regular.otf"
+font_size = 36
+font = pg.font.Font(font_path, font_size)
+
 score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
@@ -12,11 +17,11 @@ time_delay = 2
 hero_lives = 3
 ### об'єкти кнопок ###
                     ###  кнопки, що в головному меню  ###
-how_to_play_btn = Button(630, 200, 200, 80, font, 'How to play', (100, 10, 10))
-play_btn = Button(630, 300, 200, 80, font, 'Play', (100, 10, 10))
-setting_btn = Button(630, 400, 200, 80, font, 'Settings', (100, 10, 10))
-exit_btn = Button(630, 500, 200, 80, font, 'Exit', (100, 10, 10))
-constructor_button = Button(630, 700, 200, 80, font, 'Constructor', (100, 10, 10))
+how_to_play_btn = Button(630, 200, 260, 100, font, 'How to play', (100, 10, 10))
+play_btn = Button(630, 300, 260, 100, font, 'Play', (100, 10, 10))
+setting_btn = Button(630, 400, 260, 100, font, 'Settings', (100, 10, 10))
+exit_btn = Button(630, 500, 260, 100, font, 'Exit', (100, 10, 10))
+constructor_button = Button(630, 700, 260, 100, font, 'Constructor', (100, 10, 10))
 
 back_button_from_settings = TextureButton(630, 600, 100, 100, "assets\\textures\\ui\\back.png", font)
                     ###  кнопки, що в меню паузи  ###
@@ -33,7 +38,6 @@ bullet = pg.transform.scale(pg.image.load("assets\\textures\\blocks\\bullet.png"
 bullet_obj = Bullet(bullet, 3, damage = 1)
 enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, items)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
-
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
 

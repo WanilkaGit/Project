@@ -41,34 +41,34 @@ while game:
                 if exit_btn.is_pressed(event.pos):
                     game = False 
 
-                if setting_btn.is_pressed(event.pos):
+                elif setting_btn.is_pressed(event.pos):
                     scene = 2
 
-                if how_to_play_btn.is_pressed(event.pos):
+                elif how_to_play_btn.is_pressed(event.pos):
                     scene = 3
 
-                if play_btn.is_pressed(event.pos):
+                elif play_btn.is_pressed(event.pos):
                     scene = 1
 
                 if constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            if scene == 3:          #якщо правила гри
-                if back_button_from_htp.is_pressed(event.pos):
-                    scene = 0
-
-            if scene == 2:          #якщо налаштування
-                if back_button_from_settings.is_pressed(event.pos):
-                    scene = 0
-
             if scene == 1:          #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
-            if scene == 4:              #якщо пауза
+            elif scene == 2:          #якщо налаштування
+                if back_button_from_settings.is_pressed(event.pos):
+                    scene = 0
+
+            elif scene == 3:          #якщо правила гри
+                if back_button_from_htp.is_pressed(event.pos):
+                    scene = 0
+
+            elif scene == 4:              #якщо пауза
                 if start_button.is_pressed(event.pos):
                     scene = 1
-                if exit_to_main.is_pressed(event.pos):
+                elif exit_to_main.is_pressed(event.pos):
                     scene = 0
                 if restart_btn.is_pressed(event.pos):
                     restart()
@@ -81,6 +81,10 @@ while game:
             if scene == 5:          #якщо редактор карт
                 if save_map_button.is_pressed(event.pos):
                     save_map()
+                elif load_map_button.is_pressed(event.pos):
+                    load_constructor_map()
+                elif main_menu_button.is_pressed(event.pos):
+                    scene = 0
 
             if scene == 6:      #якщо рестарт гри
                 if restart_btn.is_pressed(event.pos):
@@ -96,7 +100,7 @@ while game:
         window.fill((135, 95, 22))
         window.blit(score_txt, (1100, 40))
         pause_btn.draw(window)
-        #window.blit(text_life, (700, 10))
+        window.blit(life_txt, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates
@@ -115,14 +119,26 @@ while game:
 
     elif scene == 2:
         setting(window)
+
     elif scene == 3:
         display_rules(window)
+
     elif scene == 4:
         pause(window)
-        
+    
     elif scene == 5:
         map_constructor(window)
     
+    elif scene == 6:
+        restart()
+        scene = 1
+        restart_text.reset(window)
+        
+        if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:
+            restart_text.stop()
+        restart_text.plays()
+        
+        
 
     if hero_lives == 0:
         lose(window)

@@ -445,9 +445,16 @@ redacted = False
 
 brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
+green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+
+main_menu_button = Button(1, 1, 180, 70, font, 'Назад в меню', (100, 10, 10))
+
 save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
+load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
 
 constructor_blocks = pg.sprite.Group()
+
+texture_size = 40
 
 canvas = pg.rect.Rect(81, 81, 639, 639)
 
@@ -459,7 +466,7 @@ def save_map():
             tronul = False
             for x in range(2,18):
                 for block in constructor_blocks:
-                    if block.rect.collidepoint(x * 40 , y * 40):
+                    if block.rect.collidepoint(x * texture_size , y * texture_size):
                         tronul = True
                         row.append(block.label)
                 if not tronul:
@@ -470,8 +477,31 @@ def save_map():
             print(f'{row},')
         with open('map.json', 'w') as file:
             json.dump(block_map, file)
+            file.close()
 
-from ivan import start_pos
+def load_constructor_map():
+    global constructor_blocks
+    with open('map.json', 'r') as file:
+        block_map = json.load(file)
+        file.close()
+    x = 80
+    y = 80
+    pre_blocks = pg.sprite.Group()
+    for row in block_map:
+        for block in row:
+            if block == 'b':
+                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                pre_blocks.add(block)
+            elif block == 'u':
+                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                pre_blocks.add(block)
+            elif block == 'g':
+                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                pre_blocks.add(block)
+            x += texture_size
+        y += texture_size
+        x = 80
+    constructor_blocks = pre_blocks
 
 #сцена конструктора
 def map_constructor(display: pg.Surface):
@@ -480,57 +510,37 @@ def map_constructor(display: pg.Surface):
     display.fill((0,0,0))
     pg.draw.rect(display, (100,100,100), canvas)
     if pg.mouse.get_pressed()[0]:
-        redacted = True
         if brekable_button.is_pressed(mouse_pos):
             choice_block = 1
         elif unbrekable_button.is_pressed(mouse_pos):
             choice_block = 2
+        elif green_hide_button.is_pressed(mouse_pos):
+            choice_block = 3
 
 
         if canvas.collidepoint(mouse_pos):
             for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size)):
                     constructor_block.kill()
             if choice_block == 1:
-                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
                 constructor_blocks.add(block)
             elif choice_block == 2:
-                block = ConstructorBlock(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40), 40, 40, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                constructor_blocks.add(block)
+            elif choice_block == 3:
+                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
                 constructor_blocks.add(block)
         
     elif pg.mouse.get_pressed()[2]:
-        redacted = True
         for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], 40), round_step(mouse_pos[1], 40)):
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size)):
                     constructor_block.kill()
-        
-    elif pg.key.get_pressed()[pg.K_s] and redacted:
-        row = []
-        block_map = []
-        for y in range(2, 18):
-            row = []
-            tronul = False
-            for x in range(2,18):
-                for block in constructor_blocks:
-                    if block.rect.collidepoint(x * 40 , y * 40):
-                        tronul = True
-                        row.append(block.label)
-                if not tronul:
-                    row.append(' ')
-                tronul = False
-            block_map.append(row)
-        for row in block_map:
-            print(f'{row},')
-        redacted = False
-        with open('map.json', 'w') as file:
-            json.dump(block_map, file)
-    elif pg.key.get_pressed()[pg.K_l] and redacted:
-        with open('map.json', 'r') as file:
-            block_map = json.load(file)
-            file.close()
-        constructor_blocks = start_pos(block_map)
 
     brekable_button.draw(display)
     unbrekable_button.draw(display)
+    green_hide_button.draw(display)
     constructor_blocks.draw(display)
     save_map_button.draw(display)
+    load_map_button.draw(display)
+    main_menu_button.draw(display)

@@ -70,7 +70,7 @@ while game:
                     scene = 1
                 elif exit_to_main.is_pressed(event.pos):
                     scene = 0
-                elif restart_btn.is_pressed(event.pos):
+                if restart_btn.is_pressed(event.pos):
                     restart()
                     restart_text.reset(window)
                     restart_text.plays()
@@ -86,7 +86,7 @@ while game:
                 elif main_menu_button.is_pressed(event.pos):
                     scene = 0
 
-            elif scene == 6:      #якщо рестарт гри
+            if scene == 6:      #якщо рестарт гри
                 if restart_btn.is_pressed(event.pos):
                     restart()
                     restart_text.reset(window)
@@ -100,7 +100,7 @@ while game:
         window.fill((135, 95, 22))
         window.blit(score_txt, (1100, 40))
         pause_btn.draw(window)
-        #window.blit(text_life, (700, 10))
+        window.blit(life_txt, (700, 10))
         if is_it_is:
             start_pos(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates
@@ -119,14 +119,26 @@ while game:
 
     elif scene == 2:
         setting(window)
+
     elif scene == 3:
         display_rules(window)
+
     elif scene == 4:
         pause(window)
-        
+    
     elif scene == 5:
         map_constructor(window)
     
+    elif scene == 6:
+        restart()
+        scene = 1
+        restart_text.reset(window)
+        
+        if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:
+            restart_text.stop()
+        restart_text.plays()
+        
+        
 
     if hero_lives == 0:
         lose(window)

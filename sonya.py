@@ -18,6 +18,8 @@ background_image = pg.transform.scale(background_image, (W, H))
 score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
+life = 3
+life_txt = font.render('Life: ' + str(life), True, (0,0,0))
 time_delay = 2
 hero_lives = 3
 ### об'єкти кнопок ###
@@ -52,7 +54,7 @@ class Jump_text(pg.sprite.Sprite):          #клас для з'являня т�
         self. width = width
         self. height = height
         self. speed = speed
-        self.image = restart_txt
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -64,10 +66,10 @@ class Jump_text(pg.sprite.Sprite):          #клас для з'являня т�
         self.rect.x += self.speed
 
     def stop(self):
-        pg.time.delay(7)
+        self.speed = 4
 
     
-restart_text = Jump_text(100, 300, 50, 50, time_delay, restart_txt)
+restart_text = Jump_text(100, 300, 50, 50, 10, restart_txt)
 
 def main_menu(window):        #головне меню гри
         # відмальовка об'єктів #
@@ -101,9 +103,9 @@ def pause(window):            #меню паузи
     restart_btn.draw(window)
     
 def restart():      #рестарт гри
-    global score, scene, hero_lives
+    global score, hero_lives
     score = 0
     hero_lives = 3
-    scene = 6
+
 
 

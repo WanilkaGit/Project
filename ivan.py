@@ -38,7 +38,7 @@ map_lvl1 = [
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 move_player1 = 1
-texture_size = 37.7
+texture_size = 37
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * texture_size
 level1_height = len(map_lvl1) * texture_size
@@ -147,19 +147,23 @@ def creating_lists_coordinate(list, x, y):
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 def start_pos(map: None):# стартова позиція
-    global items, players, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
+    global items, players, hero, unbreakables, breakables, green_hides, dark_white_hides, texture_size, enemy_coordinates, empty_coordinates
 
     breakables = list()
     unbreakables = list()
     green_hides = list()
     dark_white_hides = list()
-    enemy_coordinates = []
-    
+    enemy_coordinates = list()
+    empty_coordinates = list()
+
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
     y = 70
     for r in map:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
+            if c == " ":
+                empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
+                print(empty_coordinates)
             if c == "b":# дім полу
                 b = Blocks(x,y, texture_size, texture_size, 0, breakable, True, False)# створюєм раба платформа
                 breakables.append(b)

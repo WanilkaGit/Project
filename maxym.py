@@ -445,7 +445,7 @@ redacted = False
 
 brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
-green_hide = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
 
 main_menu_button = Button(1, 1, 180, 70, font, 'Назад в меню', (100, 10, 10))
 
@@ -477,6 +477,7 @@ def save_map():
             print(f'{row},')
         with open('map.json', 'w') as file:
             json.dump(block_map, file)
+            file.close()
 
 def load_constructor_map():
     global constructor_blocks
@@ -494,6 +495,9 @@ def load_constructor_map():
             elif block == 'u':
                 block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
                 pre_blocks.add(block)
+            elif block == 'g':
+                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                pre_blocks.add(block)
             x += texture_size
         y += texture_size
         x = 80
@@ -510,6 +514,8 @@ def map_constructor(display: pg.Surface):
             choice_block = 1
         elif unbrekable_button.is_pressed(mouse_pos):
             choice_block = 2
+        elif green_hide_button.is_pressed(mouse_pos):
+            choice_block = 3
 
 
         if canvas.collidepoint(mouse_pos):
@@ -533,6 +539,7 @@ def map_constructor(display: pg.Surface):
 
     brekable_button.draw(display)
     unbrekable_button.draw(display)
+    green_hide_button.draw(display)
     constructor_blocks.draw(display)
     save_map_button.draw(display)
     load_map_button.draw(display)

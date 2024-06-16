@@ -21,7 +21,6 @@ pg.display.set_icon(pg.image.load('assets\\textures\\fon1.jpg'))  #завант�
 back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 game = True
 
-
 scene = 0
 
 clock = pg.time.Clock()

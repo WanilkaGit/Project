@@ -9,30 +9,31 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [
-    "_________________",#Unbreakeble - u
-    "|gggggggggggggggg|",#breakeable - b
-    "|gbebbbbe bbbbebg|",#green_hide - g
-    "|gb b  b  b  b bg|",#dark_white_hide - d
-    "|gb bbbb  b  b bg|",#enemy - e
-    "|gb    b  b  b bg|",#player1 - p
-    "|gb bbbb  bbbb bg|",#lose - l
-    "|gb            bg|",#win - w
-    "|gb  bb bb bb  bg|",#кожен елемент цього
-    "|gb    bbbb    bg|",#є частиню карти окрім
-    "|gggggggggggggggg|",#пробілів
-    "|u     b b      u|",#що вони означають написано вище
-    "|g  b  bbb   b bg|",#теж зі знаком коментаря
-    "|gb b  b b   b bg|",
-    "|gb bu      ub bg|",
-    "|gb b  bbb   b bg|",
-    "|ggg  pblb    gg |",
-    "__________________"
+    "___________________________________________________",#Unbreakeble - u
+    "|dddddddddddddddddddddddddddddddddu dbbbbbwbbbbbd |",#breakeable - b
+    "|   bbbb  bbbb e udb bbbb  bbbb bdue ddbbbbbbbdd  |",#green_hide - g
+    "|u  b  b  b g u eudb bl b  b  b bdu  e ddbbbdd    |",#dark_white_hide - d
+    "|   bbbb  bbbb u udb bbbb  b  b bdu u   ddddd  u  |",#enemy - e
+    "|   b  b   g b   udb    b  b  b bdu  d            |",#player1 - p
+    "|   bbbb  bbbb   udb bbbb  bbbb bdu     u     g   |",#lose - l
+    "|  u             udb            bdu   b    g      |",#win - w
+    "|    bbbbbbbbbbb udb  bb bb bb  bdu     b      g  |",#кожен елемент цього
+    "|     uuuu   gg  udb    bbbb    bdu d       u     |",#є частиню карти окрім
+    "|  bbbg gg       uggggggggggggggggu   bbbb  bbbb  |",#пробілів
+    "|  gg       buub uu     b  b     uu   b  b  b     |",#що вони означають написано вище
+    "|    u  bub gggg ug  b  bbbb  b bgu   bbbb  bbbb  |",#теж зі знаком коментаря
+    "|  bub  ggg      ugb b  b  b  b bgu      b     b  |",
+    "|  ggg       bub ugb bu      ub bgu   bbbb  bbbb  |",
+    "|       bbb  ggg ugb b  bbb   b bgu               |",
+    "|       blb      uggg    ggggggggggggggggggggggggg|",
+    "___________________________________________________"
 ]
+
 
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 move_player1 = 1
-texture_size = 40
+texture_size = 37.7
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * texture_size
 level1_height = len(map_lvl1) * texture_size
@@ -140,9 +141,6 @@ def creating_lists_coordinate(list, x, y):
 
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
-x = 0
-y = 0
-
 def start_pos(map: None):# стартова позиція
     global items, players, hero, unbreakables, breakables, green_hides, dark_white_hides, enemys, texture_size, enemy_coordinates
 
@@ -154,7 +152,7 @@ def start_pos(map: None):# стартова позиція
     
     # всі списки дивіться в кінотеатрах(коді)
     x = 0#  координати для обєктів
-    y = 0
+    y = 70
     for r in map:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
             if c == "b":# дім полу

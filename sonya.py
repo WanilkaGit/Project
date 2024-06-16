@@ -112,7 +112,6 @@ def pause(window):            #меню паузи
 def restart():      #рестарт гри
     global score, hero_livess
     score = 0
-    hero_lives = 3
-
+    life = 3
 
 

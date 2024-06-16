@@ -3,7 +3,7 @@ from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawne
 from ivan import items
 pg.init()
 
-font = pg.font.Font(None, 50)
+
 pg.font.init()
 
 font_path = r"assets\textures\fonts\Blazma-Regular.otf"
@@ -48,6 +48,12 @@ enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
 
+            ### for pause menu  ###
+window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+W, H = pg.display.Info().current_w, pg.display.Info().current_h
+background_image = pg.image.load(r'assets\textures\background.jpg')
+background_image = pg.transform.scale(background_image, (W, H))
+
 class Jump_text(pg.sprite.Sprite):          #клас для з'являня тексту зліва на право з затримкою
     def __init__(self, x, y, width, height, speed, image):    #конструктор класу
         super().__init__()
@@ -91,10 +97,11 @@ def setting(window):      #меню налаштувань
     window.blit(title2, (90, 100))
 
 def pause(window):            #меню паузи
-    window.fill((135, 95, 22))
-    title = font.render('---Pause---', True, (0,0,0))
-    title2 = font.render('Рахунок: '+ str(score), True, (0,0,0))
-    title3 = font.render('Життя: '+  str(hero_lives), True, (0,0,0))
+    #window.fill((135, 95, 22))
+    window.blit(background_image, (0,0))
+    title = font.render('---Pause---', True, (255, 255, 255))
+    title2 = font.render('Рахунок: '+ str(score), True, (255, 255, 255))
+    title3 = font.render('Життя: '+  str(hero_lives), True, (255, 255, 255))
     window.blit(title,(500, 100))
     window.blit(title2,(300, 150))
     window.blit(title3,(300, 250))
@@ -103,7 +110,7 @@ def pause(window):            #меню паузи
     restart_btn.draw(window)
     
 def restart():      #рестарт гри
-    global score, hero_lives
+    global score, hero_livess
     score = 0
     hero_lives = 3
 

@@ -1,7 +1,7 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import items, font2, players, map_lvl1
-from random import randint
+from ivan import items, font2, players, empty_coordinates
+from random import choice, randint
 pg.init()
 
 
@@ -127,13 +127,38 @@ def games():
     items.draw(window)
     enemys.update(window)
 
+start_time = pg.time.get_ticks()
+
+
 coin_img = pg.image.load("assets\\textures\\ui\\coin.png")
 class Buster:
-    def __init__(self, image, x, y, time):
+    def __init__(self, image, interval, action):
         self.image = image
-        self.x = x
-        self.y = y
-        self.time = time
+        self.interval = interval
+        self.action = action
+
+    last_call_time = pg.time.get_ticks()
+
+    def buster_spawn(self):
+        #global empty_coordinates
+        p = choice((empty_coordinates))
+        window.blit(self.image, p)
+    
+    def time_delay(self, window):
+        if self.image not in window:
+            if start_time - last_call_time > interval:
+                last_call_time = start_time
+                coin.buster_spawn()
+                interval = randint(100, 500) 
+                
+def add_point():
+    pass
+
+coin = Buster(coin_img, 10, add_point())
+
+
+
+
     
 
 

@@ -49,8 +49,6 @@ def display_rules(window):
         y_offset += text.get_height() + 20
     
     back_button_from_htp.draw(window)
-
-    pg.display.flip()
     
     
     # вывод кнопки и текста на экран

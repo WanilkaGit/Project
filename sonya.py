@@ -6,6 +6,8 @@ pg.init()
 font = pg.font.Font(None, 32)
 pg.font.init()
 score = 0
+score_txt = font.render("Score: "+str(score), True, (0,0,0))
+
 time_delay = 2
 hero_lives = 3
 ### об'єкти кнопок ###

@@ -95,6 +95,7 @@ while game:
         main_menu(window)
     elif scene == 1:
         window.fill((135, 95, 22))
+        window.blit(score_txt, (1100, 40))
         pause_btn.draw(window)
         #window.blit(text_life, (700, 10))
         if is_it_is:
@@ -128,7 +129,7 @@ while game:
         lose(window)
 
     fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
-    window.blit(fps, (900, 700))
+    window.blit(fps, (10, 10))
     clock.tick(60)
     pg.display.update()
 pg.quit()

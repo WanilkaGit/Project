@@ -5,6 +5,7 @@ from sonya import *
 from ivan import *
 from kostya import *
 import ivan
+import maxym
 
 pg.init()
 pg.font.init()
@@ -74,15 +75,49 @@ while game:
                     scene = 6
                     
 
-            if scene == 5:          #якщо редактор карт
+            elif scene == 5:          #якщо редактор карт
                 if save_map_button.is_pressed(event.pos):
-                    save_map()
+                    scene = 7
                 elif load_map_button.is_pressed(event.pos):
-                    load_constructor_map()
+                    scene = 8
+                elif play_constructor_button.is_pressed(event.pos):
+                    create_map(map_to_list(constructor_blocks), 46)
+                    scene = 9
+                elif reset_button.is_pressed(event.pos):
+                    maxym.constructor_blocks = pg.sprite.Group()
                 elif main_menu_button.is_pressed(event.pos):
                     map_constructor_uninit()
                     scene = 0
                 
+
+            elif scene == 7:
+                if save_slot1.is_pressed(event.pos):
+                    save_map('save_slot1')
+                    scene = 5
+                elif save_slot2.is_pressed(event.pos):
+                    save_map('save_slot2')
+                    scene = 5
+                elif save_slot3.is_pressed(event.pos):
+                    save_map('save_slot3')
+                    scene = 5
+                elif save_slot4.is_pressed(event.pos):
+                    save_map('save_slot4')
+                    scene = 5
+            
+            elif scene == 8:
+                if load_slot1.is_pressed(event.pos):
+                    load_constructor_map('save_slot1')
+                    scene = 5
+                elif load_slot2.is_pressed(event.pos):
+                    load_constructor_map('save_slot2')
+                    scene = 5
+                elif load_slot3.is_pressed(event.pos):
+                    load_constructor_map('save_slot3')
+                    scene = 5
+                elif load_slot4.is_pressed(event.pos):
+                    load_constructor_map('save_slot4')
+                    scene = 5
+
     if scene == 0:
         main_menu(window)
     elif scene == 1:
@@ -118,7 +153,14 @@ while game:
         if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:
             restart_text.stop()
         restart_text.plays()
-        
+
+    elif scene == 7:
+        save_map_scene(window)
+    elif scene == 8:
+        load_map_scene(window)
+
+    elif scene == 9:
+        constructor_play(window)
         
 
     if hero_lives == 0:

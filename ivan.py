@@ -37,7 +37,6 @@ map_lvl1 = [
 
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
-move_player1 = 1
 texture_size = 32
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * texture_size
@@ -97,48 +96,59 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
         self.rect.x = x
         self.rect.y = y
 
-class Player(Blocks):# клас гравця з супер класом сетінгс
-    rotate = 0
+class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
+    def __init__(self, x, y, width, height, speed, img, img_move):
+        super().__init__()
+        self.width = width
+        self.height = height
+        self.speed = speed
+        self.image = transform.scale(image.load(player1), (self.width, self.height))
+        self.image_move = transform.scale(image.load(player1_moves), (self.width, self.height))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.rotate = 0
+        self.move = 1
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
             self.rect.y -= self.speed#
-            if move_player1 % 2 == 0:
+            if self.move% 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
             else:
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
 
         if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
             self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
-            if move_player1 % 2 == 0:
+            if self.move% 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
             else:
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
 
         if key_pressed[K_s]:# якщо в низ тобто в низ
             self.rect.y += self.speed# ми додає тобто спускаємось
-            if move_player1 % 2 == 0:
-                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+            if self.move% 2 == 0:
+                self.image = player_texture1 = transform.scale(image.load(player1_moves), (self.width, self.height))
+                self.move+= 1
             else:
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
 
         if key_pressed[K_d]:#кнопка в низ натиснута
             self.rect.x += self.speed# х додаєм швидкість рухаємось
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
-            if move_player1 % 2 == 0:
+            if self.move% 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
             else:
                 self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                move_player1 += 1
+                self.move+= 1
 
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))
@@ -182,7 +192,7 @@ def start_pos(map: None):# стартова позиція
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                hero = Player(x, y, 34, 34 , 1, player1, True, False)
+                hero = Player(x, y, 34, 34 , 1, player1, player1_moves, True, False)
                 players.add(hero)
             if c == "l":
                 l = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)

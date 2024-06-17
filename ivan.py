@@ -191,7 +191,7 @@ def create_map(map: list | str | tuple, tile_size: int, begin_x: int = 0, begin_
             if c == "d":
                 d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False, True)
                 dark_white_hides.append(d)
-                blocks.add(d)
+                hides_blocks.add(d)
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":

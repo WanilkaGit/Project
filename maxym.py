@@ -496,7 +496,7 @@ constructor_blocks = pg.sprite.Group()
 
 constructor_buttons = ButtonGroup(brekable_button, unbrekable_button, green_hide_button, enemy_spawn_point_button, player_spawn_point_button,  main_menu_button, save_map_button, load_map_button)
 
-texture_size = 40
+tile_size = 40
 
 canvas = pg.rect.Rect(81, 81, 639, 639)
 
@@ -508,7 +508,7 @@ def save_map():
             tronul = False
             for x in range(2,18):
                 for block in constructor_blocks:
-                    if block.rect.collidepoint(x * texture_size , y * texture_size):
+                    if block.rect.collidepoint(x * tile_size , y * tile_size):
                         tronul = True
                         row.append(block.label)
                 if not tronul:
@@ -532,22 +532,22 @@ def load_constructor_map():
     for row in block_map:
         for block in row:
             if block == 'b':
-                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
                 pre_blocks.add(block)
             elif block == 'u':
-                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
                 pre_blocks.add(block)
             elif block == 'g':
-                block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
                 pre_blocks.add(block)
             elif block == 'e':
-                block = ConstructorLabel(x, y, texture_size, texture_size, 'e', font)
+                block = ConstructorLabel(x, y, tile_size, tile_size, 'e', font)
                 pre_blocks.add(block)
             elif block == 'p':
-                block = ConstructorLabel(x, y, texture_size, texture_size, 'p', font)
+                block = ConstructorLabel(x, y, tile_size, tile_size, 'p', font)
                 pre_blocks.add(block)
-            x += texture_size
-        y += texture_size
+            x += tile_size
+        y += tile_size
         x = 80
     constructor_blocks = pre_blocks
 
@@ -572,27 +572,27 @@ def map_constructor(display: pg.Surface):
 
         if canvas.collidepoint(mouse_pos):
             for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size)):
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size)):
                     constructor_block.kill()
             if choice_block == 1:
-                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
+                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
                 constructor_blocks.add(block)
             elif choice_block == 2:
-                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
                 constructor_blocks.add(block)
             elif choice_block == 3:
-                block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
                 constructor_blocks.add(block)
             elif choice_block == 4:
-                block = ConstructorLabel(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'e', font)
+                block = ConstructorLabel(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'e', font)
                 constructor_blocks.add(block)
             elif choice_block == 5:
-                block = ConstructorLabel(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'p', font)
+                block = ConstructorLabel(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'p', font)
                 constructor_blocks.add(block)
         
     elif pg.mouse.get_pressed()[2]:
         for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size)):
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size)):
                     constructor_block.kill()
 
     constructor_buttons.draw(display)

@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import items, font2, players
+from ivan import blocks, font2, players
 from random import choice, randint
 import ivan as i
 pg.init()
@@ -47,7 +47,7 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 enemy = pg.transform.scale(pg.image.load("assets\\textures\\enemys\\enemytankdefult1.png"), (34, 34))
 bullet = pg.transform.scale(pg.image.load("assets\\textures\\blocks\\bullet.png"), (10, 10))
 bullet_obj = Bullet(bullet, 3, damage = 1)
-enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, items)
+enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, blocks)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
@@ -127,7 +127,7 @@ def games(window):
     window.blit(life_txt, (1000, 60))
     players.draw(window)
     players.update()
-    items.draw(window)
+    blocks.draw(window)
     enemys.update(window)
 
 start_time = pg.time.get_ticks()

@@ -3,7 +3,7 @@ from random import randint, choice
 from typing import Union, Optional, Tuple
 import json
 pg.font.init()
-font = pg.font.Font(None, 32)
+font = pg.font.Font('assets\\textures\\fonts\\Blazma-Regular.otf', 24)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
@@ -462,11 +462,30 @@ class ConstructorBlock(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+    def draw(self, display: pg.Surface):
+        display.blit(self.image, self.rect)
+
+class ConstructorLabel(pg.sprite.Sprite):
+    def __init__(self, x: int, y: int, width: int, height: int, label: str, font: pg.font.Font):
+        super().__init__()
+        self.label = label
+        self.font = font
+        self.image = pg.Surface((0, 0))
+        self.rect = pg.rect.Rect(x, y, width, height)
+
+    def draw(self, display: pg.Surface):
+        text_surface = self.font.render(self.label, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        display.blit(text_surface, text_rect)
+
 choice_block = 0
 
 brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
 unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
 green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+
+enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
+player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
 
 main_menu_button = Button(1, 1, 180, 70, font, 'Назад в меню', (100, 10, 10))
 
@@ -475,7 +494,7 @@ load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100
 
 constructor_blocks = pg.sprite.Group()
 
-constructor_buttons = ButtonGroup(brekable_button, unbrekable_button, green_hide_button, main_menu_button, save_map_button, load_map_button)
+constructor_buttons = ButtonGroup(brekable_button, unbrekable_button, green_hide_button, enemy_spawn_point_button, player_spawn_point_button,  main_menu_button, save_map_button, load_map_button)
 
 texture_size = 40
 
@@ -521,6 +540,12 @@ def load_constructor_map():
             elif block == 'g':
                 block = ConstructorBlock(x, y, texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
                 pre_blocks.add(block)
+            elif block == 'e':
+                block = ConstructorLabel(x, y, texture_size, texture_size, 'e', font)
+                pre_blocks.add(block)
+            elif block == 'p':
+                block = ConstructorLabel(x, y, texture_size, texture_size, 'p', font)
+                pre_blocks.add(block)
             x += texture_size
         y += texture_size
         x = 80
@@ -539,6 +564,10 @@ def map_constructor(display: pg.Surface):
             choice_block = 2
         elif green_hide_button.is_pressed(mouse_pos):
             choice_block = 3
+        elif enemy_spawn_point_button.is_pressed(mouse_pos):
+            choice_block = 4
+        elif player_spawn_point_button.is_pressed(mouse_pos):
+            choice_block = 5
 
 
         if canvas.collidepoint(mouse_pos):
@@ -554,6 +583,12 @@ def map_constructor(display: pg.Surface):
             elif choice_block == 3:
                 block = ConstructorBlock(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
                 constructor_blocks.add(block)
+            elif choice_block == 4:
+                block = ConstructorLabel(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'e', font)
+                constructor_blocks.add(block)
+            elif choice_block == 5:
+                block = ConstructorLabel(round_step(mouse_pos[0], texture_size), round_step(mouse_pos[1], texture_size), texture_size, texture_size, 'p', font)
+                constructor_blocks.add(block)
         
     elif pg.mouse.get_pressed()[2]:
         for constructor_block in constructor_blocks:
@@ -561,7 +596,8 @@ def map_constructor(display: pg.Surface):
                     constructor_block.kill()
 
     constructor_buttons.draw(display)
-    constructor_blocks.draw(display)
+    for block in constructor_blocks:
+        block.draw(display)
 
 def map_constructor_uninit():
     global choice_block, constructor_blocks

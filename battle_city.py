@@ -88,7 +88,7 @@ while game:
     elif scene == 1:
         games(window)
         if is_it_is:
-            start_pos(map_lvl1)
+            create_map(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
         

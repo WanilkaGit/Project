@@ -116,8 +116,6 @@ from kostya import *
 #     pg.display.update()
 # pg.quit()
 
-hides_blocks = pg.sprite.Group()
-
 def create_map(map: list | str | tuple, tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
 

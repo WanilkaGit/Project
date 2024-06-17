@@ -158,8 +158,8 @@ def creating_lists_coordinate(list, x, y):
 
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
-def start_pos(map: None):# стартова позиція
-    global blocks, players, hero, unbreakables, breakables, green_hides, dark_white_hides, tile_size, enemy_coordinates, empty_coordinates
+def create_map(map: list | str | tuple, tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
+    global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
 
     breakables = list()
     unbreakables = list()
@@ -169,8 +169,8 @@ def start_pos(map: None):# стартова позиція
     empty_coordinates = list()
 
     # всі списки дивіться в кінотеатрах(коді)
-    x = 0#  координати для обєктів
-    y = 70
+    x = begin_x#  координати для обєктів
+    y = begin_y
     for r in map:# фор як раб почав ходити по списками перевіряєм індекси
         for c in r:#  стучим в двері перевіряєм чи
             if c == " ":
@@ -186,7 +186,7 @@ def start_pos(map: None):# стартова позиція
             if c == "g":
                 g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False, True)
                 green_hides.append(g)
-                blocks.add(g)
+                hides_blocks.add(g)
             if c == "d":
                 d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False, True)
                 dark_white_hides.append(d)
@@ -194,14 +194,13 @@ def start_pos(map: None):# стартова позиція
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                hero = Player(x, y, 34, 34 , 1, player1, player1_moves, True, False)
+                hero = Player(x, y, 34, 34 , 1, player1, True, False)
                 players.add(hero)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
             if c == "|":
                 p = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
                 blocks.add(p)
-            x += tile_size#  ікси плюс 40
-        y += tile_size#  перміщаємось в низ
-        x = 0#  ікси 0
-    return blocks
+            x += tile_size#  ікси плюс tile_size
+        y += tile_size#  перміщаємось в низ на tile_size
+        x = begin_x#  ікси begin_x

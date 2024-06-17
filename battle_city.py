@@ -17,7 +17,7 @@ window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
 
 pg.display.set_caption('Battle City')
-pg.display.set_icon(pg.image.load('assets\\textures\\fon1.jpg'))  #завантажуєемо фото іконки
+pg.display.set_icon(pg.image.load('assets\\textures\\player\\player11.png'))  #завантажуєемо фото іконки
 back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 game = True
 
@@ -86,7 +86,7 @@ while game:
     if scene == 0:
         main_menu(window)
     elif scene == 1:
-        games()
+        games(window)
         if is_it_is:
             start_pos(map_lvl1)
             enemys.spawns = ivan.enemy_coordinates

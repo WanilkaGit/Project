@@ -105,8 +105,8 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.width = width
         self.height = height
         self.speed = speed
-        self.image = transform.scale(image.load(player1), (self.width, self.height))
-        self.image_move = transform.scale(image.load(player1_moves), (self.width, self.height))
+        self.image = transform.scale(image.load(img), (self.width, self.height))
+        self.image_move = transform.scale(image.load(img_move), (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -195,7 +195,7 @@ def create_map(map: list | str | tuple, tile_size: int, begin_x: int = 0, begin_
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                hero = Player(x, y, 34, 34 , 1, player1, True, False)
+                hero = Player(x, y, 34, 34 , 1, player1, player1_moves, )
                 players.add(hero)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)

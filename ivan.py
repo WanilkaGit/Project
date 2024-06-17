@@ -47,6 +47,7 @@ level1_height = len(map_lvl1) * tile_size
 
 """ ----------------------------------ГРУПИ-------------------------------------"""
 blocks = sprite.Group()#  створюємо тусу
+hides_blocks = sprite.Group()
 players = sprite.Group()
 
 

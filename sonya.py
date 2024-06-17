@@ -1,7 +1,8 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import items, font2, players, empty_coordinates
+from ivan import items, font2, players
 from random import choice, randint
+import ivan as i
 pg.init()
 
 
@@ -56,6 +57,8 @@ window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
 background_image = pg.image.load(r'assets\textures\background.jpg')
 background_image = pg.transform.scale(background_image, (W, H))
+
+coin_img = pg.image.load("assets\\textures\\ui\\coin.png")
 
 class Jump_text(pg.sprite.Sprite):          #клас для з'являня тексту зліва на право з затримкою
     def __init__(self, x, y, width, height, speed, image):    #конструктор класу
@@ -130,7 +133,7 @@ def games():
 start_time = pg.time.get_ticks()
 
 
-coin_img = pg.image.load("assets\\textures\\ui\\coin.png")
+
 class Buster:
     def __init__(self, image, interval, action):
         self.image = image
@@ -140,8 +143,7 @@ class Buster:
     last_call_time = pg.time.get_ticks()
 
     def buster_spawn(self):
-        #global empty_coordinates
-        p = choice((empty_coordinates))
+        p = choice((i.empty_coordinates))
         window.blit(self.image, p)
     
     def time_delay(self, window):

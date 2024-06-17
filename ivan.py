@@ -38,13 +38,15 @@ map_lvl1 = [
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 texture_size = 32
+move_player1 = 1
+tile_size = 32
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
-level1_width = len(map_lvl1[0]) * texture_size
-level1_height = len(map_lvl1) * texture_size
+level1_width = len(map_lvl1[0]) * tile_size
+level1_height = len(map_lvl1) * tile_size
 
 
 """ ----------------------------------ГРУПИ-------------------------------------"""
-items = sprite.Group()#  створюємо тусу
+blocks = sprite.Group()#  створюємо тусу
 players = sprite.Group()
 
 
@@ -157,7 +159,7 @@ def creating_lists_coordinate(list, x, y):
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 def start_pos(map: None):# стартова позиція
-    global items, players, hero, unbreakables, breakables, green_hides, dark_white_hides, texture_size, enemy_coordinates, empty_coordinates
+    global blocks, players, hero, unbreakables, breakables, green_hides, dark_white_hides, tile_size, enemy_coordinates, empty_coordinates
 
     breakables = list()
     unbreakables = list()
@@ -174,32 +176,32 @@ def start_pos(map: None):# стартова позиція
             if c == " ":
                 empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
             if c == "b":# дім полу
-                b = Blocks(x,y, texture_size, texture_size, 0, breakable, True, False)# створюєм раба платформа
+                b = Blocks(x,y, tile_size, tile_size, 0, breakable, True, False)# створюєм раба платформа
                 breakables.append(b)
-                items.add(b)
+                blocks.add(b)
             if c == "u":
-                u = Blocks(x, y, texture_size, texture_size, 0, unbreakable, False, False)
+                u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False, False)
                 unbreakables.append(u)
-                items.add(u)
+                blocks.add(u)
             if c == "g":
-                g = Blocks(x, y,texture_size, texture_size, 0, green_hide, False, True)
+                g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False, True)
                 green_hides.append(g)
-                items.add(g)
+                blocks.add(g)
             if c == "d":
-                d = Blocks(x, y, texture_size, texture_size, 0, green_hide, False, True)
+                d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False, True)
                 dark_white_hides.append(d)
-                items.add(d)
+                blocks.add(d)
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
                 hero = Player(x, y, 34, 34 , 1, player1, player1_moves, True, False)
                 players.add(hero)
             if c == "l":
-                l = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)
+                l = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
             if c == "|":
-                p = Blocks(x, y, texture_size, texture_size, 0, breakable, False, False)
-                items.add(p)
-            x += texture_size#  ікси плюс 40
-        y += texture_size#  перміщаємось в низ
+                p = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
+                blocks.add(p)
+            x += tile_size#  ікси плюс 40
+        y += tile_size#  перміщаємось в низ
         x = 0#  ікси 0
-    return items
+    return blocks

@@ -70,7 +70,7 @@ while game:
                     scene = 1
                 elif exit_to_main.is_pressed(event.pos):
                     scene = 0
-                if restart_btn.is_pressed(event.pos):
+                elif restart_btn.is_pressed(event.pos):
                     scene = 6
 
             elif scene == 5:  # Якщо сцена - редактор карт

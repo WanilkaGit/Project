@@ -70,19 +70,55 @@ while game:
                     scene = 1
                 elif exit_to_main.is_pressed(event.pos):
                     scene = 0
-                if restart_btn.is_pressed(event.pos):
+                elif restart_btn.is_pressed(event.pos):
                     scene = 6
-                    
 
-            if scene == 5:          #якщо редактор карт
-                if save_map_button.is_pressed(event.pos):
-                    save_map()
-                elif load_map_button.is_pressed(event.pos):
-                    load_constructor_map()
-                elif main_menu_button.is_pressed(event.pos):
-                    map_constructor_uninit()
+            elif scene == 5:  # Якщо сцена - редактор карт
+                if maxyms_scenes.save_map_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
+                    scene = 7
+                elif maxyms_scenes.load_map_button.is_pressed(event.pos):
+                    scene = 8
+                elif maxyms_scenes.play_constructor_button.is_pressed(event.pos):
+                    create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), 46)
+                    scene = 9
+                elif maxyms_scenes.reset_button.is_pressed(event.pos):
+                    maxyms_scenes.constructor_blocks = pg.sprite.Group()
+                elif maxyms_scenes.main_menu_button.is_pressed(event.pos):
+                    maxyms_scenes.map_constructor_uninit()
                     scene = 0
-                
+
+            elif scene == 7:  # Якщо сцена - збереження карт
+                if maxyms_scenes.save_slot1.is_pressed(event.pos):
+                    maxyms_scenes.save_map('save_slot1')
+                    scene = 5
+                elif maxyms_scenes.save_slot2.is_pressed(event.pos):
+                    maxyms_scenes.save_map('save_slot2')
+                    scene = 5
+                elif maxyms_scenes.save_slot3.is_pressed(event.pos):
+                    maxyms_scenes.save_map('save_slot3')
+                    scene = 5
+                elif maxyms_scenes.save_slot4.is_pressed(event.pos):
+                    maxyms_scenes.save_map('save_slot4')
+                    scene = 5
+                elif maxyms_scenes.back_to_constructor_button.is_pressed(event.pos):
+                    scene = 5
+
+            elif scene == 8:  # Якщо сцена - завантаження карт
+                if maxyms_scenes.load_slot1.is_pressed(event.pos):
+                    maxyms_scenes.load_constructor_map('save_slot1')
+                    scene = 5
+                elif maxyms_scenes.load_slot2.is_pressed(event.pos):
+                    maxyms_scenes.load_constructor_map('save_slot2')
+                    scene = 5
+                elif maxyms_scenes.load_slot3.is_pressed(event.pos):
+                    maxyms_scenes.load_constructor_map('save_slot3')
+                    scene = 5
+                elif maxyms_scenes.load_slot4.is_pressed(event.pos):
+                    maxyms_scenes.load_constructor_map('save_slot4')
+                    scene = 5
+                elif maxyms_scenes.back_to_constructor_button.is_pressed(event.pos):
+                    scene = 5
+
     if scene == 0:
         main_menu(window)
     elif scene == 1:
@@ -108,7 +144,7 @@ while game:
         pause(window)
     
     elif scene == 5:
-        map_constructor(window)
+        maxyms_scenes.map_constructor(window)
     
     elif scene == 6:
         restart()
@@ -118,7 +154,14 @@ while game:
         if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:
             restart_text.stop()
         restart_text.plays()
-        
+
+    elif scene == 7:
+        maxyms_scenes.save_map_scene(window)
+    elif scene == 8:
+        maxyms_scenes.load_map_scene(window)
+
+    elif scene == 9:
+        maxyms_scenes.constructor_play(window)
         
 
     if hero_lives == 0:

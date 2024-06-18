@@ -286,17 +286,16 @@ class Enemy(pg.sprite.Sprite):
         collided_blocks = pg.sprite.spritecollide(self, self.blocks, False)
         if collided_blocks:
             block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
-            if not block.ghost_skills:
-                if self.dir == 1:
-                    self.rect.top = block.rect.bottom
-                elif self.dir == 2:
-                    self.rect.left = block.rect.right 
-                elif self.dir == 3:
-                    self.rect.bottom = block.rect.top      
-                elif self.dir == 4:
-                    self.rect.right = block.rect.left
+            if self.dir == 1:
+                self.rect.top = block.rect.bottom
+            elif self.dir == 2:
+                self.rect.left = block.rect.right 
+            elif self.dir == 3:
+                self.rect.bottom = block.rect.top      
+            elif self.dir == 4:
+                self.rect.right = block.rect.left
 
-                self.__random_rotate() 
+            self.__random_rotate() 
 
         #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
         if self.rect.right > 800:
@@ -478,128 +477,220 @@ class ConstructorLabel(pg.sprite.Sprite):
         text_rect = text_surface.get_rect(center=self.rect.center)
         display.blit(text_surface, text_rect)
 
-choice_block = 0
+class MaxymsScenes:
+    def __init__(self):
+        self.choice_block = 0
+        self.constructor_blocks = pg.sprite.Group()
 
-brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
-unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
-green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+        # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
-enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
-player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
+        self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
+        self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
+        self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
 
-main_menu_button = Button(1, 1, 180, 70, font, 'Назад в меню', (100, 10, 10))
+        self.enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
+        self.player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
 
-save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
-load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
+        self.main_menu_button = Button(1, 1, 180, 70, font, 'Назад в меню', (100, 10, 10))
 
-constructor_blocks = pg.sprite.Group()
+        self.save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
+        self.load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
+        self.play_constructor_button = Button(520, 730, 200, 80, font, 'Грати', (100, 10, 10))
+        self.reset_button = Button(1300, 730, 200, 80, font, 'Очистити карту', (100, 10, 10))
 
-constructor_buttons = ButtonGroup(brekable_button, unbrekable_button, green_hide_button, enemy_spawn_point_button, player_spawn_point_button,  main_menu_button, save_map_button, load_map_button)
+        self.constructor_buttons = ButtonGroup(self.brekable_button, self.unbrekable_button, self.green_hide_button,
+                                               self.enemy_spawn_point_button, self.player_spawn_point_button,
+                                               self.main_menu_button, self.save_map_button, self.load_map_button,
+                                               self.play_constructor_button, self.reset_button)
 
-tile_size = 40
+        self.save_slot1 = Button(100, 100, 200, 80, font, 'save1', (100, 10, 10))
+        self.save_slot2 = Button(600, 100, 200, 80, font, 'save2', (100, 10, 10))
+        self.save_slot3 = Button(100, 600, 200, 80, font, 'save3', (100, 10, 10))
+        self.save_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
 
-canvas = pg.rect.Rect(81, 81, 639, 639)
+        self.load_slot1 = Button(100, 100, 200, 80, font, 'save1', (100, 10, 10))
+        self.load_slot2 = Button(600, 100, 200, 80, font, 'save2', (100, 10, 10))
+        self.load_slot3 = Button(100, 600, 200, 80, font, 'save3', (100, 10, 10))
+        self.load_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
 
-def save_map():
-        row = []
-        block_map = []
+        self.back_to_constructor_button = Button(600, 0, 200, 85, font, 'Відмінити', (100, 10, 10))
+
+        self.save_map_buttons = ButtonGroup(self.save_slot1, self.save_slot2, self.save_slot3, self.save_slot4,
+                                            self.back_to_constructor_button)
+        self.load_map_buttons = ButtonGroup(self.load_slot1, self.load_slot2, self.load_slot3, self.load_slot4,
+                                            self.back_to_constructor_button)
+
+        self.tile_size = 40
+        self.canvas = pg.rect.Rect(81, 81, 639, 639)
+
+    def map_to_list(self, map_: pg.sprite.Group):
+        '''ковертує карту в конструкторі в список'''
+        block_map = [] #підготовуємо чистий список для карти
         for y in range(2, 18):
-            row = []
-            tronul = False
-            for x in range(2,18):
-                for block in constructor_blocks:
-                    if block.rect.collidepoint(x * tile_size , y * tile_size):
+            row = [] # кожну ітерацію цього циклу очищуємо змінну row
+            tronul = False # кожну ітерацію цього циклу змінюємо tronul на False
+            for x in range(2, 18):
+                for block in map_: # перебираємо всі блоки в надії що хоч один є на цих координатах
+                    if block.rect.collidepoint(x * self.tile_size, y * self.tile_size): #якщо в цьому місці є блок то tronul стає True і в row записується мітка блоку
                         tronul = True
                         row.append(block.label)
-                if not tronul:
+                if not tronul: # якщо на координатах не було блоку до додаємо в row пробіл
                     row.append(' ')
-                tronul = False
+                tronul = False # коли переберемо всі блоки на координатах tronul має бути False
             block_map.append(row)
-        for row in block_map:
-            print(f'{row},')
-        with open('map.json', 'w') as file:
-            json.dump(block_map, file)
-            file.close()
+        return block_map
 
-def load_constructor_map():
-    global constructor_blocks
-    with open('map.json', 'r') as file:
-        block_map = json.load(file)
-        file.close()
-    x = 80
-    y = 80
-    pre_blocks = pg.sprite.Group()
-    for row in block_map:
-        for block in row:
-            if block == 'b':
-                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
-                pre_blocks.add(block)
-            elif block == 'u':
-                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
-                pre_blocks.add(block)
-            elif block == 'g':
-                block = ConstructorBlock(x, y, tile_size, tile_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
-                pre_blocks.add(block)
-            elif block == 'e':
-                block = ConstructorLabel(x, y, tile_size, tile_size, 'e', font)
-                pre_blocks.add(block)
-            elif block == 'p':
-                block = ConstructorLabel(x, y, tile_size, tile_size, 'p', font)
-                pre_blocks.add(block)
-            x += tile_size
-        y += tile_size
-        x = 80
-    constructor_blocks = pre_blocks
-
-#сцена конструктора
-def map_constructor(display: pg.Surface):
-    global choice_block, redacted, constructor_blocks
-    mouse_pos = pg.mouse.get_pos()
-    display.fill((0,0,0))
-    pg.draw.rect(display, (100,100,100), canvas)
-    if pg.mouse.get_pressed()[0]:
-        if brekable_button.is_pressed(mouse_pos):
-            choice_block = 1
-        elif unbrekable_button.is_pressed(mouse_pos):
-            choice_block = 2
-        elif green_hide_button.is_pressed(mouse_pos):
-            choice_block = 3
-        elif enemy_spawn_point_button.is_pressed(mouse_pos):
-            choice_block = 4
-        elif player_spawn_point_button.is_pressed(mouse_pos):
-            choice_block = 5
-
-
-        if canvas.collidepoint(mouse_pos):
-            for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size)):
-                    constructor_block.kill()
-            if choice_block == 1:
-                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\derewaska.png', 'b')
-                constructor_blocks.add(block)
-            elif choice_block == 2:
-                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\obsidian2.png', 'u')
-                constructor_blocks.add(block)
-            elif choice_block == 3:
-                block = ConstructorBlock(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'assets\\textures\\blocks\\kuvsinka.png', 'g')
-                constructor_blocks.add(block)
-            elif choice_block == 4:
-                block = ConstructorLabel(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'e', font)
-                constructor_blocks.add(block)
-            elif choice_block == 5:
-                block = ConstructorLabel(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size), tile_size, tile_size, 'p', font)
-                constructor_blocks.add(block)
+    def check_provisos(self):
+        players_in_map = 0
+        enemys_is_in_map = 0
+        block_map = self.map_to_list(self.constructor_blocks)
         
-    elif pg.mouse.get_pressed()[2]:
-        for constructor_block in constructor_blocks:
-                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], tile_size), round_step(mouse_pos[1], tile_size)):
+        for row in block_map:
+            for block in row:
+                if block == 'p':
+                    players_in_map += 1
+                elif block == 'e':
+                    enemys_is_in_map += 1
+
+        if players_in_map == 1 and enemys_is_in_map: return True
+
+        else: return False
+        
+
+
+    def save_map(self, save_slot: str):
+        '''зберігає карту в обраний слот, якщо слотів нема створює їх'''
+        block_map = self.map_to_list(self.constructor_blocks) # конвертуємо карту з конструктора карт в список
+        try:
+            with open('assets\\data\\maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
+                data = json.load(file)
+        except FileNotFoundError or json.decoder.JSONDecodeError: # інекше записуємо в змінну data шаблон того як все має бути
+            data = {
+                'save_slot1': [[]],
+                'save_slot2': [[]],
+                'save_slot3': [[]],
+                'save_slot4': [[]]
+            }
+
+        with open('assets\\data\\maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
+            data[save_slot] = block_map
+            json.dump(data, file)
+
+    def load_constructor_map(self, save_slot: str):
+        '''завантажує карту з обраного слоту якщо слота не уснує нічого не робить'''
+        try:
+            with open('assets\\data\\maps.json', 'r') as file: #відкриваємо файл
+                data = json.load(file)
+                block_map = data[save_slot] # карта дорівнює карті з обраного слоту
+            x = 80
+            y = 80
+            self.constructor_blocks = pg.sprite.Group() #очищуємо стару карту
+
+            for row in block_map: # тут усім знайомуй алгоритм
+                for block in row:
+                    if block == 'b':
+                        block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
+                                                 'assets\\textures\\blocks\\derewaska.png', 'b')
+                        self.constructor_blocks.add(block)
+                    elif block == 'u':
+                        block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
+                                                 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                        self.constructor_blocks.add(block)
+                    elif block == 'g':
+                        block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
+                                                 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                        self.constructor_blocks.add(block)
+                    elif block == 'e':
+                        block = ConstructorLabel(x, y, self.tile_size, self.tile_size, 'e', font)
+                        self.constructor_blocks.add(block)
+                    elif block == 'p':
+                        block = ConstructorLabel(x, y, self.tile_size, self.tile_size, 'p', font)
+                        self.constructor_blocks.add(block)
+                    x += self.tile_size
+                y += self.tile_size
+                x = 80
+        except FileNotFoundError: # якщо слоту не існує просто нічого не робимо
+            pass
+
+    # Методи для сцен (map_constructor, map_constructor_uninit, save_map_scene, load_map_scene, constructor_play) тут
+
+    def map_constructor(self, display: pg.Surface): # scene = 5
+        '''сцена з конструктором карт'''
+        mouse_pos = pg.mouse.get_pos()
+        display.fill((0, 0, 0))
+        pg.draw.rect(display, (100, 100, 100), self.canvas)
+        if pg.mouse.get_pressed()[0]:
+            if self.brekable_button.is_pressed(mouse_pos):
+                self.choice_block = 1
+            elif self.unbrekable_button.is_pressed(mouse_pos):
+                self.choice_block = 2
+            elif self.green_hide_button.is_pressed(mouse_pos):
+                self.choice_block = 3
+            elif self.enemy_spawn_point_button.is_pressed(mouse_pos):
+                self.choice_block = 4
+            elif self.player_spawn_point_button.is_pressed(mouse_pos):
+                self.choice_block = 5
+
+            if self.canvas.collidepoint(mouse_pos):
+                for constructor_block in self.constructor_blocks:
+                    if constructor_block.rect.collidepoint(round_step(mouse_pos[0], self.tile_size),
+                                                          round_step(mouse_pos[1], self.tile_size)) and self.choice_block > 0:
+                        constructor_block.kill()
+                if self.choice_block == 1:
+                    block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'assets\\textures\\blocks\\derewaska.png', 'b')
+                    self.constructor_blocks.add(block)
+                elif self.choice_block == 2:
+                    block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'assets\\textures\\blocks\\obsidian2.png', 'u')
+                    self.constructor_blocks.add(block)
+                elif self.choice_block == 3:
+                    block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                    self.constructor_blocks.add(block)
+                elif self.choice_block == 4:
+                    block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'e', font)
+                    self.constructor_blocks.add(block)
+                elif self.choice_block == 5:
+                    block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'p', font)
+                    self.constructor_blocks.add(block)
+
+        elif pg.mouse.get_pressed()[2] and self.choice_block > 0:
+            for constructor_block in self.constructor_blocks:
+                if constructor_block.rect.collidepoint(round_step(mouse_pos[0], self.tile_size),
+                                                      round_step(mouse_pos[1], self.tile_size)):
                     constructor_block.kill()
 
-    constructor_buttons.draw(display)
-    for block in constructor_blocks:
-        block.draw(display)
+        self.constructor_buttons.draw(display)
+        for block in self.constructor_blocks:
+            block.draw(display)
 
-def map_constructor_uninit():
-    global choice_block, constructor_blocks
-    choice_block = 0
-    constructor_blocks = pg.sprite.Group()
+    def map_constructor_uninit(self):
+        '''викликати при закритті конструктора карт для нормального функціонування'''
+        self.choice_block = 0
+        self.constructor_blocks = pg.sprite.Group()
+
+    def save_map_scene(self, display: pg.Surface): # scene = 7
+        '''сцена де вас питають куди збкрігати карту'''
+        self.choice_block = 0
+        display.fill((0, 0, 0))
+        self.save_map_buttons.draw(display)
+
+    def load_map_scene(self, display: pg.Surface): # scene = 8
+        '''сцена де вас питають звідки завантажити карту'''
+        self.choice_block = 0
+        display.fill((0, 0, 0))
+        self.load_map_buttons.draw(display)
+
+    def constructor_play(self, display: pg.Surface): # scene = 9
+        '''сцена де ти можеш протестувати тещо ти побудував в сцені з конструктором карт'''
+        display.fill((0, 0, 0))
+
+maxyms_scenes = MaxymsScenes()

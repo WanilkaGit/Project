@@ -31,8 +31,8 @@ pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", f
 play_btn = Button(630, 200, 260, 100, font, 'Play', (100, 10, 10))
 how_to_play_btn = Button(630, 300, 260, 100, font, 'How to play', (100, 10, 10))
 setting_btn = Button(630, 400, 260, 100, font, 'Settings', (100, 10, 10))
-exit_btn = Button(630, 500, 260, 100, font, 'Exit', (100, 10, 10))
-constructor_button = Button(630, 700, 260, 100, font, 'Constructor', (100, 10, 10))
+constructor_button = Button(630, 500, 260, 100, font, 'Constructor', (100, 10, 10))
+exit_btn = Button(630, 700, 260, 100, font, 'Exit', (100, 10, 10))
 
 back_button_from_settings = TextureButton(20, 760, 230, 100, "assets\\textures\\ui\\back2.png", font)
                     ###  кнопки, що в меню паузи  ###
@@ -127,9 +127,9 @@ def games(window):
     window.blit(life_txt, (1000, 60))
     players.draw(window)
     players.update()
+    enemys.update(window)
     blocks.draw(window)
     hides_blocks.draw(window)
-    enemys.update(window)
 
 start_time = pg.time.get_ticks()
 

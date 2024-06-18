@@ -118,7 +118,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
             self.rect.y -= self.speed#
-            if self.move% 2 == 0:
+            if self.move % 2 == 0:
                 self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
                 self.move+= 1
             else:

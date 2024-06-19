@@ -128,8 +128,8 @@ class CheckButton:
     #метод для відмальовки сюди треба вказати поверхню на якій буде малюватись кнопка pg.display також працює якщо що
     def draw(self, display: pg.Surface):
         '''Метод для відмальовки кнопки'''
-        pg.draw.rect(display, self.color, self.rect)
-        pg.draw.rect(display, (255, 255, 255), self.mini_rect)
+        pg.draw.rect(display, self.color, self.rect, 6)
+        #pg.draw.rect(display, (255, 255, 255), self.mini_rect)
         if self.button_pressed: pg.draw.rect(display, self.color, self.status_rect)
         text_surface = self.font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.rect.midbottom)
@@ -175,6 +175,100 @@ class CheckButtonGroup:
                         if button.is_pressed(pg.mouse.get_pos()):
                             button.button_pressed = True
                     break
+
+class LineEdit:
+    '''
+    Класс для лайн едіту
+
+    Посуті це строка в якій коритувач може вводити текст +- як в консолі через input() але прямо в грі
+
+    з першими чотирьма п'ятьма я думаю все зрозуміло
+
+    max_symbol - максимальна кількість символів яку може ввести користувач якщо поставити 0 то можна писати нескінченну кількість символів
+
+    з text_color я думаю все зрозуміло
+
+    focused_color цей колір буде мати лайнедіт якщо він використовується якщо його не вказувати то лайнедіт буде прозорим
+
+    unfocused_color - колір який буде мати лайнедіт якщо він не використовується якщо його не вказувати і при цьому вказаний focused_color то він буде мати його колір якщо хочеш щоб лайнедіт був прозорий то не вказуй focused_color
+
+    frame_size - розміри рамок лайн едіта якщо поставити 0 то фон буде суцільним
+    '''
+    def __init__(self, x: int, y: int, width: int, height: int, font: pg.font.Font, max_symbol: int, text_color: Tuple[int, int, int], focused_color: Optional[Tuple[int, int, int]] = None, unfocused_color: Optional[Tuple[int, int, int]] = None, frame_size: int = 4):
+        self.rect = pg.Rect(x, y, width, height)
+        self.color = focused_color
+        self.unactive_color = unfocused_color
+        self.frame_size = frame_size
+        self.text_color = text_color
+        self.font = font
+        self.max_symbol = max_symbol
+
+        self.flash = 0
+
+        self.focused = False
+        self.text = ''
+        self.final_text = self.text
+        self.line_text = self.font.render(self.text, True, self.text_color)
+
+    def update(self, event: pg.event.Event):
+        '''посуті просто викликає методи check_focus та keys_update так код просто виглядає більш гарно і при цьому функціонал в раз потреби легко розділити'''
+        self.check_focus(event)
+        self.text_update(event)
+
+    def check_focus(self, event: pg.event.Event):
+        '''функція яка перевіряє чі натиснув гравець на лайн едіт і якщо так то focused = True інакще focused = False може бути користна якщо ти хочеш переписати функціонал text_update'''
+        if event.type == pg.MOUSEBUTTONDOWN: # якщо кнопка мищі натиснута
+            if self.rect.collidepoint(event.pos): # якщо курсор мищі знаходиться при цьому на лайн едіті
+                self.focused = True
+            else: # інакше
+                self.focused = False
+                self.line_text = self.font.render(self.text, True, self.text_color)
+
+    def text_update(self, event: pg.event.Event):
+        '''оновлює текст в лайн едіти може бути користно якщо вам не потрібен функціонал check_focus або ви хочете його переробити'''
+        if self.focused and event.type == pg.KEYDOWN: # якщо натиснута клавіща на кравіатурі
+                if event.key == pg.K_BACKSPACE: #якщо натиснуто бекспейс (дога стрілочка назад в углу клавіатури)
+                    self.flash = 24 # виставляємо цю змінну на 24 щоб користувачу було легше орієнтуатись
+                    self.text = self.text[:-1] # видаляємо останній символ в строці
+                elif event.key == pg.K_ESCAPE: # якщо натиснуту ескейп
+                    self.focused = False
+                    self.line_text = self.font.render(self.text, True, self.text_color)
+                elif event.key == pg.K_RETURN or event.key == pg.K_KP_ENTER: # якщо натиснуто ентер або ентер на нупад клавіатурі
+                    self.focused = False
+                    self.line_text = self.font.render(self.text, True, self.text_color)
+                    self.final_text = self.text
+                elif event.key == pg.K_DELETE: #якщо натиснуто деліт
+                    self.text = ''
+                else: # якщо натиснута люба інша клавіша на клавіатурі
+                    if event.unicode not in {'\t'}:
+                        if self.max_symbol != 0: # якщо максимальна кількість символів не дорівнює нулю (це зроблено для того щоб олзробник міг виставити безкінечну кількість символів)
+                            if len(self.text) <= self.max_symbol:
+                                self.text += event.unicode
+                                self.flash = 24 # виставляємо цю змінну на 24 щоб користувачу було легше орієнтуатись
+                        else: # інакще не перевіряємо скільки символів написав користувач
+                            self.text += event.unicode
+                            self.flash = 24 # виставляємо цю змінну на 24 щоб користувачу було легше орієнтуатись
+
+    def draw(self, display: pg.Surface):
+        '''малює лайн едіт на екрані'''
+        if self.focused: # якщо лайн едіт активний
+            if self.flash <= 20: # якщо ця зміння менше або дорівнює двадцяти то не відмальовуємо оцю палицю в кінці тексту
+                self.line_text = self.font.render(self.text, True, self.text_color)
+            else: # інакше відмальовуємо цю саму палицю
+                self.line_text = self.font.render(self.text + '|', True, self.text_color)
+                if self.flash >= 40: # якщо ця змінна більше або дорівню сорок то скидуємо її на нуль
+                    self.flash = 0
+            self.flash += 1
+
+        if self.color is not None: # якщо був встановлений колір то відмальовує прямокутник
+            if self.focused: # якщо лайн едіт активний то відмальовуємо прямокутник з активним кольором
+                pg.draw.rect(display, self.color, self.rect, self.frame_size)
+            elif self.unactive_color is not None: # якщо лайн едіт не активний і неактивний колір задано то відмальовуємо прямокутник з неактивним кольором
+                pg.draw.rect(display, self.unactive_color, self.rect, self.frame_size)
+            else: # якщо неактивний колір не задано і при цьому задано активний колір то відмальовуємо прямокутни з звичайним(активним) кольором
+                pg.draw.rect(display, self.color, self.rect, self.frame_size)
+
+        display.blit(self.line_text, (self.rect.x + 5, self.rect.y + 5))
                 
 '''-------------------------------------------------усе пов'язане з танками------------------------------------------------------------------------------------------'''
 

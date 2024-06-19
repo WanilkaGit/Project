@@ -5,6 +5,9 @@ from sonya import *
 from ivan import *
 from kostya import *
 import ivan
+import json
+import time
+from threading import Timer
 
 pg.init()
 pg.font.init()
@@ -28,6 +31,29 @@ clock = pg.time.Clock()
 last_call_time = pg.time.get_ticks()
 interval = 100
 
+incrementing = True
+score = 0
+
+
+def increment_score():
+    global score, incrementing
+    if incrementing:
+        score += 1
+        save_to_file({'score': score}, filename)
+        print(f'Score: {score}')
+        Timer(1, increment_score).start()
+
+def start_increment():
+    global incrementing
+    if not incrementing:
+        incrementing = True
+        increment_score()
+
+def stop_increment():
+    global incrementing
+    incrementing = False
+
+
 while game:
     window.blit(back, (0,0))
     for event in pg.event.get():
@@ -38,6 +64,7 @@ while game:
                 game = False         
         if event.type == pg.MOUSEBUTTONDOWN:
             if scene == 0:
+                stop_increment()
                 if exit_btn.is_pressed(event.pos):
                     game = False 
 
@@ -53,19 +80,36 @@ while game:
                 if constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            if scene == 1:          #якщо меню гри
+            if scene == 1:
+                filename = 'score.json'
+
+                def save_to_file(data, filename):
+                    with open(filename, 'w') as file:
+                        json.dump(data, file)
+                # реалізаці вигрузки даних з файлу
+                # try:
+                #     with open(filename, 'r') as file:
+                #         data = json.load(file)
+                #         score = data.get('score', 0)
+                # except FileNotFoundError:
+                #     pass
+                start_increment()
+                        #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
-            elif scene == 2:          #якщо налаштування
+            elif scene == 2:
+                stop_increment()          #якщо налаштування
                 if back_button_from_settings.is_pressed(event.pos):
                     scene = 0
 
-            elif scene == 3:          #якщо правила гри
+            elif scene == 3:
+                stop_increment()          #якщо правила гри
                 if back_button_from_htp.is_pressed(event.pos):
                     scene = 0
 
-            elif scene == 4:              #якщо пауза
+            elif scene == 4:
+                stop_increment()              #якщо пауза
                 if start_button.is_pressed(event.pos):
                     scene = 1
                 elif exit_to_main.is_pressed(event.pos):
@@ -73,7 +117,8 @@ while game:
                 elif restart_btn.is_pressed(event.pos):
                     scene = 6
 
-            elif scene == 5:  # Якщо сцена - редактор карт
+            elif scene == 5:
+                stop_increment()  # Якщо сцена - редактор карт
                 if maxyms_scenes.save_map_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
                     scene = 7
                 elif maxyms_scenes.load_map_button.is_pressed(event.pos):

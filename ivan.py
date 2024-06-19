@@ -112,46 +112,37 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.rect.y = y
         self.rotate = 0
         self.move = 1
+
+    def animate(self):
+        if self.move % 2 == 0:
+            self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+            self.move+= 1
+        else:
+            self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+            self.move+= 1
+
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
             self.rect.y -= self.speed#
-            if self.move% 2 == 0:
-                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
-            else:
-                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
+            self.animate()
 
         if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
             self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
-            if self.move% 2 == 0:
-                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
-            else:
-                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
+            self.animate()
+
 
         if key_pressed[K_s]:# якщо в низ тобто в низ
             self.rect.y += self.speed# ми додає тобто спускаємось
-            if self.move% 2 == 0:
-                self.image = player_texture1 = transform.scale(image.load(player1_moves), (self.width, self.height))
-                self.move+= 1
-            else:
-                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
+            self.animate()
+
 
         if key_pressed[K_d]:#кнопка в низ натиснута
             self.rect.x += self.speed# х додаєм швидкість рухаємось
+            self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
-            if self.move% 2 == 0:
-                self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
-            else:
-                self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
-                self.move+= 1
 
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))

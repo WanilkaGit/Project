@@ -132,7 +132,8 @@ while game:
                     maxyms_scenes.map_constructor_uninit()
                     scene = 0
 
-            elif scene == 7:  # Якщо сцена - збереження карт
+            elif scene == 7:
+                stop_increment()  # Якщо сцена - збереження карт
                 if maxyms_scenes.save_slot1.is_pressed(event.pos):
                     maxyms_scenes.save_map('save_slot1')
                     scene = 5
@@ -148,7 +149,8 @@ while game:
                 elif maxyms_scenes.back_to_constructor_button.is_pressed(event.pos):
                     scene = 5
 
-            elif scene == 8:  # Якщо сцена - завантаження карт
+            elif scene == 8:
+                stop_increment()  # Якщо сцена - завантаження карт
                 if maxyms_scenes.load_slot1.is_pressed(event.pos):
                     maxyms_scenes.load_constructor_map('save_slot1')
                     scene = 5

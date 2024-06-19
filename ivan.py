@@ -4,6 +4,7 @@ from maxym import TextureButton
 from random import choices, choice
 from pygame import*# імпорт пайгейма
 import pygame as pg
+from typing import Union
 
 init()# ініціалізуєм пайгейм
 
@@ -150,7 +151,7 @@ def creating_lists_coordinate(list, x, y):
 
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
-def create_map(map: list | str | tuple, tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
+def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
 
     breakables = list()

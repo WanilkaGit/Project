@@ -8,13 +8,13 @@ pg.init()
 
 pg.font.init()
 
-font_path = r"assets\textures\fonts\Blazma-Regular.otf"
+font_path = r"assets/textures/fonts/Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
 
 #window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 #W, H = pg.display.Info().current_w, pg.display.Info().current_h
-#background_image = pg.image.load(r'assets\textures\background.jpg')
+#background_image = pg.image.load(r'assets/textures/background.jpg')
 #background_image = pg.transform.scale(background_image, (W, H))
 
 score = 0
@@ -24,7 +24,7 @@ time_delay = 2
 hero_lives = 3
 life_txt = font.render('Life: ' + str(hero_lives), True, (0,0,0))
 
-pause_btn = TextureButton(1300, 20, 50, 50, "assets\\textures\\ui\\pause.png", font2)
+pause_btn = TextureButton(1300, 20, 50, 50, "assets/textures/ui/pause.png", font2)
 
 ### об'єкти кнопок ###
                     ###  кнопки, що в головному меню  ###
@@ -34,18 +34,18 @@ setting_btn = Button(630, 400, 260, 100, font, 'Settings', (100, 10, 10))
 constructor_button = Button(630, 500, 260, 100, font, 'Constructor', (100, 10, 10))
 exit_btn = Button(630, 700, 260, 100, font, 'Exit', (100, 10, 10))
 
-back_button_from_settings = TextureButton(20, 760, 230, 100, "assets\\textures\\ui\\back2.png", font)
+back_button_from_settings = TextureButton(20, 760, 230, 100, "assets/textures/ui/back2.png", font)
                     ###  кнопки, що в меню паузи  ###
-start_button = TextureButton(630, 400, 100, 80, "assets\\textures\\ui\\play.png", font)
-exit_to_main = TextureButton(430, 400, 100, 80, "assets\\textures\\ui\\home.png", font)
-restart_btn = TextureButton(830, 400, 100, 80, "assets\\textures\\ui\\restart.png", font)
+start_button = TextureButton(630, 400, 100, 80, "assets/textures/ui/play.png", font)
+exit_to_main = TextureButton(430, 400, 100, 80, "assets/textures/ui/home.png", font)
+restart_btn = TextureButton(830, 400, 100, 80, "assets/textures/ui/restart.png", font)
                     ###  група кнопок в меню налаштувань   ###
 btn1 = CheckButton(100, 250, 50, font, 'Легкий', text_color=(255, 255, 255))
 btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255, 255))
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
 
-enemy = pg.transform.scale(pg.image.load("assets\\textures\\enemys\\enemytankdefult1.png"), (34, 34))
-bullet = pg.transform.scale(pg.image.load("assets\\textures\\blocks\\bullet.png"), (10, 10))
+enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (34, 34))
+bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (10, 10))
 bullet_obj = Bullet(bullet, 3, damage = 1)
 enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, blocks)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
@@ -55,10 +55,10 @@ restart_txt = font.render('Restart', True, (255, 0, 255))
             ### for pause menu  ###
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
-background_image = pg.image.load(r'assets\textures\background.jpg')
+background_image = pg.image.load(r'assets/textures/background.jpg')
 background_image = pg.transform.scale(background_image, (W, H))
 
-coin_img = pg.image.load("assets\\textures\\ui\\coin.png")
+coin_img = pg.image.load("assets/textures/ui/coin.png")
 
 class Jump_text(pg.sprite.Sprite):          #клас для з'являня тексту зліва на право з затримкою
     def __init__(self, x, y, width, height, speed, image):    #конструктор класу

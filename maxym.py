@@ -3,7 +3,7 @@ from random import randint, choice
 from typing import Union, Optional, Tuple
 import json
 pg.font.init()
-font = pg.font.Font('assets\\textures\\fonts\\Blazma-Regular.otf', 24)
+font = pg.font.Font('assets/textures/fonts/Blazma-Regular.otf', 24)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
@@ -240,7 +240,7 @@ class LineEdit:
                 elif event.key == pg.K_DELETE: #якщо натиснуто деліт
                     self.text = ''
                 else: # якщо натиснута люба інша клавіша на клавіатурі
-                    if event.unicode not in {'\t'}:
+                    if event.unicode not in {'/t'}:
                         if self.max_symbol != 0: # якщо максимальна кількість символів не дорівнює нулю (це зроблено для того щоб олзробник міг виставити безкінечну кількість символів)
                             if len(self.text) <= self.max_symbol:
                                 self.text += event.unicode
@@ -578,9 +578,9 @@ class MaxymsScenes:
 
         # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
-        self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
-        self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
-        self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+        self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets/textures/blocks/derewaska.png')
+        self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets/textures/blocks/obsidian2.png')
+        self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets/textures/blocks/kuvsinka.png')
 
         self.enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
         self.player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
@@ -656,7 +656,7 @@ class MaxymsScenes:
         '''зберігає карту в обраний слот, якщо слотів нема створює їх'''
         block_map = self.map_to_list(self.constructor_blocks) # конвертуємо карту з конструктора карт в список
         try:
-            with open('assets\\data\\maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
+            with open('assets/data/maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
                 data = json.load(file)
         except FileNotFoundError or json.decoder.JSONDecodeError: # інекше записуємо в змінну data шаблон того як все має бути
             data = {
@@ -666,14 +666,14 @@ class MaxymsScenes:
                 'save_slot4': [[]]
             }
 
-        with open('assets\\data\\maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
+        with open('assets/data/maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
             data[save_slot] = block_map
             json.dump(data, file)
 
     def load_constructor_map(self, save_slot: str):
         '''завантажує карту з обраного слоту якщо слота не уснує нічого не робить'''
         try:
-            with open('assets\\data\\maps.json', 'r') as file: #відкриваємо файл
+            with open('assets/data/maps.json', 'r') as file: #відкриваємо файл
                 data = json.load(file)
                 block_map = data[save_slot] # карта дорівнює карті з обраного слоту
             x = 80
@@ -684,15 +684,15 @@ class MaxymsScenes:
                 for block in row:
                     if block == 'b':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\derewaska.png', 'b')
+                                                 'assets/textures/blocks/derewaska.png', 'b')
                         self.constructor_blocks.add(block)
                     elif block == 'u':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                                                 'assets/textures/blocks/obsidian2.png', 'u')
                         self.constructor_blocks.add(block)
                     elif block == 'g':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                                                 'assets/textures/blocks/kuvsinka.png', 'g')
                         self.constructor_blocks.add(block)
                     elif block == 'e':
                         block = ConstructorLabel(x, y, self.tile_size, self.tile_size, 'e', font)
@@ -733,17 +733,17 @@ class MaxymsScenes:
                 if self.choice_block == 1:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\derewaska.png', 'b')
+                                             'assets/textures/blocks/derewaska.png', 'b')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 2:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\obsidian2.png', 'u')
+                                             'assets/textures/blocks/obsidian2.png', 'u')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 3:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                                             'assets/textures/blocks/kuvsinka.png', 'g')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 4:
                     block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),

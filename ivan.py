@@ -10,7 +10,7 @@ init()# ініціалізуєм пайгейм
 
 #window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 #W, H = pg.display.Info().current_w, pg.display.Info().current_h
-#background_image = pg.image.load(r'assets\textures\background.jpg')
+#background_image = pg.image.load(r'assets/textures/background.jpg')
 #background_image = pg.transform.scale(background_image, (W, H))
 
 """------------------------------------Map--------------------------------------"""

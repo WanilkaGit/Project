@@ -2,7 +2,7 @@ import pygame as pg
 from maxym import TextureButton
 
 font = pg.font.Font(None, 36)
-back_button_from_htp = TextureButton(20, 760, 230, 100, "assets/textures/ui/back2.png")
+back_button_from_htp = TextureButton(20, 760, 230, 100, "assets//textures//ui//back2.png")
 
 def render_text_with_spacing(text, font, color, spacing):
     text_surface = pg.Surface((font.size(text)[0] + spacing * (len(text) - 1), font.size(text)[1]), pg.SRCALPHA)
@@ -18,7 +18,7 @@ def render_text_with_spacing(text, font, color, spacing):
 
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
-background_image = pg.image.load(r'assets/textures/background.jpg')
+background_image = pg.image.load(r'assets//textures//background.jpg')
 background_image = pg.transform.scale(background_image, (W, H))
 
 def display_rules(window):
@@ -35,7 +35,7 @@ def display_rules(window):
         "Стріляти - R"
     ]
     
-    font_path = r"assets/textures/fonts/Blazma-Regular.otf"
+    font_path = r"assets//textures//fonts//Blazma-Regular.otf"
     font_size = 36
     font = pg.font.Font(font_path, font_size)
     

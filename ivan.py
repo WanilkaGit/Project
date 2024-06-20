@@ -144,6 +144,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.move = 1
         self.rotate = rotate
         self.agle = agle
+        self.bullets = sprite.Group()
 
     def animate(self):
         if self.move % 2 == 0:
@@ -186,11 +187,11 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rotate = "l"
             self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
-        bullets = sprite.Group()
         bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
-        bullets.add(bullet)
-        bullet.shoot()
-        bullets.draw(window)
+        self.bullets.add(bullet)
+        for bullet in self.bullets:
+            bullet.shoot()
+        self.bullets.draw(window)
 
 
     def shoot(self):

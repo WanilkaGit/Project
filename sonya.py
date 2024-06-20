@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players
+from ivan import blocks, hides_blocks, font2, players, bullets
 from random import choice, randint
 import ivan as i
 pg.init()
@@ -127,6 +127,9 @@ def games(window):
     window.blit(life_txt, (1000, 60))
     players.draw(window)
     players.update(window)
+    bullets.draw(window)
+    for bullet in bullets:
+        bullet.shoot()
     enemys.update(window)
     blocks.draw(window)
     hides_blocks.draw(window)

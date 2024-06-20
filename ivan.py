@@ -50,7 +50,7 @@ level1_height = len(map_lvl1) * tile_size
 blocks = sprite.Group()#  створюємо тусу
 hides_blocks = sprite.Group()
 players = sprite.Group()
-
+bullets = sprite.Group()
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
@@ -111,6 +111,14 @@ class PlayerBullet(sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.rotate = rotate
+        if self.rotate == "u":
+            self.image = transform.rotate(self.image, 0)
+        if self.rotate == "d":
+            self.image = transform.rotate(self.image, 180)
+        if self.rotate == "l":
+            self.image = transform.rotate(self.image, 270)
+        if self.rotate == "r":
+            self.image = transform.rotate(self.image, 90)
         self.move = 1
 
     def shoot(self):
@@ -144,7 +152,6 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.move = 1
         self.rotate = rotate
         self.agle = agle
-        self.bullets = sprite.Group()
 
     def animate(self):
         if self.move % 2 == 0:
@@ -175,23 +182,20 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-
         if key_pressed[K_a]:# якщо в низ тобто в низ
             self.rect.x -= self.speed# ми додає тобто спускаємось
             self.rotate = "r"
             self.animate()
-
 
         if key_pressed[K_d]:#кнопка в низ натиснута
             self.rect.x += self.speed# х додаєм швидкість рухаємось
             self.rotate = "l"
             self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
-        bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
-        self.bullets.add(bullet)
-        for bullet in self.bullets:
-            bullet.shoot()
-        self.bullets.draw(window)
+        if key_pressed[K_e]:
+            bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
+            bullets.add(bullet)
+
 
 
     def shoot(self):

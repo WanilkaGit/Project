@@ -31,7 +31,7 @@ map_lvl1 = [
     "|  bub  ggg      ugb b  b  b  b bgu|",
     "|  ggg       bub ugb bu      ub bgu|",
     "|       bbb  ggg ugb b  bbb   b bgu|",
-    "|      pblb      uggg    gggggggggg|",
+    "|      pblbf     uggg    gggggggggg|",
     "____________________________________"
 ]
 
@@ -41,6 +41,7 @@ map_lvl1 = [
 texture_size = 32
 move_player1 = 1
 tile_size = 32
+friend_is_on = True
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * tile_size
 level1_height = len(map_lvl1) * tile_size
@@ -48,6 +49,7 @@ level1_height = len(map_lvl1) * tile_size
 
 """ ----------------------------------ГРУПИ-------------------------------------"""
 blocks = sprite.Group()#  створюємо тусу
+br_unbr_blocks = sprite.Group()
 hides_blocks = sprite.Group()
 players = sprite.Group()
 bullets = sprite.Group()
@@ -60,12 +62,12 @@ players_image = [player1, player1_moves]
 player2 = "assets/textures/player/player21.png"
 player2_moves = "assets/textures/player/player22.png"
 
-breakable = choice([
+breakables = [
                 "assets/textures/blocks/derevaskawitch4uglblenia.png",
                 "assets/textures/blocks/derevaskawitchuglblenie.png",
                 "assets/textures/blocks/derewaska.png",
                 "assets/textures/blocks/oboi.png",
-                "assets/textures/blocks/seno.png"])
+                "assets/textures/blocks/seno.png"]
 
 unbreakable = choice([
                 "assets/textures/blocks/obsidian1.png",
@@ -137,7 +139,7 @@ class PlayerBullet(sprite.Sprite):
 
 
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, x, y, width, height, speed, img, img_move, rotate = 0, agle = "u"):
+    def __init__(self, x, y, width, height, speed, img, img_move, k_u, k_d, k_l, k_r, rotate = 0, agle = "u"):
         super().__init__()
         self.width = width
         self.height = height
@@ -148,6 +150,10 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.key_up = k_u
+        self.key_down = k_d
+        self.key_left = k_l
+        self.key_right = k_r
         self.move = 1
         self.rotate = rotate # which need
         self.agle = agle# which has
@@ -162,45 +168,48 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
 
     def rotating(self, angage):
-        if self.rotate >= angage:
-            self.image_move2 = transform.rotate(self.image_move2, -1)
-            self.image_move1 = transform.rotate(self.image_move1, -1)
-            self.rotate -= 1
-        elif self.rotate <= angage:
-            self.image_move2 = transform.rotate(self.image_move2, 1)
-            self.image_move1 = transform.rotate(self.image_move1, 1)
-            self.rotate += 1
+        if self.rotate is not angage:
+            if self.rotate >= angage:
+                self.image_move2 = transform.rotate(self.image_move2, -90)
+                self.image_move1 = transform.rotate(self.image_move1, -90)
+                self.rotate -= 90
+            elif self.rotate <= angage:
+                self.image_move2 = transform.rotate(self.image_move2, 90)
+                self.image_move1 = transform.rotate(self.image_move1, 90)
+                self.rotate += 90
 
 
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
-        if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
+        if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось
             self.agle = "u"
             self.rotating(angage=0)
             self.rect.y -= self.speed#
             self.animate()
 
-        elif key_pressed[K_s]:# перевіряєм чи нажата кнопка це а
+        elif key_pressed[self.key_down]:# перевіряєм чи нажата кнопка це а
             self.agle = "d"
             self.rotating(angage=180)
             self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-        # elif key_pressed[K_a]:# якщо в низ тобто в низ
-        #     self.rect.x -= self.speed# ми додає тобто спускаємось
-        #     self.rotate = "l"
-        #     self.animate()
+        elif key_pressed[self.key_left]:# якщо в верх то віднімаєм піднімаємось
+            self.agle = "l"
+            self.rotating(angage=90)
+            self.rect.x -= self.speed#
+            self.animate()
 
-        # elif key_pressed[K_d]:#кнопка в низ натиснута
-        #     self.rect.x += self.speed# х додаєм швидкість рухаємось
-        #     self.rotate = "r"
-        #     self.animate()
-            # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
+        elif key_pressed[self.key_right]:# перевіряєм чи нажата кнопка це а
+            self.agle = "r"
+            self.rotating(angage=270)
+            self.rect.x += self.speed# якщо так той демо в лівоdef move_animation():
+            self.animate()
+
             
         if key_pressed[K_e]:
-            bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.agle)
+            bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, choice(breakables), self.agle)
             bullets.add(bullet)
         bullets.update()
 
@@ -212,7 +221,7 @@ def creating_lists_coordinate(list, x, y):
 def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
 
-    breakables = list()
+    breakables_lst = list()
     unbreakables = list()
     green_hides = list()
     dark_white_hides = list()
@@ -227,13 +236,15 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == " ":
                 empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
             if c == "b":# дім полу
-                b = Blocks(x,y, tile_size, tile_size, 0, breakable, True, False)# створюєм раба платформа
-                breakables.append(b)
+                b = Blocks(x,y, tile_size, tile_size, 0, choice(breakables), True, False)# створюєм раба платформа
+                breakables_lst.append(b)
                 blocks.add(b)
+                br_unbr_blocks.add(b)
             if c == "u":
                 u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False, False)
                 unbreakables.append(u)
                 blocks.add(u)
+                br_unbr_blocks.add(u)
             if c == "g":
                 g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False, True)
                 green_hides.append(g)
@@ -245,12 +256,15 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                hero = Player(x, y, 34, 34 , 1, player1, player1_moves, )
-                players.add(hero)
+                player = Player(x, y, 34, 34 , 1, player1, player1_moves, K_w, K_s, K_a, K_d)
+                players.add(player)
+            if c == "f" and friend_is_on:
+                friend = Player(x, y, 34, 34 , 1, player1, player1_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+                players.add(friend)
             if c == "l":
-                l = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
+                l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)
             if c == "|":
-                p = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
+                p = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)
                 blocks.add(p)
             x += tile_size#  ікси плюс tile_size
         y += tile_size#  перміщаємось в низ на tile_size

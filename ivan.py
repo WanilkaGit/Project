@@ -34,7 +34,6 @@ map_lvl1 = [                               #Unbreakeble - u
 ]
 
 
-
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 texture_size = 32
 move_player1 = 1
@@ -87,6 +86,7 @@ font2 = font.SysFont(('font/ariblk.ttf'), 60)
 
 
 """-------------------------------------Класи---------------------------------------"""
+""" ----------------------------------Клас блоків-------------------------------------"""
 class Blocks(sprite.Sprite):# основний клас тут основні параметри
     def __init__(self, x, y, width, height, speed, img, breaking_ables: bool, ghost_skills: bool):
         super().__init__()
@@ -100,6 +100,8 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
         self.rect.x = x
         self.rect.y = y
 
+
+""" ----------------------------------клас пулі-------------------------------------"""
 class PlayerBullet(sprite.Sprite):
     def __init__(self, x, y, width, height, speed, img, rotate: str = "u"):
         super().__init__()
@@ -136,6 +138,7 @@ class PlayerBullet(sprite.Sprite):
             self.rect.x += self.speed
 
 
+""" ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
     def __init__(self, x, y, width, height, speed, img, img_move, k_u, k_d, k_l, k_r, k_shoot, rotate = 0, agle = "u"):
         super().__init__()
@@ -157,6 +160,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.rotate = rotate # which need
         self.agle = agle# which has
 
+# тут анімація руху гравця
     def animate(self):
         if self.move % 2 == 0:
             self.image = transform.scale(self.image_move1, (self.width, self.height))# підсьтавляєм фотку
@@ -165,7 +169,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.image = transform.scale(self.image_move2, (self.width, self.height))# підсьтавляєм фотку
             self.move+= 1
 
-
+# тут повороти гравця
     def rotating(self, angage):
         if self.rotate is not angage:
             if self.rotate >= angage:
@@ -177,7 +181,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
                 self.image_move1 = transform.rotate(self.image_move1, 90)
                 self.rotate += 90
 
-
+# функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
@@ -206,17 +210,21 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rect.x += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-            
         if key_pressed[self.key_shoot]:
             bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, choice(breakables), self.agle)
             bullets.add(bullet)
         bullets.update()
 
+
+
+"""----------------------------------ФУНКЦІЇ------------------------------------------"""
+# створення списків можливий через цю функцію
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))
     return list
 
-"""----------------------------------ФУНКЦІЇ------------------------------------------"""
+
+# створення карти
 def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
 
@@ -261,13 +269,16 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 friend = Player(x, y, 34, 34 , 1, player1, player1_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
-                l = Blocks(x, y, tile_size, tile_size, 0, breakables, False, False)
+                l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)
+                blocks.add(l)
             x += tile_size#  ікси плюс tile_size
         y += tile_size#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x
     return blocks, hides_blocks, players, enemy_coordinates
 
 
+
+# функція що 
 def reset_map():
     global blocks, hides_blocks, players, bullets
     blocks.empty()#  створюємо тусу

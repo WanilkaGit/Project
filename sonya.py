@@ -126,10 +126,10 @@ def games(window):
     pause_btn.draw(window)
     window.blit(life_txt, (1000, 60))
     players.draw(window)
-    players.update(window)
+    players.update()
     bullets.draw(window)
     for bullet in bullets:
-        bullet.shoot()
+        bullet.update()
     enemys.update(window)
     blocks.draw(window)
     hides_blocks.draw(window)

@@ -121,7 +121,7 @@ class PlayerBullet(sprite.Sprite):
             self.image = transform.rotate(self.image, 90)
         self.move = 1
 
-    def shoot(self):
+    def update(self):
         if self.rotate == "u":
             # self.speed = 0
             # self.speed += 1 if self.speed != 10 else None
@@ -138,7 +138,7 @@ class PlayerBullet(sprite.Sprite):
 
 
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, x, y, width, height, speed, img, img_move, rotate: str = "u", agle = 0):
+    def __init__(self, x, y, width, height, speed, img, img_move, rotate = 0, agle = ""):
         super().__init__()
         self.width = width
         self.height = height
@@ -148,10 +148,9 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.rotate = 0
         self.move = 1
-        self.rotate = rotate
-        self.agle = agle
+        self.rotate = rotate # which need
+        self.agle = agle# which has
 
     def animate(self):
         if self.move % 2 == 0:
@@ -162,44 +161,43 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.move+= 1
 
 
-    def rotating(self):
-        self.image = transform.rotate(self.image, 90)
+    def rotating(self, rotate, angage):
+        if rotate >= angage:
+            self.image = transform.rotate(self.image, -1)
+        elif rotate <= angage:
+            self.image = transform.rotate(self.image, 1)
 
 
-    def update(self, window):# тут буде переміщення в право ліво
+    def update(self):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
-            self.rotate = "u"
-            self.rotating()
+            self.agle = "u"
+            self.image = self.rotating(self.rotate, angage=0)
             self.rect.y -= self.speed#
             self.animate()
 
-        if key_pressed[K_s]:# перевіряєм чи нажата кнопка це а
-            self.rotate = "d"
-            self.rotating()
+        elif key_pressed[K_s]:# перевіряєм чи нажата кнопка це а
+            self.agle = "d"
+            self.image = self.rotating(self.rotate, angage=180)
             self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-        if key_pressed[K_a]:# якщо в низ тобто в низ
+        elif key_pressed[K_a]:# якщо в низ тобто в низ
             self.rect.x -= self.speed# ми додає тобто спускаємось
-            self.rotate = "r"
-            self.animate()
-
-        if key_pressed[K_d]:#кнопка в низ натиснута
-            self.rect.x += self.speed# х додаєм швидкість рухаємось
             self.rotate = "l"
             self.animate()
+
+        elif key_pressed[K_d]:#кнопка в низ натиснута
+            self.rect.x += self.speed# х додаєм швидкість рухаємось
+            self.rotate = "r"
+            self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
+            
         if key_pressed[K_e]:
             bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
             bullets.add(bullet)
-
-
-
-    def shoot(self):
-            pass
 
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))

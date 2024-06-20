@@ -35,19 +35,19 @@ incrementing = True
 score = 0
 
 
-def increment_score():
-    global score, incrementing
-    if incrementing:
-        score += 1
-        save_to_file({'score': score}, filename)
-        print(f'Score: {score}')
-        Timer(1, increment_score).start()
+# def increment_score():
+#     global score, incrementing
+#     if incrementing:
+#         score += 1
+#         save_to_file({'score': score}, filename)
+#         print(f'Score: {score}')
+#         Timer(1, increment_score).start()
 
 def start_increment():
     global incrementing
     if not incrementing:
         incrementing = True
-        increment_score()
+        # increment_score()
 
 def stop_increment():
     global incrementing

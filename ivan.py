@@ -186,15 +186,15 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-        elif key_pressed[K_a]:# якщо в низ тобто в низ
-            self.rect.x -= self.speed# ми додає тобто спускаємось
-            self.rotate = "l"
-            self.animate()
+        # elif key_pressed[K_a]:# якщо в низ тобто в низ
+        #     self.rect.x -= self.speed# ми додає тобто спускаємось
+        #     self.rotate = "l"
+        #     self.animate()
 
-        elif key_pressed[K_d]:#кнопка в низ натиснута
-            self.rect.x += self.speed# х додаєм швидкість рухаємось
-            self.rotate = "r"
-            self.animate()
+        # elif key_pressed[K_d]:#кнопка в низ натиснута
+        #     self.rect.x += self.speed# х додаєм швидкість рухаємось
+        #     self.rotate = "r"
+        #     self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
             
         if key_pressed[K_e]:

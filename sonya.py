@@ -12,11 +12,6 @@ font_path = r"assets\textures\fonts\Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
 
-#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-#W, H = pg.display.Info().current_w, pg.display.Info().current_h
-#background_image = pg.image.load(r'assets\textures\background.jpg')
-#background_image = pg.transform.scale(background_image, (W, H))
-
 score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
 

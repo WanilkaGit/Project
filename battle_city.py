@@ -131,7 +131,7 @@ while game:
                 elif maxyms_scenes.load_map_button.is_pressed(event.pos):
                     scene = 8 
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos):
-                    maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), 42)
+                    maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), 40)
                     maxyms_scenes.spawner.change_enemy_list([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
                     scene = 9
                 elif maxyms_scenes.reset_button.is_pressed(event.pos):

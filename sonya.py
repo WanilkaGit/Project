@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height
 from random import choice, randint
 import ivan as i
 pg.init()
@@ -47,8 +47,8 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
 bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (8, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
-enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, blocks)
-enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
+enemy_tank1 = Enemy(enemy, 1 , 60, 120, 1, 100, bullet_obj, blocks)
+enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1], zone = (0, 70, level1_width, level1_height))
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
 

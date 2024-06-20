@@ -44,8 +44,8 @@ btn1 = CheckButton(100, 250, 50, font, 'Легкий', text_color=(255, 255, 255
 btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255, 255))
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
 
-enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (34, 34))
-bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (10, 10))
+enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
+bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (8, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
 enemy_tank1 = Enemy(enemy, 1 , 100, 120, 0, 0, bullet_obj, blocks)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])

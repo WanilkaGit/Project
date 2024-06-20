@@ -14,25 +14,23 @@ init()# ініціалізуєм пайгейм
 #background_image = pg.transform.scale(background_image, (W, H))
 
 """------------------------------------Map--------------------------------------"""
-map_lvl1 = [
-    "____________________________________",#Unbreakeble - u
-    "|dddddddddddddddddddddddddddddddddu|",#breakeable - b
-    "|   bbbb  bbbb e udb bbbb  bbbb bdu|",#green_hide - g
-    "|u  b  b  b g u eudb bl b  b  b bdu|",#dark_white_hide - d
-    "|   bbbb  bbbb u udb bbbb  b  b bdu|",#enemy - e
-    "|   b  b   g b   udb    b  b  b bdu|",#player1 - p
-    "|   bbbb  bbbb   udb bbbb  bbbb bdu|",#lose - l
-    "|  u             udb            bdu|",#win - w
-    "|    bbbbbbbbbbb udb  bb bb bb  bdu|",#кожен елемент цього
-    "|     uuuu   gg  udb    bbbb    bdu|",#є частиню карти окрім
-    "|  bbbg gg       uggggggggggggggggu|",#пробілів
-    "|  gg       buub uu     b  b     uu|",#що вони означають написано вище
-    "|    u  bub gggg ug  b  bbbb  b bgu|",#теж зі знаком коментаря
-    "|  bub  ggg      ugb b  b  b  b bgu|",
-    "|  ggg       bub ugb bu      ub bgu|",
-    "|       bbb  ggg ugb b  bbb   b bgu|",
-    "|      pblb      uggg    gggggggggg|",
-    "____________________________________"
+map_lvl1 = [                               #Unbreakeble - u
+    "dddddddddddddddddddddddddddddddddu",#breakeable - b
+    "   bbbb  bbbb   udb bbbb  bbbb bdu",#green_hide - g
+    "u  b  b  b g u eudb bl be b  b bdu",#dark_white_hide - d
+    " e bbbb  bbbb u udb bbbb  b  b bdu",#enemy - e
+    "   b  b   g b   udb    b  b  b bdu",#player1 - p
+    "   bbbb  bbbb   udb bbbb  bbbb bdu",#lose - l
+    "  u             udb            bdu",#win - w
+    "    bbbbbbbbbbb udb  bb bb bb  bdu",#кожен елемент цього
+    "     uuuu   gg  udb    bbbb    bdu",#є частиню карти окрім
+    "  bbbg gg       uggggggggggggggggu",#пробілів
+    "  gg       buub uu     b  b     uu",#що вони означають написано вище
+    "    u  bub gggg ug  b  bbbb  b bgu",#теж зі знаком коментаря
+    "  bub  ggg      ugb b  b  b  b bgu",
+    "  ggg       bub ugb bu      ub bgu",
+    "       bbb  ggg ugb b  bbb   b bgu",
+    "      pblb      uggg    gggggggggg"
 ]
 
 
@@ -249,9 +247,6 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 players.add(hero)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
-            if c == "|":
-                p = Blocks(x, y, tile_size, tile_size, 0, breakable, False, False)
-                blocks.add(p)
             x += tile_size#  ікси плюс tile_size
         y += tile_size#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x

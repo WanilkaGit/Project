@@ -119,7 +119,6 @@ class PlayerBullet(sprite.Sprite):
             self.image = transform.rotate(self.image, 270)
         if self.rotate == "r":
             self.image = transform.rotate(self.image, 90)
-        self.move = 1
 
     def update(self):
         if self.rotate == "u":
@@ -138,7 +137,7 @@ class PlayerBullet(sprite.Sprite):
 
 
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, x, y, width, height, speed, img, img_move, rotate = 0, agle = ""):
+    def __init__(self, x, y, width, height, speed, img, img_move, rotate = 0, agle = "u"):
         super().__init__()
         self.width = width
         self.height = height
@@ -198,8 +197,9 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
             
         if key_pressed[K_e]:
-            bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
+            bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.agle)
             bullets.add(bullet)
+        bullets.update()
 
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))

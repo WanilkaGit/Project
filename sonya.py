@@ -128,8 +128,6 @@ def games(window):
     players.draw(window)
     players.update()
     bullets.draw(window)
-    for bullet in bullets:
-        bullet.update()
     enemys.update(window)
     blocks.draw(window)
     hides_blocks.draw(window)

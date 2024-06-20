@@ -164,10 +164,10 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
     def rotating(self, angage):
         if self.rotate >= angage:
             self.image = transform.rotate(self.image, -1)
-            self.rotate += 1
+            self.rotate -= 1
         elif self.rotate <= angage:
             self.image = transform.rotate(self.image, 1)
-            self.rotate -= 1
+            self.rotate += 1
 
 
     def update(self):# тут буде переміщення в право ліво
@@ -176,13 +176,13 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
             self.agle = "u"
-            self.image = self.rotating( angage=0)
+            self.rotating(angage=0)
             self.rect.y -= self.speed#
             self.animate()
 
         elif key_pressed[K_s]:# перевіряєм чи нажата кнопка це а
             self.agle = "d"
-            self.image = self.rotating(angage=180)
+            self.rotating(angage=180)
             self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 

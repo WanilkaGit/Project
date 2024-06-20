@@ -143,7 +143,8 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.height = height
         self.speed = speed
         self.image = transform.scale(image.load(img), (self.width, self.height))
-        self.image_move = transform.scale(image.load(img_move), (self.width, self.height))
+        self.image_move1 = transform.scale(image.load(img_move), (self.width, self.height))
+        self.image_move2 = transform.scale(image.load(img), (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -153,19 +154,21 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
     def animate(self):
         if self.move % 2 == 0:
-            self.image = transform.scale(image.load(player1_moves), (self.width, self.height))# підсьтавляєм фотку
+            self.image = transform.scale(self.image_move1, (self.width, self.height))# підсьтавляєм фотку
             self.move+= 1
         else:
-            self.image = transform.scale(image.load(player1), (self.width, self.height))# підсьтавляєм фотку
+            self.image = transform.scale(self.image_move2, (self.width, self.height))# підсьтавляєм фотку
             self.move+= 1
 
 
     def rotating(self, angage):
         if self.rotate >= angage:
-            self.image = transform.rotate(self.image, -1)
+            self.image_move2 = transform.rotate(self.image_move2, -1)
+            self.image_move1 = transform.rotate(self.image_move1, -1)
             self.rotate -= 1
         elif self.rotate <= angage:
-            self.image = transform.rotate(self.image, 1)
+            self.image_move2 = transform.rotate(self.image_move2, 1)
+            self.image_move1 = transform.rotate(self.image_move1, 1)
             self.rotate += 1
 
 

@@ -15,24 +15,24 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [
-    "___________________________________________________",#Unbreakeble - u
-    "|dddddddddddddddddddddddddddddddddu dbbbbbwbbbbbd |",#breakeable - b
-    "|   bbbb  bbbb e udb bbbb  bbbb bdue ddbbbbbbbdd  |",#green_hide - g
-    "|u  b  b  b g u eudb bl b  b  b bdu  e ddbbbdd    |",#dark_white_hide - d
-    "|   bbbb  bbbb u udb bbbb  b  b bdu u   ddddd  u  |",#enemy - e
-    "|   b  b   g b   udb    b  b  b bdu  d            |",#player1 - p
-    "|   bbbb  bbbb   udb bbbb  bbbb bdu     u     g   |",#lose - l
-    "|  u             udb            bdu   b    g      |",#win - w
-    "|    bbbbbbbbbbb udb  bb bb bb  bdu     b      g  |",#кожен елемент цього
-    "|     uuuu   gg  udb    bbbb    bdu d       u     |",#є частиню карти окрім
-    "|  bbbg gg       uggggggggggggggggu   bbbb  bbbb  |",#пробілів
-    "|  gg       buub uu     b  b     uu   b  b  b     |",#що вони означають написано вище
-    "|    u  bub gggg ug  b  bbbb  b bgu   bbbb  bbbb  |",#теж зі знаком коментаря
-    "|  bub  ggg      ugb b  b  b  b bgu      b     b  |",
-    "|  ggg       bub ugb bu      ub bgu   bbbb  bbbb  |",
-    "|       bbb  ggg ugb b  bbb   b bgu               |",
-    "|      pblb      uggg    ggggggggggggggggggggggggg|",
-    "___________________________________________________"
+    "____________________________________",#Unbreakeble - u
+    "|dddddddddddddddddddddddddddddddddu|",#breakeable - b
+    "|   bbbb  bbbb e udb bbbb  bbbb bdu|",#green_hide - g
+    "|u  b  b  b g u eudb bl b  b  b bdu|",#dark_white_hide - d
+    "|   bbbb  bbbb u udb bbbb  b  b bdu|",#enemy - e
+    "|   b  b   g b   udb    b  b  b bdu|",#player1 - p
+    "|   bbbb  bbbb   udb bbbb  bbbb bdu|",#lose - l
+    "|  u             udb            bdu|",#win - w
+    "|    bbbbbbbbbbb udb  bb bb bb  bdu|",#кожен елемент цього
+    "|     uuuu   gg  udb    bbbb    bdu|",#є частиню карти окрім
+    "|  bbbg gg       uggggggggggggggggu|",#пробілів
+    "|  gg       buub uu     b  b     uu|",#що вони означають написано вище
+    "|    u  bub gggg ug  b  bbbb  b bgu|",#теж зі знаком коментаря
+    "|  bub  ggg      ugb b  b  b  b bgu|",
+    "|  ggg       bub ugb bu      ub bgu|",
+    "|       bbb  ggg ugb b  bbb   b bgu|",
+    "|      pblb      uggg    gggggggggg|",
+    "____________________________________"
 ]
 
 
@@ -208,7 +208,6 @@ def creating_lists_coordinate(list, x, y):
     list.append((x, y))
     return list
 
-
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
@@ -256,3 +255,12 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             x += tile_size#  ікси плюс tile_size
         y += tile_size#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x
+    return blocks, hides_blocks, players, enemy_coordinates
+
+
+def reset_map():
+    global blocks, hides_blocks, players, bullets
+    blocks.empty()#  створюємо тусу
+    hides_blocks.empty()
+    players.empty()
+    bullets.empty()

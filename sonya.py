@@ -126,7 +126,7 @@ def games(window):
     pause_btn.draw(window)
     window.blit(life_txt, (1000, 60))
     players.draw(window)
-    players.update()
+    players.update(window)
     enemys.update(window)
     blocks.draw(window)
     hides_blocks.draw(window)

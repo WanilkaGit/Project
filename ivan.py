@@ -154,36 +154,29 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.move+= 1
 
 
-    def rotate(self, dir, needest_agle, center):
-        if self.rotate >= 360:
-            self.rotate = 0
+    def rotating(self):
+        self.image = transform.rotate(self.image, 90)
 
-        if self.rotate == dir:
-            while self.agle != needest_agle:
-                if self.agle > center:
-                    self.image = transform.rotate(self.original_texture, 1)
-                elif self.agle < center:
-                    self.image = transform.rotate(self.image, -1)
-                else:
-                    self.image = transform.rotate(self.image, choice([1, -1]))
 
-    def update(self):# тут буде переміщення в право ліво
+    def update(self, window):# тут буде переміщення в право ліво
         global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[K_w]:# якщо в верх то віднімаєм піднімаємось
-            self.rect.y -= self.speed#
             self.rotate = "u"
+            self.rotating()
+            self.rect.y -= self.speed#
             self.animate()
 
-        if key_pressed[K_a]:# перевіряєм чи нажата кнопка це а
-            self.rect.x -= self.speed# якщо так той демо в лівоdef move_animation():
+        if key_pressed[K_s]:# перевіряєм чи нажата кнопка це а
             self.rotate = "d"
+            self.rotating()
+            self.rect.y += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
 
-        if key_pressed[K_s]:# якщо в низ тобто в низ
-            self.rect.y += self.speed# ми додає тобто спускаємось
+        if key_pressed[K_a]:# якщо в низ тобто в низ
+            self.rect.x -= self.speed# ми додає тобто спускаємось
             self.rotate = "r"
             self.animate()
 
@@ -193,9 +186,15 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rotate = "l"
             self.animate()
             # self.image = transform.scale(image.load(hero_r), (self.width, self.height))#  підставляєм фотку
+        bullets = sprite.Group()
+        bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
+        bullets.add(bullet)
+        bullet.shoot()
+        bullets.draw(window)
+
 
     def shoot(self):
-        bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, breakable, self.rotate)
+            pass
 
 def creating_lists_coordinate(list, x, y):
     list.append((x, y))

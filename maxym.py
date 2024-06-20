@@ -491,7 +491,8 @@ class EnemySpawner:
     якщо нічого не вказувати то класс зробить свою группу ворогів але тоді до неї буде складніше отримати доступ і оновлювати доведеться через цей класс
     '''
     def __init__(self, enemys: list, spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
-        self.enemys = enemys
+        self.original_enemys = enemys.copy()
+        self.enemys = enemys.copy()
         self.spawns = spawns
 
         #якщо при створенні вказано enemy_group то присвоюємо її до властивості self.enemy_group інакше робимо нову enemy_group
@@ -500,7 +501,7 @@ class EnemySpawner:
 
     def spawn(self):
         '''спавнить і видаляє ворога зі списку'''
-        
+
         #якщо список не пустий ми записуємо в змінну enemy перший елемент цього списку та видаляємо його піся чого додаємо enemy до группи enemy_group
         if self.enemys: 
             enemy = self.enemys.pop(0)
@@ -525,6 +526,14 @@ class EnemySpawner:
             else: #інакще виконуємо цей блок коду
                 enemy = choice(self.enemys)
                 self.enemy_group.add(enemy.new(choice(self.spawns)))
+
+    def reset_enemys(self):
+        self.enemy_group.empty()
+        self.enemys = self.original_enemys.copy()
+
+    def change_enemy_list(self, new_enemys: list):
+        self.original_enemys = new_enemys.copy()
+        self.enemys = new_enemys.copy()
 
     def update(self, display):
         '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''
@@ -575,6 +584,10 @@ class MaxymsScenes:
     def __init__(self):
         self.choice_block = 0
         self.constructor_blocks = pg.sprite.Group()
+        self.game_blocks = pg.sprite.Group()
+        self.hides_blocks = pg.sprite.Group()
+        self.players = pg.sprite.Group()
+        self.spawner = EnemySpawner([])
 
         # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
@@ -608,6 +621,8 @@ class MaxymsScenes:
         self.load_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
 
         self.back_to_constructor_button = Button(600, 0, 200, 85, font, 'Відмінити', (100, 10, 10))
+
+        self.back_to_constructor_from_test_button = Button(1100, 100, 350, 85, font, 'Повернутись до створення', (100, 10, 10))
 
         self.save_map_buttons = ButtonGroup(self.save_slot1, self.save_slot2, self.save_slot3, self.save_slot4,
                                             self.back_to_constructor_button)
@@ -785,6 +800,18 @@ class MaxymsScenes:
 
     def constructor_play(self, display: pg.Surface): # scene = 9
         '''сцена де ти можеш протестувати тещо ти побудував в сцені з конструктором карт'''
+        from ivan import bullets
         display.fill((0, 0, 0))
+
+        self.players.update()
+        self.spawner.update(display)
+
+        self.players.draw(display)
+        self.game_blocks.draw(display)
+        self.hides_blocks.draw(display)
+        bullets.draw(display)
+        self.spawner.spawn()
+
+        self.back_to_constructor_from_test_button.draw(display)
 
 maxyms_scenes = MaxymsScenes()

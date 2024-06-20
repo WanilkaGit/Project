@@ -139,7 +139,7 @@ class PlayerBullet(sprite.Sprite):
 
 
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, x, y, width, height, speed, img, img_move, k_u, k_d, k_l, k_r, rotate = 0, agle = "u"):
+    def __init__(self, x, y, width, height, speed, img, img_move, k_u, k_d, k_l, k_r, k_shoot, rotate = 0, agle = "u"):
         super().__init__()
         self.width = width
         self.height = height
@@ -154,6 +154,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_down = k_d
         self.key_left = k_l
         self.key_right = k_r
+        self.key_shoot = k_shoot
         self.move = 1
         self.rotate = rotate # which need
         self.agle = agle# which has
@@ -208,7 +209,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.animate()
 
             
-        if key_pressed[K_e]:
+        if key_pressed[self.key_shoot]:
             bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, choice(breakables), self.agle)
             bullets.add(bullet)
         bullets.update()
@@ -256,10 +257,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player(x, y, 34, 34 , 1, player1, player1_moves, K_w, K_s, K_a, K_d)
+                player = Player(x, y, 34, 34 , 1, player1, player1_moves, K_w, K_s, K_a, K_d, K_e)
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player(x, y, 34, 34 , 1, player1, player1_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+                friend = Player(x, y, 34, 34 , 1, player1, player1_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)

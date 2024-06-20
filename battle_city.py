@@ -176,8 +176,7 @@ while game:
             elif scene == 9: # якщо сцена гри в зроблену власноруч карту
                 if maxyms_scenes.back_to_constructor_from_test_button.is_pressed(event.pos):
                     reset_map()
-                    maxyms_scenes.spawner.enemy_group = pg.sprite.Group()
-                    maxyms_scenes.spawner.enemys = []
+                    maxyms_scenes.spawner.reset_enemys()
                     scene = 5
 
     if scene == 0:

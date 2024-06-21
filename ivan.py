@@ -35,10 +35,11 @@ map_lvl1 = [                               #Unbreakeble - u
 
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
-texture_size = 32
 move_player1 = 1
 tile_size = 32
+player_size = 32
 friend_is_on = True
+
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * tile_size
 level1_height = len(map_lvl1) * tile_size
@@ -287,10 +288,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player(x, y, 34, 34 , 1, player1, player1_moves, K_w, K_s, K_a, K_d, K_e)
+                player = Player(x, y, player_size, player_size , 1, player1, player1_moves, K_w, K_s, K_a, K_d, K_e)
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player(x, y, 34, 34 , 1, player2, player2_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
+                friend = Player(x, y, player_size, player_size , 1, player2, player2_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)

@@ -28,11 +28,21 @@ def display_rules(window):
         "Складність гри можна змінити в налаштуваннях.",
         "Темні блоки не ломаються, лише білі!",
         "Правила гри: Відбивайтеся від ворожих танків, захищаючи свою базу!",
+        "Гравець №1:",
         "Уверх - W",
         "Вниз - S",
         "Направо - D",
         "Наліво - A",
-        "Стріляти - R"
+        "Стріляти - R",
+    ]
+
+    rules2 = [
+        "Гравець №2:",
+        "Уверх - стрілка уверх",
+        "Вниз - стрілка вниз",
+        "Направо - стрілка направо",
+        "Наліво - стрілка наліво",
+        "Стріляти - лівий ctrl"
     ]
     
     font_path = r"assets//textures//fonts//Blazma-Regular.otf"
@@ -47,6 +57,12 @@ def display_rules(window):
         text = render_text_with_spacing(rule, font, text_color, letter_spacing)
         window.blit(text, (50, y_offset))
         y_offset += text.get_height() + 20
+
+    y_offset2 = 230
+    for rule in rules2:
+        text = render_text_with_spacing(rule, font, text_color, letter_spacing)
+        window.blit(text, (450, y_offset2))
+        y_offset2 += text.get_height() + 20
     
     back_button_from_htp.draw(window)
     

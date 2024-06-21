@@ -183,6 +183,33 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
+        #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+        collided_blocks = pg.sprite.spritecollide(self, br_unbr_blocks, False)
+        if collided_blocks:
+            block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
+            if self.agle == "u":
+                self.rect.top = block.rect.bottom
+            elif self.agle == "d":
+                self.rect.bottom = block.rect.top
+            elif self.agle == "l":
+                self.rect.left = block.rect.right 
+            elif self.agle == "r":
+                self.rect.right = block.rect.left
+
+        # #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
+        # if self.rect.right > self.zone[2]:
+        #     self.rect.x = self.zone[2] - self.rect.width
+        #     self.__random_rotate()
+        # elif self.rect.left < self.zone[0]:
+        #     self.rect.x = self.zone[0]
+        #     self.__random_rotate()
+        # if self.rect.bottom > self.zone[3]:
+        #     self.rect.y = self.zone[3] - self.rect.height
+        #     self.__random_rotate()
+        # elif self.rect.top < self.zone[1]:
+        #     self.rect.y = self.zone[1]
+        #     self.__random_rotate()
+
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось
@@ -213,11 +240,6 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             bullet = PlayerBullet(self.rect.x, self.rect.y, 10, 20, 1, choice(breakables), self.agle)
             bullets.add(bullet)
         bullets.update()
-
-    def colides(self):
-        pass
-
-
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 # створення списків можливий через цю функцію

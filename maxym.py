@@ -372,7 +372,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullets = pg.sprite.Group()
         
         self.zone = zone
-         
+
     def __random_rotate(self):
         '''повертає танк в одному з чотирьох напрямків'''        
         self.dir = randint(1,4)

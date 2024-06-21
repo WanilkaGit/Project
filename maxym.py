@@ -356,7 +356,7 @@ class Enemy(pg.sprite.Sprite):
     
     zone вписувати тут не треба!!!!!!!!
     '''
-    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
+    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, players: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
         super().__init__()
         self.original_texture = texture
         self.image = texture
@@ -369,6 +369,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullet = bullet
         self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
+        self.players = players
         self.bullets = pg.sprite.Group()
         
         self.zone = zone
@@ -445,6 +446,15 @@ class Enemy(pg.sprite.Sprite):
                     if block.breaking_ables:
                         block.kill()
                     bullet.kill()
+
+        collides = pg.sprite.groupcollide(self.bullets, self.players, True, False)
+        if collides:
+            for bullet, players in collides.items():
+                players[0].kill()
+
+        collides = pg.sprite.spritecollide(self, self.players, False, False)
+        if collides:
+            collides[0].kill()
     
     def take_damage(self, damage: Union[int, float]):
         '''Функція для нанесення шкоди ворогу якщо кількість життів ворога дорівнює нулю то видаляємо ворога'''
@@ -456,7 +466,7 @@ class Enemy(pg.sprite.Sprite):
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
-        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, zone)
+        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, zone)
         new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
         return new_enemy
 

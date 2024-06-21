@@ -289,8 +289,8 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, choice(breakables), False)
                 blocks.add(l)
-            x += (tile_size[0] + tile_size[1]) / 2#  ікси плюс tile_size
-        y += (tile_size[0] + tile_size[1]) / 2#  перміщаємось в низ на tile_size
+            x += tile_size[0]#  ікси плюс tile_size
+        y += tile_size[1]#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x
     return blocks, hides_blocks, players, enemy_coordinates
 

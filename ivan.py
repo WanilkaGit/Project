@@ -15,10 +15,10 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [                               #Unbreakeble - u
-    "dddddddddddddddddddddddddddddddddu",#breakeable - b
-    "   bbbb  bbbb   udb bbbb  bbbb bdu",#green_hide - g
-    "u  b  b  b g u eudb bl be b  b bdu",#dark_white_hide - d
-    " e bbbb  bbbb u udb bbbb  b  b bdu",#enemy - e
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbu",#breakeable - b
+    "   bbbb  bbbb  budb bbbbb bbbb bdu",#green_hide - g
+    "ubbb  b  b g u eudb bl be b  b bdu",#dark_white_hide - d
+    " e bbbb  bbbb   udb bbbb  b  b bdu",#enemy - e
     "   b  b   g b   udb    b  b  b bdu",#player1 - p
     "   bbbb  bbbb   udb bbbb  bbbb bdu",#lose - l
     "  u             udb            bdu",#win - w
@@ -234,7 +234,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.animate()
 
         if key_pressed[self.key_shoot]:
-            bullet = PlayerBullet(self.rect.x + player_size[0]/2-1, self.rect.y + player_size[1]/2-1, 2, 4, 1, '', self.agle)
+            bullet = PlayerBullet(self.rect.x + player_size[0]/2-1, self.rect.y + player_size[1]/2-1, 3, 5, 1, 'assets/textures/bullet.png', self.agle)
             bullets.add(bullet)
         bullets.update()
 

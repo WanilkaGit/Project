@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers
 from random import choice, randint
 import ivan as i
 pg.init()
@@ -44,11 +44,27 @@ btn1 = CheckButton(100, 250, 50, font, 'Легкий', text_color=(255, 255, 255
 btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255, 255))
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
 
-enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
-bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (8, 5))
+enemy_defuld_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
+
+enemy_speed_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankspeed1.png"), (28, 28))
+
+enemy_shield_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankshield1.png"), (28, 28))
+
+enemy_agility_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankagility1.png"), (28, 28))
+
+enemy_mono_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankmono1.png"), (28, 28))
+
+bullet = pg.transform.scale(pg.image.load("assets/textures/bullet.png"), (3, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
-enemy_tank1 = Enemy(enemy, 1 , 60, 120, 1, 100, bullet_obj, blocks, players)
-enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1], zone = (0, 70, level1_width, level1_height))
+
+enemy_defuld = Enemy(enemy_defuld_sprite, 1 , 60, 120, 1, 100, bullet_obj, blocks, players)
+enemy_speed = Enemy(enemy_speed_sprite, 2 , 45, 110, 1, 150, bullet_obj, blocks, players)
+enemy_shield = Enemy(enemy_shield_sprite, 1 , 63, 125, 3, 150, bullet_obj, blocks, players)
+enemy_agility = Enemy(enemy_agility_sprite, 1 , 7, 110, 1, 150, bullet_obj, blocks, players)
+enemy_mono = Enemy(enemy_mono_sprite, 1 , 0, 100, 5, 200, bullet_obj, blocks, players)
+
+
+enemys = EnemySpawner([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_mono, enemy_mono, enemy_agility, enemy_mono], zone = (beginers[0], beginers[1], level1_width, level1_height))
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
 

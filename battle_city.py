@@ -132,7 +132,7 @@ while game:
                     scene = 8 
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
                     maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), (32,32))
-                    maxyms_scenes.spawner.change_enemy_list([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
+                    maxyms_scenes.spawner.change_enemy_list([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld])
                     scene = 9
                 elif maxyms_scenes.reset_button.is_pressed(event.pos):
                     maxyms_scenes.constructor_blocks = pg.sprite.Group()
@@ -191,8 +191,8 @@ while game:
         current_time = pg.time.get_ticks()
         if current_time - last_call_time > interval:
             last_call_time = current_time
-            enemys.spawn()
-            interval = randint(100, 2500)
+            enemys.spawn_random()
+            interval = randint(500, 3500)
 
     elif scene == 2:
         setting(window)

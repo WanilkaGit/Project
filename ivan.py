@@ -36,8 +36,8 @@ map_lvl1 = [                               #Unbreakeble - u
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 move_player1 = 1
-tile_size = 32
-player_size = 32
+tile_size = [32, 32]
+player_size = [32, 32]
 friend_is_on = True
 
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
@@ -58,6 +58,7 @@ players_image = [player1, player1_moves]
 
 player2 = "assets/textures/player/player21.png"
 player2_moves = "assets/textures/player/player22.png"
+players2_image = [player2, player2_moves]
 
 breakables = [
                 "assets/textures/blocks/derevaskawitch4uglblenia.png",
@@ -88,16 +89,14 @@ font2 = font.SysFont(('font/ariblk.ttf'), 60)
 """-------------------------------------Класи---------------------------------------"""
 """ ----------------------------------Клас блоків-------------------------------------"""
 class Blocks(sprite.Sprite):# основний клас тут основні параметри
-    def __init__(self, x, y, width, height, speed, img, breaking_ables: bool):
+    def __init__(self, coordinates, size, speed, img, breaking_ables: bool):
         super().__init__()
-        self.width = width
-        self.height = height
+        self.width, self.height = size
         self.speed = speed
         self.image = transform.scale(image.load(img), (self.width, self.height))
         self.breaking_ables = breaking_ables
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x, self.rect.y = coordinates
 
 
 """ ----------------------------------клас пулі-------------------------------------"""
@@ -139,17 +138,15 @@ class PlayerBullet(sprite.Sprite):
 
 """ ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, x, y, width, height, speed, img, img_move, k_u, k_d, k_l, k_r, k_shoot, rotate = 0, agle = "u"):
+    def __init__(self, coordainates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, rotate = 0, agle = "u"):
         super().__init__()
-        self.width = width
-        self.height = height
-        self.speed = speed
-        self.image = transform.scale(image.load(img), (self.width, self.height))
-        self.image_move1 = transform.scale(image.load(img), (self.width, self.height))
-        self.image_move2 = transform.scale(image.load(img_move), (self.width, self.height))
+        self.width, self.height = size
+        self.image = transform.scale(image.load(imgs[0]), (self.width, self.height))
+        self.image_move1 = transform.scale(image.load(imgs[0]), (self.width, self.height))
+        self.image_move2 = transform.scale(image.load(imgs[1]), (self.width, self.height))
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x, self.rect.y = coordainates
+        self.speed = speed
         self.key_up = k_u
         self.key_down = k_d
         self.key_left = k_l
@@ -266,34 +263,34 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == " ":
                 empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
             if c == "b":# дім полу
-                b = Blocks(x,y, tile_size, tile_size, 0, choice(breakables), True)# створюєм раба платформа
+                b = Blocks((x,y), tile_size, 0, choice(breakables), True)# створюєм раба платформа
                 breakables_lst.append(b)
                 blocks.add(b)
             if c == "u":
-                u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False)
+                u = Blocks((x,y), tile_size, 0, unbreakable, False)
                 unbreakables.append(u)
                 blocks.add(u)
             if c == "g":
-                g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False)
+                g = Blocks((x,y), tile_size, 0, green_hide, False)
                 green_hides.append(g)
                 hides_blocks.add(g)
             if c == "d":
-                d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False)
+                d = Blocks((x,y), tile_size, 0, green_hide, False)
                 dark_white_hides.append(d)
                 hides_blocks.add(d)
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player(x, y, player_size, player_size , 1, player1, player1_moves, K_w, K_s, K_a, K_d, K_e)
+                player = Player((x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e)
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player(x, y, player_size, player_size , 1, player2, player2_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
+                friend = Player((x, y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
-                l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False)
+                l = Blocks((x,y), tile_size, 0, choice(breakables), False)
                 blocks.add(l)
-            x += tile_size#  ікси плюс tile_size
-        y += tile_size#  перміщаємось в низ на tile_size
+            x += (tile_size[0] + tile_size[1]) / 2#  ікси плюс tile_size
+        y += (tile_size[0] + tile_size[1]) / 2#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x
     return blocks, hides_blocks, players, enemy_coordinates
 

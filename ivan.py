@@ -288,7 +288,7 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 friend = Player((x, y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
-                l = Blocks((x,y), tile_size, 0, choice(breakables), False)
+                l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)
                 blocks.add(l)
             x += tile_size[0]#  ікси плюс tile_size
         y += tile_size[1]#  перміщаємось в низ на tile_size

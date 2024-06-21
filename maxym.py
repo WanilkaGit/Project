@@ -607,7 +607,7 @@ class MaxymsScenes:
         self.game_blocks = pg.sprite.Group()
         self.hides_blocks = pg.sprite.Group()
         self.players = pg.sprite.Group()
-        self.spawner = EnemySpawner([], zone = (0, 70,  640, 710))
+        self.spawner = EnemySpawner([], zone = (0, 70, 512, 582))
 
         # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
@@ -830,7 +830,7 @@ class MaxymsScenes:
         self.game_blocks.draw(display)
         self.hides_blocks.draw(display)
         bullets.draw(display)
-        self.spawner.spawn()
+        self.spawner.spawn_random()
 
         self.back_to_constructor_from_test_button.draw(display)
 

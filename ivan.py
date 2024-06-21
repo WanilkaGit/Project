@@ -30,7 +30,7 @@ map_lvl1 = [                               #Unbreakeble - u
     "  bub  ggg      ugb b  b  b  b bgu",
     "  ggg       bub ugb bu      ub bgu",
     "       bbb  ggg ugb b  bbb   b bgu",
-    "      pblb      uggg    gggggggggg"
+    "      pblbf     uggg    gggggggggg"
 ]
 
 
@@ -146,8 +146,8 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.height = height
         self.speed = speed
         self.image = transform.scale(image.load(img), (self.width, self.height))
-        self.image_move1 = transform.scale(image.load(img_move), (self.width, self.height))
-        self.image_move2 = transform.scale(image.load(img), (self.width, self.height))
+        self.image_move1 = transform.scale(image.load(img), (self.width, self.height))
+        self.image_move2 = transform.scale(image.load(img_move), (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -164,10 +164,10 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
     def animate(self):
         if self.move % 2 == 0:
             self.image = transform.scale(self.image_move1, (self.width, self.height))# підсьтавляєм фотку
-            self.move+= 1
+            self.move += 1
         else:
             self.image = transform.scale(self.image_move2, (self.width, self.height))# підсьтавляєм фотку
-            self.move+= 1
+            self.move += 1
 
 # тут повороти гравця
     def rotating(self, angage):
@@ -183,7 +183,6 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
-        global move_player1
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось
@@ -266,7 +265,7 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 player = Player(x, y, 34, 34 , 1, player1, player1_moves, K_w, K_s, K_a, K_d, K_e)
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player(x, y, 34, 34 , 1, player1, player1_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
+                friend = Player(x, y, 34, 34 , 1, player2, player2_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
                 l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)

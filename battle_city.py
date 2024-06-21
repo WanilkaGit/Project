@@ -20,8 +20,8 @@ window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
 
 pg.display.set_caption('Battle City')
-pg.display.set_icon(pg.image.load('assets\\textures\\player\\player11.png'))  #завантажуєемо фото іконки
-back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
+pg.display.set_icon(pg.image.load('assets/textures/player/player11.png'))  #завантажуєемо фото іконки
+back = pg.transform.scale(pg.image.load('assets/textures/fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 game = True
 
 scene = 0
@@ -35,19 +35,19 @@ incrementing = True
 score = 0
 
 
-def increment_score():
-    global score, incrementing
-    if incrementing:
-        score += 1
-        save_to_file({'score': score}, filename)
-        print(f'Score: {score}')
-        Timer(1, increment_score).start()
+# def increment_score():
+#     global score, incrementing
+#     if incrementing:
+#         score += 1
+#         save_to_file({'score': score}, filename)
+#         print(f'Score: {score}')
+#         Timer(1, increment_score).start()
 
 def start_increment():
     global incrementing
     if not incrementing:
         incrementing = True
-        increment_score()
+        # increment_score()
 
 def stop_increment():
     global incrementing
@@ -75,6 +75,8 @@ while game:
                     scene = 3
 
                 elif play_btn.is_pressed(event.pos):
+                    create_map(map_lvl1, tile_size)
+                    enemys.spawns = ivan.enemy_coordinates
                     scene = 1
 
                 if constructor_button.is_pressed(event.pos):
@@ -113,8 +115,13 @@ while game:
                 if start_button.is_pressed(event.pos):
                     scene = 1
                 elif exit_to_main.is_pressed(event.pos):
+                    reset_map()
+                    enemys.reset_enemys()
                     scene = 0
                 elif restart_btn.is_pressed(event.pos):
+                    reset_map()
+                    create_map(map_lvl1, tile_size)
+                    enemys.reset_enemys()
                     scene = 6
 
             elif scene == 5:
@@ -122,9 +129,10 @@ while game:
                 if maxyms_scenes.save_map_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
                     scene = 7
                 elif maxyms_scenes.load_map_button.is_pressed(event.pos):
-                    scene = 8
+                    scene = 8 
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos):
-                    create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), 46)
+                    maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), 40)
+                    maxyms_scenes.spawner.change_enemy_list([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1])
                     scene = 9
                 elif maxyms_scenes.reset_button.is_pressed(event.pos):
                     maxyms_scenes.constructor_blocks = pg.sprite.Group()
@@ -165,14 +173,19 @@ while game:
                     scene = 5
                 elif maxyms_scenes.back_to_constructor_button.is_pressed(event.pos):
                     scene = 5
+            elif scene == 9: # якщо сцена гри в зроблену власноруч карту
+                if maxyms_scenes.back_to_constructor_from_test_button.is_pressed(event.pos):
+                    reset_map()
+                    maxyms_scenes.spawner.reset_enemys()
+                    scene = 5
 
     if scene == 0:
         main_menu(window)
     elif scene == 1:
         games(window)
         if is_it_is:
-            create_map(map_lvl1, tile_size)
-            enemys.spawns = ivan.enemy_coordinates
+            # create_map(map_lvl1, tile_size)
+            # enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
         
         current_time = pg.time.get_ticks()

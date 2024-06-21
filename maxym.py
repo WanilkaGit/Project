@@ -3,7 +3,7 @@ from random import randint, choice
 from typing import Union, Optional, Tuple
 import json
 pg.font.init()
-font = pg.font.Font('assets\\textures\\fonts\\Blazma-Regular.otf', 24)
+font = pg.font.Font('assets/textures/fonts/Blazma-Regular.otf', 24)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
 
@@ -240,7 +240,7 @@ class LineEdit:
                 elif event.key == pg.K_DELETE: #якщо натиснуто деліт
                     self.text = ''
                 else: # якщо натиснута люба інша клавіша на клавіатурі
-                    if event.unicode not in {'\t'}:
+                    if event.unicode not in {'/t'}:
                         if self.max_symbol != 0: # якщо максимальна кількість символів не дорівнює нулю (це зроблено для того щоб олзробник міг виставити безкінечну кількість символів)
                             if len(self.text) <= self.max_symbol:
                                 self.text += event.unicode
@@ -292,6 +292,7 @@ class Bullet(pg.sprite.Sprite):
         self.speed = speed
         self.damage = damage
         self.dir = 0 #dir це direction тобіш напрямок якщо хтось не зрозумів
+        self.zone = (0, 70, 1500, 900)
 
     def update(self, display: pg.Surface):
         '''оновлює позицію кулі та відальовує її на вказаній поверхні'''
@@ -310,7 +311,7 @@ class Bullet(pg.sprite.Sprite):
 
         #якщо куля не на карті то видаляємо її
         #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк вмпадок
-        if not is_on_screen(self, 800, 800):
+        if is_edge_touched(self, self.zone[0], self.zone[1], self.zone[2], self.zone[3]):
             self.kill()
             del self
     
@@ -320,12 +321,13 @@ class Bullet(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    def new(self, dir: int):
+    def new(self, dir: int, zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Bullet на основі себе'''
 
         new_bullet = Bullet(self.image, self.speed, self.damage)
         new_bullet.dir = dir #dir це direction тобіш напрямок якщо хтось не зрозумів
         new_bullet.image = pg.transform.rotate(new_bullet.image, 90 * dir)
+        new_bullet.zone = zone
         return new_bullet
 
 #dir це direction тобіш напрямок якщо хтось не зрозумів
@@ -352,8 +354,9 @@ class Enemy(pg.sprite.Sprite):
 
     blocks - сюди треба вказати группу блоків танк буде оброблювати усі зіткнення саме з цією группою
     
+    zone вписувати тут не треба!!!!!!!!
     '''
-    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group):
+    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
         super().__init__()
         self.original_texture = texture
         self.image = texture
@@ -367,6 +370,8 @@ class Enemy(pg.sprite.Sprite):
         self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
         self.bullets = pg.sprite.Group()
+        
+        self.zone = zone
 
     def __random_rotate(self):
         '''повертає танк в одному з чотирьох напрямків'''        
@@ -392,17 +397,17 @@ class Enemy(pg.sprite.Sprite):
             self.__random_rotate() 
 
         #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
-        if self.rect.right > 800:
-            self.rect.x = 800 - self.rect.width
+        if self.rect.right > self.zone[2]:
+            self.rect.x = self.zone[2] - self.rect.width
             self.__random_rotate()
-        elif self.rect.left < 0:
-            self.rect.x = 0
+        elif self.rect.left < self.zone[0]:
+            self.rect.x = self.zone[0]
             self.__random_rotate()
-        if self.rect.bottom > 800:
-            self.rect.y = 800 - self.rect.height
+        if self.rect.bottom > self.zone[3]:
+            self.rect.y = self.zone[3] - self.rect.height
             self.__random_rotate()
-        elif self.rect.top < 0:
-            self.rect.y = 0
+        elif self.rect.top < self.zone[1]:
+            self.rect.y = self.zone[1]
             self.__random_rotate()
         
     def update(self, display: pg.Surface):
@@ -414,7 +419,7 @@ class Enemy(pg.sprite.Sprite):
 
         #тут генеруємо випадкове число якщо воно рівне одиниці то танк зробить постріл
         if randint(0, self.firing_rate) == 1:
-            new_bullet = self.bullet.new(self.dir)
+            new_bullet = self.bullet.new(self.dir, self.zone)
             new_bullet.rect.center = self.rect.center
             self.bullets.add(new_bullet)
 
@@ -437,7 +442,6 @@ class Enemy(pg.sprite.Sprite):
         collides = pg.sprite.groupcollide(self.bullets, self.blocks, False, False)
         for bullet, blocks in collides.items():
             for block in blocks:
-                if not block.ghost_skills:
                     if block.breaking_ables:
                         block.kill()
                     bullet.kill()
@@ -449,10 +453,10 @@ class Enemy(pg.sprite.Sprite):
             self.kill()
             del self #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
 
-    def new(self, pos: Tuple[int, int]):
+    def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
-        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks)
+        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, zone)
         new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
         return new_enemy
 
@@ -490,9 +494,12 @@ class EnemySpawner:
 
     якщо нічого не вказувати то класс зробить свою группу ворогів але тоді до неї буде складніше отримати доступ і оновлювати доведеться через цей класс
     '''
-    def __init__(self, enemys: list, spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None) -> None:
-        self.enemys = enemys
+    def __init__(self, enemys: list, spawns: Union[list, tuple] = ((100, 50), (500, 50), (750,50)), enemy_group: Optional[pg.sprite.Group] = None, zone: Tuple[int, int, int, int] = (0, 0, 1200, 900)) -> None:
+        self.original_enemys = enemys.copy()
+        self.enemys = enemys.copy()
         self.spawns = spawns
+
+        self.zone = zone
 
         #якщо при створенні вказано enemy_group то присвоюємо її до властивості self.enemy_group інакше робимо нову enemy_group
         if enemy_group is not None: self.enemy_group = enemy_group
@@ -500,11 +507,11 @@ class EnemySpawner:
 
     def spawn(self):
         '''спавнить і видаляє ворога зі списку'''
-        
+
         #якщо список не пустий ми записуємо в змінну enemy перший елемент цього списку та видаляємо його піся чого додаємо enemy до группи enemy_group
         if self.enemys: 
             enemy = self.enemys.pop(0)
-            self.enemy_group.add(enemy.new(choice(self.spawns)))
+            self.enemy_group.add(enemy.new(choice(self.spawns), self.zone))
     
     def spawn_random(self, del_enemy_from_list: bool = False):
         '''
@@ -521,10 +528,18 @@ class EnemySpawner:
         if self.enemys:
             if del_enemy_from_list: #якщо вибрана опція видаляти ворога зі списку при спавні то виконуємо цей блок
                 enemy = self.enemys.pop(randint(0, len(self.enemys) - 1))
-                self.enemy_group.add(enemy.new(choice(self.spawns)))
+                self.enemy_group.add(enemy.new(choice(self.spawns),  self.zone))
             else: #інакще виконуємо цей блок коду
                 enemy = choice(self.enemys)
-                self.enemy_group.add(enemy.new(choice(self.spawns)))
+                self.enemy_group.add(enemy.new(choice(self.spawns), self.zone))
+
+    def reset_enemys(self):
+        self.enemy_group.empty()
+        self.enemys = self.original_enemys.copy()
+
+    def change_enemy_list(self, new_enemys: list):
+        self.original_enemys = new_enemys.copy()
+        self.enemys = new_enemys.copy()
 
     def update(self, display):
         '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''
@@ -533,13 +548,17 @@ class EnemySpawner:
 '''------------------------------------------------------просто функції----------------------------------------------------------------------------------------'''
 
 def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
-    '''перевіряє чи знаходиться хоч один піксель обєкта у вказанному діапазоні'''
+    '''перевіряє чи знаходиться хоч один піксель обєкта на екрані розміри екрану треба задавати самому для більшоюї гібкості'''
     return sprite.rect.right > 0 and sprite.rect.left < screen_width and sprite.rect.bottom > 0 and sprite.rect.top < screen_height
 
+def is_on_zone(sprite: pg.sprite.Sprite, zone_begin_x, zone_begin_y, zone_x, zone_y) -> bool:
+    '''перевіряє чи знаходиться хоч один піксель обєкта у вказанному діапазоні'''
+    return sprite.rect.right > zone_begin_x and sprite.rect.left < zone_x and sprite.rect.bottom > zone_begin_y and sprite.rect.top < zone_y
+
 #так я її вже не використовую але подумав що нехай буде
-def is_edge_touched(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:
+def is_edge_touched(sprite: pg.sprite.Sprite, zone_begin_x, zone_begin_y, zone_x, zone_y) -> bool:
     '''перевіряє чі виходить обєкт за межі екрану хоч на піксель'''
-    return sprite.rect.right >= screen_width or sprite.rect.left <= 0 or sprite.rect.bottom >= screen_height or sprite.rect.top <= 0
+    return sprite.rect.right >= zone_x or sprite.rect.left <= zone_begin_x or sprite.rect.bottom >= zone_y or sprite.rect.top <= zone_begin_y
 
 def round_step(num, step):
     return round((num - step / 2) / step) * step
@@ -575,12 +594,16 @@ class MaxymsScenes:
     def __init__(self):
         self.choice_block = 0
         self.constructor_blocks = pg.sprite.Group()
+        self.game_blocks = pg.sprite.Group()
+        self.hides_blocks = pg.sprite.Group()
+        self.players = pg.sprite.Group()
+        self.spawner = EnemySpawner([], zone = (0, 70,  640, 710))
 
         # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
-        self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets\\textures\\blocks\\derewaska.png')
-        self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets\\textures\\blocks\\obsidian2.png')
-        self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets\\textures\\blocks\\kuvsinka.png')
+        self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets/textures/blocks/derewaska.png')
+        self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets/textures/blocks/obsidian2.png')
+        self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets/textures/blocks/kuvsinka.png')
 
         self.enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
         self.player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
@@ -608,6 +631,8 @@ class MaxymsScenes:
         self.load_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
 
         self.back_to_constructor_button = Button(600, 0, 200, 85, font, 'Відмінити', (100, 10, 10))
+
+        self.back_to_constructor_from_test_button = Button(1100, 100, 350, 85, font, 'Повернутись до створення', (100, 10, 10))
 
         self.save_map_buttons = ButtonGroup(self.save_slot1, self.save_slot2, self.save_slot3, self.save_slot4,
                                             self.back_to_constructor_button)
@@ -656,7 +681,7 @@ class MaxymsScenes:
         '''зберігає карту в обраний слот, якщо слотів нема створює їх'''
         block_map = self.map_to_list(self.constructor_blocks) # конвертуємо карту з конструктора карт в список
         try:
-            with open('assets\\data\\maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
+            with open('assets//data//maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
                 data = json.load(file)
         except FileNotFoundError or json.decoder.JSONDecodeError: # інекше записуємо в змінну data шаблон того як все має бути
             data = {
@@ -666,14 +691,14 @@ class MaxymsScenes:
                 'save_slot4': [[]]
             }
 
-        with open('assets\\data\\maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
+        with open('assets//data//maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
             data[save_slot] = block_map
             json.dump(data, file)
 
     def load_constructor_map(self, save_slot: str):
         '''завантажує карту з обраного слоту якщо слота не уснує нічого не робить'''
         try:
-            with open('assets\\data\\maps.json', 'r') as file: #відкриваємо файл
+            with open('assets//data//maps.json', 'r') as file: #відкриваємо файл
                 data = json.load(file)
                 block_map = data[save_slot] # карта дорівнює карті з обраного слоту
             x = 80
@@ -684,15 +709,15 @@ class MaxymsScenes:
                 for block in row:
                     if block == 'b':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\derewaska.png', 'b')
+                                                 'assets//textures//blocks//derewaska.png', 'b')
                         self.constructor_blocks.add(block)
                     elif block == 'u':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\obsidian2.png', 'u')
+                                                 'assets//textures//blocks//obsidian2.png', 'u')
                         self.constructor_blocks.add(block)
                     elif block == 'g':
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
-                                                 'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                                                 'assets//textures//blocks//kuvsinka.png', 'g')
                         self.constructor_blocks.add(block)
                     elif block == 'e':
                         block = ConstructorLabel(x, y, self.tile_size, self.tile_size, 'e', font)
@@ -733,17 +758,17 @@ class MaxymsScenes:
                 if self.choice_block == 1:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\derewaska.png', 'b')
+                                             'assets//textures//blocks//derewaska.png', 'b')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 2:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\obsidian2.png', 'u')
+                                             'assets//textures//blocks//obsidian2.png', 'u')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 3:
                     block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
-                                             'assets\\textures\\blocks\\kuvsinka.png', 'g')
+                                             'assets//textures//blocks//kuvsinka.png', 'g')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 4:
                     block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),
@@ -785,6 +810,18 @@ class MaxymsScenes:
 
     def constructor_play(self, display: pg.Surface): # scene = 9
         '''сцена де ти можеш протестувати тещо ти побудував в сцені з конструктором карт'''
+        from ivan import bullets
         display.fill((0, 0, 0))
+
+        self.players.update()
+        self.spawner.update(display)
+
+        self.players.draw(display)
+        self.game_blocks.draw(display)
+        self.hides_blocks.draw(display)
+        bullets.draw(display)
+        self.spawner.spawn()
+
+        self.back_to_constructor_from_test_button.draw(display)
 
 maxyms_scenes = MaxymsScenes()

@@ -47,7 +47,7 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 enemy = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
 bullet = pg.transform.scale(pg.image.load("assets/textures/blocks/bullet.png"), (8, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
-enemy_tank1 = Enemy(enemy, 1 , 60, 120, 1, 100, bullet_obj, blocks)
+enemy_tank1 = Enemy(enemy, 1 , 60, 120, 1, 100, bullet_obj, blocks, players)
 enemys = EnemySpawner([enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1, enemy_tank1], zone = (0, 70, level1_width, level1_height))
 
 restart_txt = font.render('Restart', True, (255, 0, 255))

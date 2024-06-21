@@ -41,8 +41,8 @@ player_size = [32, 32]
 friend_is_on = True
 
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
-level1_width = len(map_lvl1[0]) * tile_size
-level1_height = len(map_lvl1) * tile_size
+level1_width = len(map_lvl1[0]) * tile_size[0]
+level1_height = len(map_lvl1) * tile_size[1]
 
 
 """ ----------------------------------ГРУПИ-------------------------------------"""

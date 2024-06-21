@@ -215,7 +215,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         bullets.update()
 
     def colides(self):
-        
+        pass
 
 
 

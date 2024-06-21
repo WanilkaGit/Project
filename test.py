@@ -16,8 +16,8 @@ from kostya import *
 # W, H = pg.display.Info().current_w, pg.display.Info().current_h
 
 # pg.display.set_caption('Battle City')
-# pg.display.set_icon(pg.image.load('assets//textures//fon1.jpg'))  #завантажуєемо фото іконки
-# back = pg.transform.scale(pg.image.load('assets//textures//fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
+# pg.display.set_icon(pg.image.load('assets\\textures\\fon1.jpg'))  #завантажуєемо фото іконки
+# back = pg.transform.scale(pg.image.load('assets\\textures\\fon1.jpg'), (W, H))  #завантажуєемо картинку фона і розтягємо її у рзміри екрана
 # game = True
 
 

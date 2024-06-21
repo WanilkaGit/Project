@@ -164,7 +164,3 @@ coin = Buster(coin_img, 10, add_point())
 
 
     
-
-
-
-

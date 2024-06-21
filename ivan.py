@@ -36,13 +36,14 @@ map_lvl1 = [                               #Unbreakeble - u
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
 move_player1 = 1
+beginers = [0, 70]
 tile_size = [32, 32]
-player_size = [32, 32]
+player_size = [28, 28]
 friend_is_on = True
 
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * tile_size[0]
-level1_height = len(map_lvl1) * tile_size[1]
+level1_height = len(map_lvl1) * tile_size[1] + beginers[1]
 
 
 """ ----------------------------------ГРУПИ-------------------------------------"""
@@ -233,7 +234,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.animate()
 
         if key_pressed[self.key_shoot]:
-            bullet = PlayerBullet(self.rect.x + player_size/2-1, self.rect.y + player_size/2-1, 2, 4, 1, choice(breakables), self.agle)
+            bullet = PlayerBullet(self.rect.x + player_size[0]/2-1, self.rect.y + player_size[1]/2-1, 2, 4, 1, '', self.agle)
             bullets.add(bullet)
         bullets.update()
 

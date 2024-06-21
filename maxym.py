@@ -442,7 +442,6 @@ class Enemy(pg.sprite.Sprite):
         collides = pg.sprite.groupcollide(self.bullets, self.blocks, False, False)
         for bullet, blocks in collides.items():
             for block in blocks:
-                if not block.ghost_skills:
                     if block.breaking_ables:
                         block.kill()
                     bullet.kill()

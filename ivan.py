@@ -89,14 +89,13 @@ font2 = font.SysFont(('font/ariblk.ttf'), 60)
 """-------------------------------------Класи---------------------------------------"""
 """ ----------------------------------Клас блоків-------------------------------------"""
 class Blocks(sprite.Sprite):# основний клас тут основні параметри
-    def __init__(self, x, y, width, height, speed, img, breaking_ables: bool, ghost_skills: bool):
+    def __init__(self, x, y, width, height, speed, img, breaking_ables: bool):
         super().__init__()
         self.width = width
         self.height = height
         self.speed = speed
         self.image = transform.scale(image.load(img), (self.width, self.height))
         self.breaking_ables = breaking_ables
-        self.ghost_skills = ghost_skills
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -268,21 +267,21 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == " ":
                 empty_coordinates = creating_lists_coordinate(empty_coordinates, x, y)
             if c == "b":# дім полу
-                b = Blocks(x,y, tile_size, tile_size, 0, choice(breakables), True, False)# створюєм раба платформа
+                b = Blocks(x,y, tile_size, tile_size, 0, choice(breakables), True)# створюєм раба платформа
                 breakables_lst.append(b)
                 blocks.add(b)
                 br_unbr_blocks.add(b)
             if c == "u":
-                u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False, False)
+                u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False)
                 unbreakables.append(u)
                 blocks.add(u)
                 br_unbr_blocks.add(u)
             if c == "g":
-                g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False, True)
+                g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False)
                 green_hides.append(g)
                 hides_blocks.add(g)
             if c == "d":
-                d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False, True)
+                d = Blocks(x, y, tile_size, tile_size, 0, green_hide, False)
                 dark_white_hides.append(d)
                 hides_blocks.add(d)
             if c == "e":
@@ -294,7 +293,7 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 friend = Player(x, y, player_size, player_size , 1, player2, player2_moves, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
                 players.add(friend)
             if c == "l":
-                l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False, False)
+                l = Blocks(x, y, tile_size, tile_size, 0, choice(breakables), False)
                 blocks.add(l)
             x += tile_size#  ікси плюс tile_size
         y += tile_size#  перміщаємось в низ на tile_size

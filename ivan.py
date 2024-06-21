@@ -236,7 +236,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.animate()
 
         if key_pressed[self.key_shoot]:
-            bullet = PlayerBullet(self.rect.x + player_size/2-1, self.rect.y, 2, 4, 1, choice(breakables), self.agle)
+            bullet = PlayerBullet(self.rect.x + player_size/2-1, self.rect.y + player_size/2-1, 2, 4, 1, choice(breakables), self.agle)
             bullets.add(bullet)
         bullets.update()
 

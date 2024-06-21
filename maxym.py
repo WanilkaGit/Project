@@ -467,7 +467,7 @@ class Enemy(pg.sprite.Sprite):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
         new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, zone)
-        new_enemy.rect.x = pos[0]; new_enemy.rect.y = pos[1]
+        new_enemy.rect.x, new_enemy.rect.y = pos
         return new_enemy
 
 #при виклику методу spawn() в классі EnemySpawner просто одразу спавниться ворог 
@@ -614,6 +614,7 @@ class MaxymsScenes:
         self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets/textures/blocks/derewaska.png')
         self.unbrekable_button = TextureButton(1300, 200, 64, 64, 'assets/textures/blocks/obsidian2.png')
         self.green_hide_button = TextureButton(1300, 300, 64, 64, 'assets/textures/blocks/kuvsinka.png')
+        self.base_button =  TextureButton(1300, 400, 64, 64, 'assets/textures/blocks/base.png')
 
         self.enemy_spawn_point_button = Button(1100, 100, 170, 64, font, 'спавн ворога', (100, 100, 100))
         self.player_spawn_point_button = Button(1100, 200, 170, 64, font, 'спавн гравця', (100, 100, 100))
@@ -628,7 +629,7 @@ class MaxymsScenes:
         self.constructor_buttons = ButtonGroup(self.brekable_button, self.unbrekable_button, self.green_hide_button,
                                                self.enemy_spawn_point_button, self.player_spawn_point_button,
                                                self.main_menu_button, self.save_map_button, self.load_map_button,
-                                               self.play_constructor_button, self.reset_button)
+                                               self.play_constructor_button, self.reset_button, self.base_button)
 
         self.save_slot1 = Button(100, 100, 200, 80, font, 'save1', (100, 10, 10))
         self.save_slot2 = Button(600, 100, 200, 80, font, 'save2', (100, 10, 10))
@@ -672,6 +673,8 @@ class MaxymsScenes:
     def check_provisos(self):
         players_in_map = 0
         enemys_is_in_map = 0
+        bases_is_in_map = 0
+
         block_map = self.map_to_list(self.constructor_blocks)
         
         for row in block_map:
@@ -680,8 +683,10 @@ class MaxymsScenes:
                     players_in_map += 1
                 elif block == 'e':
                     enemys_is_in_map += 1
+                elif block == 'l':
+                    bases_is_in_map += 1
 
-        if players_in_map == 1 and enemys_is_in_map: return True
+        if players_in_map == 1 and enemys_is_in_map and bases_is_in_map: return True
 
         else: return False
         
@@ -729,6 +734,10 @@ class MaxymsScenes:
                         block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
                                                  'assets//textures//blocks//kuvsinka.png', 'g')
                         self.constructor_blocks.add(block)
+                    elif block == 'l':
+                        block = ConstructorBlock(x, y, self.tile_size, self.tile_size,
+                                                 'assets//textures//blocks//base.png', 'l')
+                        self.constructor_blocks.add(block)
                     elif block == 'e':
                         block = ConstructorLabel(x, y, self.tile_size, self.tile_size, 'e', font)
                         self.constructor_blocks.add(block)
@@ -755,10 +764,12 @@ class MaxymsScenes:
                 self.choice_block = 2
             elif self.green_hide_button.is_pressed(mouse_pos):
                 self.choice_block = 3
-            elif self.enemy_spawn_point_button.is_pressed(mouse_pos):
+            elif self.base_button.is_pressed(mouse_pos):
                 self.choice_block = 4
-            elif self.player_spawn_point_button.is_pressed(mouse_pos):
+            elif self.enemy_spawn_point_button.is_pressed(mouse_pos):
                 self.choice_block = 5
+            elif self.player_spawn_point_button.is_pressed(mouse_pos):
+                self.choice_block = 6
 
             if self.canvas.collidepoint(mouse_pos):
                 for constructor_block in self.constructor_blocks:
@@ -781,17 +792,22 @@ class MaxymsScenes:
                                              'assets//textures//blocks//kuvsinka.png', 'g')
                     self.constructor_blocks.add(block)
                 elif self.choice_block == 4:
+                    block = ConstructorBlock(round_step(mouse_pos[0], self.tile_size),
+                                             round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
+                                             'assets//textures//blocks//base.png', 'l')
+                    self.constructor_blocks.add(block)
+                elif self.choice_block == 5:
                     block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
                                              'e', font)
                     self.constructor_blocks.add(block)
-                elif self.choice_block == 5:
+                elif self.choice_block == 6:
                     block = ConstructorLabel(round_step(mouse_pos[0], self.tile_size),
                                              round_step(mouse_pos[1], self.tile_size), self.tile_size, self.tile_size,
                                              'p', font)
                     self.constructor_blocks.add(block)
 
-        elif pg.mouse.get_pressed()[2] and self.choice_block > 0:
+        elif pg.mouse.get_pressed()[2]:
             for constructor_block in self.constructor_blocks:
                 if constructor_block.rect.collidepoint(round_step(mouse_pos[0], self.tile_size),
                                                       round_step(mouse_pos[1], self.tile_size)):

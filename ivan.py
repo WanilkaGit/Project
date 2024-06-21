@@ -23,14 +23,14 @@ map_lvl1 = [                               #Unbreakeble - u
     "   bbbb  bbbb   udb bbbb  bbbb bdu",#lose - l
     "  u             udb            bdu",#win - w
     "    bbbbbbbbbbb udb  bb bb bb  bdu",#кожен елемент цього
-    "     uuuu   gg  udb    bbbb    bdu",#є частиню карти окрім
+    "     uuuu   gg   db    bbbb    bdu",#є частиню карти окрім
     "  bbbg gg       uggggggggggggggggu",#пробілів
-    "  gg       buub uu     b  b     uu",#що вони означають написано вище
+    "  gg       buub  u     b  b     uu",#що вони означають написано вище
     "    u  bub gggg ug  b  bbbb  b bgu",#теж зі знаком коментаря
     "  bub  ggg      ugb b  b  b  b bgu",
     "  ggg       bub ugb bu      ub bgu",
-    "       bbb  ggg ugb b  bbb   b bgu",
-    "      pblbf     uggg    gggggggggg"
+    "       bbb  ggg  gb b  bbb   b bgu",
+    "      pblbf      ggg    gggggggggg"
 ]
 
 
@@ -139,7 +139,7 @@ class PlayerBullet(sprite.Sprite):
 
 """ ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, coordainates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, rotate = 0, agle = "u"):
+    def __init__(self, coordainates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
         super().__init__()
         self.width, self.height = size
         self.image = transform.scale(image.load(imgs[0]), (self.width, self.height))
@@ -153,6 +153,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_left = k_l
         self.key_right = k_r
         self.key_shoot = k_shoot
+        self.zone = zone
         self.move = 1
         self.rotate = rotate # which need
         self.agle = agle# which has
@@ -193,19 +194,14 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             elif self.agle == "r":
                 self.rect.right = block.rect.left
 
-        # #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
-        # if self.rect.right > self.zone[2]:
-        #     self.rect.x = self.zone[2] - self.rect.width
-        #     self.__random_rotate()
-        # elif self.rect.left < self.zone[0]:
-        #     self.rect.x = self.zone[0]
-        #     self.__random_rotate()
-        # if self.rect.bottom > self.zone[3]:
-        #     self.rect.y = self.zone[3] - self.rect.height
-        #     self.__random_rotate()
-        # elif self.rect.top < self.zone[1]:
-        #     self.rect.y = self.zone[1]
-        #     self.__random_rotate()
+        if self.rect.right > self.zone[2]:
+            self.rect.x = self.zone[2] - self.rect.width
+        elif self.rect.left < self.zone[0]:
+            self.rect.x = self.zone[0]
+        if self.rect.bottom > self.zone[3]:
+            self.rect.y = self.zone[3] - self.rect.height
+        elif self.rect.top < self.zone[1]:
+            self.rect.y = self.zone[1]
 
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
@@ -282,10 +278,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e)
+                player = Player((x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL)
+                friend = Player((x, y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

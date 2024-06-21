@@ -47,7 +47,6 @@ level1_height = len(map_lvl1) * tile_size
 
 """ ----------------------------------ГРУПИ-------------------------------------"""
 blocks = sprite.Group()#  створюємо тусу
-br_unbr_blocks = sprite.Group()
 hides_blocks = sprite.Group()
 players = sprite.Group()
 bullets = sprite.Group()
@@ -184,7 +183,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
-        collided_blocks = pg.sprite.spritecollide(self, br_unbr_blocks, False)
+        collided_blocks = pg.sprite.spritecollide(self, blocks, False)
         if collided_blocks:
             block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
             if self.agle == "u":
@@ -270,12 +269,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 b = Blocks(x,y, tile_size, tile_size, 0, choice(breakables), True)# створюєм раба платформа
                 breakables_lst.append(b)
                 blocks.add(b)
-                br_unbr_blocks.add(b)
             if c == "u":
                 u = Blocks(x, y, tile_size, tile_size, 0, unbreakable, False)
                 unbreakables.append(u)
                 blocks.add(u)
-                br_unbr_blocks.add(u)
             if c == "g":
                 g = Blocks(x, y,tile_size, tile_size, 0, green_hide, False)
                 green_hides.append(g)

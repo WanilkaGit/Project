@@ -609,6 +609,9 @@ class MaxymsScenes:
         self.players = pg.sprite.Group()
         self.spawner = EnemySpawner([], zone = (0, 70, 512, 582))
 
+        self.last_call_time = 0
+        self.interval = 250
+
         # Оголошення кнопок і інших об'єктів тут, але їх ініціалізація в конструкторі класу
 
         self.brekable_button = TextureButton(1300, 100, 64, 64, 'assets/textures/blocks/derewaska.png')
@@ -846,7 +849,11 @@ class MaxymsScenes:
         self.game_blocks.draw(display)
         self.hides_blocks.draw(display)
         bullets.draw(display)
-        self.spawner.spawn_random()
+        current_time = pg.time.get_ticks()
+        if current_time - self.last_call_time > self.interval:
+            self.last_call_time = current_time
+            self.spawner.spawn_random()
+            self.interval = randint(500, 3500)
 
         self.back_to_constructor_from_test_button.draw(display)
 

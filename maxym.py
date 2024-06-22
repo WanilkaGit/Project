@@ -467,11 +467,11 @@ class Enemy(pg.sprite.Sprite):
         collides = pg.sprite.groupcollide(self.bullets, self.players, True, False)
         if collides:
             for bullet, players in collides.items():
-                players[0].kill()
+                players[0].new_live()
 
         collides = pg.sprite.spritecollide(self, self.players, False)
         if collides:
-            collides[0].kill()
+            collides[0].new_live()
     
     def take_damage(self, damage: Union[int, float]):
         '''Функція для нанесення шкоди ворогу якщо кількість життів ворога дорівнює нулю то видаляємо ворога'''

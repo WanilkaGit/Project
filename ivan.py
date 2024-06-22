@@ -137,7 +137,7 @@ class PlayerBullet(sprite.Sprite):
         collides_enemy = sprite.groupcollide(self, enemys)
         for bullet, blocks in collides_enemy.items():
             for enemy in enemys:
-                enemy.take_damage()
+                enemy.take_damage(1)
                 bullet.kill()
 
 

@@ -376,7 +376,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullet = bullet
         self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
-        self.base_list = pg.sprite.Group()
+        self.base_list = bases
         self.players = players
         self.bullets = pg.sprite.Group()
         self.frame = 0

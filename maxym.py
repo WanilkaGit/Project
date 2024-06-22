@@ -488,7 +488,7 @@ class Enemy(pg.sprite.Sprite):
         self.health -= damage
         if self.health <= 0:
             self.kill()
-            del self #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
+ #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
 
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''

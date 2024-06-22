@@ -135,6 +135,8 @@ class PlayerBullet(sprite.Sprite):
             self.kill()
         collides_enemy = sprite.spritecollide(self, enemys, False)
         for enemy in collides_enemy:
+            if enemy.health <= 1:
+                score += enemy.score
             enemy.take_damage(1)
             self.kill()
 
@@ -238,11 +240,14 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
     
     def death(self):
         if self.lives <= 0:
-            players.remove(self)
+            self.kill()
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self, window, blocks, enemys):# тут буде переміщення в право ліво
+        global score_txt
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+
+        score_txt = font3.render('score: ' + str(score), True, (0, 0, 0))
 
         self.colides(blocks)
         self.blit_lives(window)

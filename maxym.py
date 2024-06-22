@@ -469,7 +469,7 @@ class Enemy(pg.sprite.Sprite):
             for bullet, players in collides.items():
                 players[0].kill()
 
-        collides = pg.sprite.spritecollide(self, self.players, False, False)
+        collides = pg.sprite.spritecollide(self, self.players, False)
         if collides:
             collides[0].kill()
     

@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score_txt
 import ivan as i
 pg.init()
 
@@ -10,9 +10,6 @@ pg.font.init()
 font_path = r"assets/textures/fonts/Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
-
-score = 0
-score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
 time_delay = 2
 
@@ -130,7 +127,7 @@ def restart():      #рестарт гри
 
 def games(window):
     window.fill((93, 62, 10))
-    window.blit(score_txt, (1000, 10))
+    window.blit(score_txt, (1100, 20))
     pause_btn.draw(window)
     players.draw(window)
     players.update(window, blocks, enemys.enemy_group)

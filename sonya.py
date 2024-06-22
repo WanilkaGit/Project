@@ -54,6 +54,8 @@ enemy_agility_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/
 
 enemy_mono_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankmono1.png"), (28, 28))
 
+enemy_rc_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankrc1.png"), (16, 16))
+
 bullet = pg.transform.scale(pg.image.load("assets/textures/bullet.png"), (3, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
 
@@ -62,9 +64,10 @@ enemy_speed = Enemy(enemy_speed_sprite, 2 , 45, 110, 1, 150, bullet_obj, blocks,
 enemy_shield = Enemy(enemy_shield_sprite, 1 , 63, 125, 3, 150, bullet_obj, blocks, players)
 enemy_agility = Enemy(enemy_agility_sprite, 1 , 7, 110, 1, 150, bullet_obj, blocks, players)
 enemy_mono = Enemy(enemy_mono_sprite, 1 , 0, 100, 5, 200, bullet_obj, blocks, players)
+enemy_rc = Enemy(enemy_rc_sprite, 3, 45, 0, 1, 150, bullet_obj, blocks, players)
 
 
-enemys = EnemySpawner([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_mono, enemy_mono, enemy_agility, enemy_mono], zone = (beginers[0], beginers[1], level1_width, level1_height))
+enemys = EnemySpawner([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_speed, enemy_shield, enemy_shield, enemy_shield, enemy_agility, enemy_mono, enemy_rc], zone = (beginers[0], beginers[1], level1_width, level1_height))
 
 restart_txt = font.render('Restart', True, (255, 0, 255))
 

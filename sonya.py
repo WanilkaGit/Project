@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score_txt, score
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score
 import ivan as i
 pg.init()
 
@@ -129,6 +129,7 @@ def restart():      #рестарт гри
     hero_lives = 3
 
 def games(window):
+    score_txt = font.render('score: ' + str(score), True, (0, 0, 0))
     window.fill((93, 62, 10))
     window.blit(score_txt, (1100, 20))
     pause_btn.draw(window)

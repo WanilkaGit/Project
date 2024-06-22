@@ -235,8 +235,8 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.lives -= 1
 
     def blit_lives(self, window):
-        life_txt = font3.render('Lifes: ' + str(self.lives), True, (0, 0, 0))
-        window.blit(life_txt, (1000, self.lifes_y))
+        life_txt = font3.render('Життя: ' + str(self.lives), True, (0, 0, 0))
+        window.blit(life_txt, (1100, self.lifes_y))
     
     def death(self):
         if self.lives <= 0:
@@ -244,10 +244,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self, window, blocks, enemys):# тут буде переміщення в право ліво
-        global score_txt
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
-
-        score_txt = font3.render('score: ' + str(score), True, (0, 0, 0))
 
         self.colides(blocks)
         self.blit_lives(window)

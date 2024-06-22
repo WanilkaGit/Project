@@ -32,7 +32,7 @@ last_call_time = pg.time.get_ticks()
 interval = 100
 
 incrementing = True
-score = 0
+
 
 def start_increment():
     global incrementing

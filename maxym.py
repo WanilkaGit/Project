@@ -1,6 +1,6 @@
 import pygame as pg
 from random import randint, choice
-from typing import Union, Optional, Tuple
+from typing import Union, Optional, Tuple, List
 import json
 pg.font.init()
 font = pg.font.Font('assets/textures/fonts/Blazma-Regular.otf', 24)
@@ -360,10 +360,11 @@ class Enemy(pg.sprite.Sprite):
     
     zone вписувати тут не треба!!!!!!!!
     '''
-    def __init__(self, texture: pg.Surface, speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, players: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
+    def __init__(self, textures: Union[List[pg.Surface], Tuple[pg.Surface, pg.Surface]], speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, players: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
         super().__init__()
-        self.original_texture = texture
-        self.image = texture
+        self.original_texture1, self.original_texture2  = textures
+        self.texture1, self.texture2 = self.original_texture1, self.original_texture2
+        self.image = textures[0]
         self.rect = self.image.get_rect()
         self.speed = speed
         self.agility = agility
@@ -375,13 +376,23 @@ class Enemy(pg.sprite.Sprite):
         self.blocks = blocks
         self.players = players
         self.bullets = pg.sprite.Group()
-        
+        self.frame = 0
+
         self.zone = zone
+
+    def __animate(self):
+        if self.frame <= 2:
+            self.image = self.texture1
+        else:
+            self.image = self.texture2
+            if self.frame >= 4: self.frame = -1
+        self.frame += 1
 
     def __random_rotate(self):
         '''повертає танк в одному з чотирьох напрямків'''        
         self.dir = randint(1,4)
-        self.image = pg.transform.rotate(self.original_texture, 90 * self.dir - 90)
+        self.texture1 = pg.transform.rotate(self.original_texture1, 90 * self.dir - 90)
+        self.texture2 = pg.transform.rotate(self.original_texture2, 90 * self.dir - 90)
 
     def __collide(self):
         '''колізія ворога зі стінами чі краєм карти'''
@@ -439,6 +450,8 @@ class Enemy(pg.sprite.Sprite):
             self.rect.y += self.speed
         elif self.dir == 4:
             self.rect.x += self.speed
+
+        self.__animate()
         
         self.__collide() #перевірка всіх потрібних зіткнень
 
@@ -470,7 +483,7 @@ class Enemy(pg.sprite.Sprite):
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
 
-        new_enemy = Enemy(self.image, self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, zone)
+        new_enemy = Enemy((self.original_texture1, self.original_texture2), self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, zone)
         new_enemy.rect.x, new_enemy.rect.y = pos
         return new_enemy
 

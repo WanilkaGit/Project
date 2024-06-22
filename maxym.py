@@ -194,16 +194,18 @@ class LineEdit:
 
     frame_size - розміри рамок лайн едіта якщо поставити 0 то фон буде суцільним
     '''
-    def __init__(self, x: int, y: int, width: int, height: int, font: pg.font.Font, max_symbol: int, text_color: Tuple[int, int, int], focused_color: Optional[Tuple[int, int, int]] = None, unfocused_color: Optional[Tuple[int, int, int]] = None, frame_size: int = 4):
+    def __init__(self, x: int, y: int, width: int, height: int, font: pg.font.Font, max_symbol: int, text_color: Tuple[int, int, int], focused_color: Optional[Tuple[int, int, int]] = None, unfocused_color: Optional[Tuple[int, int, int]] = None, hint_color: Optional[Tuple[int, int, int]] = None, hint: str = '',  frame_size: int = 4):
         self.rect = pg.Rect(x, y, width, height)
         self.color = focused_color
         self.unactive_color = unfocused_color
         self.frame_size = frame_size
         self.text_color = text_color
+        self.hint_color = hint_color
         self.font = font
         self.max_symbol = max_symbol
+        self.hint = hint
 
-        self.flash = 0
+        self.flash = 25
 
         self.focused = False
         self.text = ''
@@ -259,6 +261,8 @@ class LineEdit:
                 if self.flash >= 40: # якщо ця змінна більше або дорівню сорок то скидуємо її на нуль
                     self.flash = 0
             self.flash += 1
+        elif self.text == '':
+            self.line_text = self.font.render(self.hint, True, self.hint_color)
 
         if self.color is not None: # якщо був встановлений колір то відмальовує прямокутник
             if self.focused: # якщо лайн едіт активний то відмальовуємо прямокутник з активним кольором
@@ -626,6 +630,7 @@ class MaxymsScenes:
 
         self.save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
         self.load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
+        self.map_name_line = LineEdit(300, 20, 280, 40, font, 12, (255,255,255), (150, 150, 150), (100, 100, 100), (70, 70, 70), 'введи назву карти', 5)
         self.play_constructor_button = Button(520, 730, 200, 80, font, 'Грати', (100, 10, 10))
         self.reset_button = Button(1300, 730, 200, 80, font, 'Очистити карту', (100, 10, 10))
 
@@ -634,15 +639,20 @@ class MaxymsScenes:
                                                self.main_menu_button, self.save_map_button, self.load_map_button,
                                                self.play_constructor_button, self.reset_button, self.base_button)
 
-        self.save_slot1 = Button(100, 100, 200, 80, font, 'save1', (100, 10, 10))
-        self.save_slot2 = Button(600, 100, 200, 80, font, 'save2', (100, 10, 10))
-        self.save_slot3 = Button(100, 600, 200, 80, font, 'save3', (100, 10, 10))
-        self.save_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
+        self.save_slot1_name = 'save1'
+        self.save_slot2_name = 'save2'
+        self.save_slot3_name = 'save3'
+        self.save_slot4_name = 'save4'
 
-        self.load_slot1 = Button(100, 100, 200, 80, font, 'save1', (100, 10, 10))
-        self.load_slot2 = Button(600, 100, 200, 80, font, 'save2', (100, 10, 10))
-        self.load_slot3 = Button(100, 600, 200, 80, font, 'save3', (100, 10, 10))
-        self.load_slot4 = Button(600, 600, 200, 80, font, 'save4', (100, 10, 10))
+        self.save_slot1 = Button(100, 100, 200, 80, font, self.save_slot1_name, (100, 10, 10))
+        self.save_slot2 = Button(600, 100, 200, 80, font, self.save_slot2_name, (100, 10, 10))
+        self.save_slot3 = Button(100, 600, 200, 80, font, self.save_slot3_name, (100, 10, 10))
+        self.save_slot4 = Button(600, 600, 200, 80, font, self.save_slot4_name, (100, 10, 10))
+
+        self.load_slot1 = Button(100, 100, 200, 80, font, self.save_slot1_name, (100, 10, 10))
+        self.load_slot2 = Button(600, 100, 200, 80, font, self.save_slot2_name, (100, 10, 10))
+        self.load_slot3 = Button(100, 600, 200, 80, font, self.save_slot3_name, (100, 10, 10))
+        self.load_slot4 = Button(600, 600, 200, 80, font, self.save_slot4_name, (100, 10, 10))
 
         self.back_to_constructor_button = Button(600, 0, 200, 85, font, 'Відмінити', (100, 10, 10))
 
@@ -677,9 +687,13 @@ class MaxymsScenes:
         players_in_map = 0
         enemys_is_in_map = 0
         bases_is_in_map = 0
+        have_map_name = 0
 
         block_map = self.map_to_list(self.constructor_blocks)
         
+        if self.map_name_line.text != '':
+            have_map_name += 1
+
         for row in block_map:
             for block in row:
                 if block == 'p':
@@ -689,7 +703,7 @@ class MaxymsScenes:
                 elif block == 'l':
                     bases_is_in_map += 1
 
-        if players_in_map == 1 and enemys_is_in_map and bases_is_in_map: return True
+        if players_in_map == 1 and enemys_is_in_map and bases_is_in_map and have_map_name: return True
 
         else: return False
         
@@ -701,17 +715,24 @@ class MaxymsScenes:
         try:
             with open('assets//data//maps.json', 'r') as file: # якщо такий файл існує то відкриваємо його і записуємо його в змінну data
                 data = json.load(file)
-        except FileNotFoundError or json.decoder.JSONDecodeError: # інекше записуємо в змінну data шаблон того як все має бути
+                file.close()
+        except FileNotFoundError:  # інекше записуємо в змінну data шаблон того як все має бути
             data = {
                 'save_slot1': [[]],
+                'save_slot1_name': 'save1',
                 'save_slot2': [[]],
+                'save_slot2_name': 'save2',
                 'save_slot3': [[]],
-                'save_slot4': [[]]
+                'save_slot3_name': 'save3',
+                'save_slot4': [[]],
+                'save_slot4_name': 'save4'
             }
 
         with open('assets//data//maps.json', 'w') as file: # тут просто змінюємо вміст слота та завантажуємо data в файл
             data[save_slot] = block_map
+            data[save_slot+'_name'] = self.map_name_line.text
             json.dump(data, file)
+            file.close()
 
     def load_constructor_map(self, save_slot: str):
         '''завантажує карту з обраного слоту якщо слота не уснує нічого не робить'''
@@ -719,6 +740,7 @@ class MaxymsScenes:
             with open('assets//data//maps.json', 'r') as file: #відкриваємо файл
                 data = json.load(file)
                 block_map = data[save_slot] # карта дорівнює карті з обраного слоту
+                self.map_name_line.text = data[save_slot + '_name']
             x = 80
             y = 80
             self.constructor_blocks = pg.sprite.Group() #очищуємо стару карту
@@ -752,6 +774,30 @@ class MaxymsScenes:
                 x = 80
         except FileNotFoundError: # якщо слоту не існує просто нічого не робимо
             pass
+    def load_slots_names(self):
+        try:
+            with open('assets//data//maps.json', 'r') as file: #відкриваємо файл
+                data = json.load(file)
+                self.save_slot1.text = data['save_slot1_name']
+                self.save_slot2.text = data['save_slot2_name']
+                self.save_slot3.text = data['save_slot3_name']
+                self.save_slot4.text = data['save_slot4_name']
+                self.load_slot1.text = data['save_slot1_name']
+                self.load_slot2.text = data['save_slot2_name']
+                self.load_slot3.text = data['save_slot3_name']
+                self.load_slot4.text = data['save_slot4_name']
+                file.close()
+        except FileNotFoundError:
+                self.save_slot1.text = self.save_slot1_name
+                self.save_slot2.text = self.save_slot2_name
+                self.save_slot3.text = self.save_slot3_name
+                self.save_slot4.text = self.save_slot4_name
+                self.load_slot1.text = self.save_slot1_name
+                self.load_slot2.text = self.save_slot2_name
+                self.load_slot3.text = self.save_slot3_name
+                self.load_slot4.text = self.save_slot4_name
+        
+
 
     # Методи для сцен (map_constructor, map_constructor_uninit, save_map_scene, load_map_scene, constructor_play) тут
 
@@ -817,6 +863,7 @@ class MaxymsScenes:
                     constructor_block.kill()
 
         self.constructor_buttons.draw(display)
+        self.map_name_line.draw(display)
         for block in self.constructor_blocks:
             block.draw(display)
 

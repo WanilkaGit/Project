@@ -326,10 +326,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), (x, y), player_size, players_image, 3, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
+                player = Player((x, y), (x, y), player_size, players_image, 2, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
+                friend = Player((x, y), (x,y), player_size, players2_image, 2, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

@@ -170,11 +170,11 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 # тут повороти гравця
     def rotating(self, angage):
         if self.rotate is not angage:
-            if self.rotate >= angage:
+            if self.rotate > angage:
                 self.image_move2 = transform.rotate(self.image_move2, -90)
                 self.image_move1 = transform.rotate(self.image_move1, -90)
                 self.rotate -= 90
-            elif self.rotate <= angage:
+            elif self.rotate < angage:
                 self.image_move2 = transform.rotate(self.image_move2, 90)
                 self.image_move1 = transform.rotate(self.image_move1, 90)
                 self.rotate += 90

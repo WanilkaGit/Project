@@ -274,7 +274,7 @@ def creating_lists_coordinate(list, x, y):
 
 def game_over():
     global game_end, players
-    if not players and not loozes:
+    if not players or not loozes:
         return game_end is False
 
 

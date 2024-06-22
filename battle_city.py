@@ -53,6 +53,10 @@ def stop_increment():
     global incrementing
     incrementing = False
 
+def game_over():
+    global scene
+    if not players or not loozes:
+        return scene is 0 
 
 while game:
     window.blit(back, (0,0))

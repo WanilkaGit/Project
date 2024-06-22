@@ -240,9 +240,9 @@ while game:
             reset_map()
             maxyms_scenes.spawner.reset_enemys()
             scene = 5
-
-    fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
-    window.blit(fps, (10, 10))
+    if fps_on.button_pressed:
+        fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
+        window.blit(fps, (10, 10))
     clock.tick(30)
     pg.display.update()
 pg.quit()

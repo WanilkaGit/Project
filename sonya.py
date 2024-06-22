@@ -38,8 +38,9 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 dificlty = CheckButtonGroup(btn1, btn2, btn3)
 
 fps_text = font.render('показувати фпс', True, (255, 255, 255))
-fps_on = CheckButton(100, 250, 50, font, 'так', text_color=(255, 255, 255))
-fps_off = CheckButton(100, 250, 50, font, 'ні', text_color=(255, 255, 255))
+fps_on = CheckButton(200, 600, 50, font, 'так', text_color=(255, 255, 255))
+fps_off = CheckButton(300, 600, 50, font, 'ні', text_color=(255, 255, 255))
+fps_off.button_pressed = True
 
 fps_chg = CheckButtonGroup(fps_on, fps_off)
 
@@ -104,8 +105,10 @@ def setting(window):      #меню налаштувань
     back_button_from_settings.draw(window)
     dificlty.update(window)
     coop_group.update(window)
+    fps_chg.update(window)
     change_settings()
     window.blit(coop_text, (90, 400))
+    window.blit(fps_text, (90, 550))
     window.blit(title, (650, 30))
     window.blit(title2, (90, 100))
 

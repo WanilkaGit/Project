@@ -75,10 +75,9 @@ enemy_agility = Enemy(enemy_agility_sprite, 1 , 7, 110, 1, 150, bullet_obj, bloc
 enemy_mono = Enemy(enemy_mono_sprite, 1 , 0, 100, 5, 200, bullet_obj, blocks, players, loozes)
 enemy_rc = Enemy(enemy_rc_sprite, 3, 45, 0, 1, 150, bullet_obj, blocks, players, loozes)
 
+restart_text = font.render('Restart', True, (255, 0, 255))
 
 enemys = EnemySpawner([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_speed, enemy_shield, enemy_shield, enemy_shield, enemy_agility, enemy_mono, enemy_rc], zone = (beginers[0], beginers[1], level1_width, level1_height))
-
-restart_txt = font.render('Restart', True, (255, 0, 255))
 
             ### for pause menu  ###
 window = pg.display.set_mode((0, 0), pg.FULLSCREEN)

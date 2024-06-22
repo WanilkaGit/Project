@@ -1,7 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
 from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes
-from random import choice, randint
 import ivan as i
 pg.init()
 
@@ -11,11 +10,6 @@ pg.font.init()
 font_path = r"assets/textures/fonts/Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
-
-#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-#W, H = pg.display.Info().current_w, pg.display.Info().current_h
-#background_image = pg.image.load(r'assets/textures/background.jpg')
-#background_image = pg.transform.scale(background_image, (W, H))
 
 score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
@@ -91,31 +85,6 @@ window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
 W, H = pg.display.Info().current_w, pg.display.Info().current_h
 background_image = pg.image.load(r'assets/textures/background.jpg')
 background_image = pg.transform.scale(background_image, (W, H))
-
-coin_img = pg.image.load("assets/textures/ui/coin.png")
-
-class Jump_text(pg.sprite.Sprite):          #клас для з'являня тексту зліва на право з затримкою
-    def __init__(self, x, y, width, height, speed, image):    #конструктор класу
-        super().__init__()
-        self. width = width
-        self. height = height
-        self. speed = speed
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-    def reset(self, window):    #функція для відображення персонажів
-        window.blit(self.image, (self.rect.x, self.rect.y))
-
-    def plays(self):
-        self.rect.x += self.speed
-
-    def stop(self):
-        self.speed = 4
-
-    
-restart_text = Jump_text(100, 300, 50, 50, 10, restart_txt)
 
 def main_menu(window):        #головне меню гри
         # відмальовка об'єктів #

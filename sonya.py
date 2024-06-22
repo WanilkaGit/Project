@@ -11,8 +11,6 @@ font_path = r"assets/textures/fonts/Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
 
-time_delay = 2
-
 
 pause_btn = TextureButton(1300, 20, 50, 50, "assets/textures/ui/pause.png", font2)
 

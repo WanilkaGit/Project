@@ -127,8 +127,8 @@ class PlayerBullet(sprite.Sprite):
         if self.rotate == "r":
             self.image = transform.rotate(self.image, 90)
 
-    def colides(self, blocks, enemys):
-        collides_blocks = sprite.groupcollide(self, blocks, False, False)
+    def colides(self, blocks_colide, enemys):
+        collides_blocks = sprite.spritecollide(self, blocks_colide, False)
         for bullet, blocks in collides_blocks.items():
             for block in blocks:
                     if block.breaking_ables:

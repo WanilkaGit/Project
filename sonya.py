@@ -41,7 +41,10 @@ restart_btn = TextureButton(830, 400, 100, 80, "assets/textures/ui/restart.png",
                     ###  група кнопок в меню налаштувань   ###
 btn1 = CheckButton(100, 250, 50, font, 'Легкий', text_color=(255, 255, 255))
 btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255, 255))
+btn2.button_pressed = True
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
+
+btn = CheckButtonGroup(btn1, btn2, btn3)
 
 enemy_defuld_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28)), 
                         pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult2.png"), (28, 28)))
@@ -119,10 +122,10 @@ def setting(window):      #меню налаштувань
     window.blit(background_image, (0, 0))
     title = font.render('Налаштування', True, (255,255,255))
     title2 = font.render('Виберіть складність гри:', True, (255, 255, 255))
-
-    btn = CheckButtonGroup(btn1, btn2, btn3)
+    
     back_button_from_settings.draw(window)
     btn.update(window)
+    change_lifes()
     window.blit(title, (650, 30))
     window.blit(title2, (90, 100))
 
@@ -131,10 +134,8 @@ def pause(window):            #меню паузи
     window.blit(background_image, (0,0))
     title = font.render('---Pause---', True, (255, 255, 255))
     title2 = font.render('Рахунок: '+ str(score), True, (255, 255, 255))
-    title3 = font.render('Життя: '+  str(hero_lives), True, (255, 255, 255))
     window.blit(title,(500, 100))
     window.blit(title2,(300, 150))
-    window.blit(title3,(300, 250))
     start_button.draw(window)
     exit_to_main.draw(window)
     restart_btn.draw(window)
@@ -184,6 +185,11 @@ def add_point():
 coin = Buster(coin_img, 10, add_point())
 
 
-
-
+def change_lifes():
+    if btn1.button_pressed:
+        i.player_lives = 3
+    elif btn2.button_pressed:
+        i.player_lives = 2
+    elif btn3.button_pressed:
+        i.player_lives = 1
     

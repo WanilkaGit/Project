@@ -81,7 +81,9 @@ green_hide = "assets/textures/blocks/kuvsinka.png"
 """ ----------------------------------ШРИФТИ-------------------------------------"""
 font1 = font.SysFont("Arial", 35)
 font2 = font.SysFont(('font/ariblk.ttf'), 60)
-
+font_path = r"assets//textures//fonts//Blazma-Regular.otf"
+font_size = 36
+font3 = font.Font(font_path, font_size)
 
 """ ----------------------------------Кнопки-------------------------------------"""
 
@@ -141,7 +143,7 @@ class PlayerBullet(sprite.Sprite):
 
 """ ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, coordainates, start_coordinates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, lives, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
+    def __init__(self, coordainates, start_coordinates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, lives, life_y, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
         super().__init__()
         self.width, self.height = size
         self.image = transform.scale(image.load(imgs[0]), (self.width, self.height))
@@ -157,6 +159,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_right = k_r
         self.key_shoot = k_shoot
         self.lives = lives
+        self.lifes_y = life_y
         self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.move = 1
         self.rotate = rotate # which need
@@ -210,14 +213,16 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.lives -= 1
 
     def blit_lives(self, window):
-        life_txt = font.render('Lifes: ' + str(self.lives))
-        window.blit(life_txt, (1000, 60))
+        life_txt = font3.render('Lifes: ' + str(self.lives))
+        window.blit(life_txt, (1000, self.lifes_y))
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
+        global window
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
 
         self.colides()
+        self.blit_lives(window)
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось
@@ -293,10 +298,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, (beginers[0], beginers[1], level1_width, level1_height))
+                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, (beginers[0], beginers[1], level1_width, level1_height))
+                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

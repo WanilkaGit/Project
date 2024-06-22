@@ -166,34 +166,6 @@ def games(window):
     loozes.draw(window)
     hides_blocks.draw(window)
 
-start_time = pg.time.get_ticks()
-
-
-
-class Buster:
-    def __init__(self, image, interval, action):
-        self.image = image
-        self.interval = interval
-        self.action = action
-
-        last_call_time = pg.time.get_ticks()
-
-    def buster_spawn(self):
-        p = choice((i.empty_coordinates))
-        window.blit(self.image, p)
-    
-    def time_delay(self, window):
-        if self.image not in window:
-            if start_time - last_call_time > interval:
-                last_call_time = start_time
-                coin.buster_spawn()
-                interval = randint(100, 500) 
-                
-def add_point():
-    pass
-
-coin = Buster(coin_img, 10, add_point())
-
 
 def change_settings():
     if btn1.button_pressed:

@@ -16,7 +16,7 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [                               #Unbreakeble - u
-    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbu",#breakeable - b
+    "dddddddddddddddddddddddddddddddddu",#breakeable - b
     "   bbbb  bbbb  budb bbbbb bbbb bdu",#green_hide - g
     "ubbb  b  b g u eudb bl be b  b bdu",#dark_white_hide - d
     " e bbbb  bbbb   udb bbbb  b  b bdu",#enemy - e
@@ -24,14 +24,14 @@ map_lvl1 = [                               #Unbreakeble - u
     "   bbbb  bbbb   udb bbbb  bbbb bdu",#lose - l
     "  u             udb            bdu",#win - w
     "    bbbbbbbbbbb udb  bb bb bb  bdu",#кожен елемент цього
-    "     uuuu   gg   db    bbbb    bdu",#є частиню карти окрім
-    "  bbbg gg       uggggggggggggggggu",#пробілів
+    "     uuuu   gg   ub    bbbb    bdu",#є частиню карти окрім
+    "  bbbg gg       uugggggggggggggggu",#пробілів
     "  gg       buub  u     b  b     uu",#що вони означають написано вище
     "    u  bub gggg ug  b  bbbb  b bgu",#теж зі знаком коментаря
     "  bub  ggg      ugb b  b  b  b bgu",
     "  ggg       bub ugb bu      ub bgu",
     "       bbb  ggg  gb b  bbb   b bgu",
-    "      pblbf      ggg    gggggggggg"
+    "      pblbf     dddd   blb ggggggg"
 ]
 
 

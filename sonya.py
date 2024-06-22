@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes
 from random import choice, randint
 import ivan as i
 pg.init()
@@ -154,6 +154,7 @@ def games(window):
     bullets.draw(window)
     enemys.update(window)
     blocks.draw(window)
+    loozes.draw(window)
     hides_blocks.draw(window)
 
 start_time = pg.time.get_ticks()

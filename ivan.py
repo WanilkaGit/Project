@@ -244,9 +244,15 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.lives -= 1
 
     def blit_lives(self, window):
+<<<<<<< HEAD
         life_txt = font3.render('Lifes: ' + str(self.lives), True, (0, 0, 0))
         window.blit(life_txt, (1500, self.lifes_y))
 
+=======
+        life_txt = font3.render('Життя: ' + str(self.lives), True, (0, 0, 0))
+        window.blit(life_txt, (1100, self.lifes_y))
+    
+>>>>>>> 5c045c27569232b0edcef0eec2d78c85b36c67bf
     def death(self):
         if self.lives <= 0:
             players.remove(self)

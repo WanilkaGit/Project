@@ -40,6 +40,12 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 
 dificlty = CheckButtonGroup(btn1, btn2, btn3)
 
+fps_text = font.render('показувати фпс', True, (255, 255, 255))
+fps_on = CheckButton(100, 250, 50, font, 'так', text_color=(255, 255, 255))
+fps_off = CheckButton(100, 250, 50, font, 'ні', text_color=(255, 255, 255))
+
+fps_chg = CheckButtonGroup(fps_on, fps_off)
+
 coop_text = font.render('додати другого гравця', True, (255, 255, 255))
 add_coop = CheckButton(200, 450, 50, font, 'так', text_color=(255, 255, 255))
 not_add_coop = CheckButton(300, 450, 50, font, 'ні', text_color=(255, 255, 255))
@@ -127,7 +133,7 @@ def games(window):
     window.blit(score_txt, (1000, 10))
     pause_btn.draw(window)
     players.draw(window)
-    players.update(window, blocks, enemys)
+    players.update(window, blocks, enemys.enemy_group)
     bullets.draw(window)
     enemys.update(window)
     blocks.draw(window)

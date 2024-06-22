@@ -1,6 +1,6 @@
 """------------------------------------Імпорта----------------------------------------"""
 import time
-from maxym import TextureButton
+from maxym import is_edge_touched
 from random import choices, choice
 from pygame import*# імпорт пайгейма
 import pygame as pg
@@ -108,7 +108,7 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
 
 """ ----------------------------------клас пулі-------------------------------------"""
 class PlayerBullet(sprite.Sprite):
-    def __init__(self, x, y, width, height, speed, img, rotate: str = "u"):
+    def __init__(self, x, y, width, height, speed, img, zone = (0, 70, 1000, 1000), rotate: str = "u"):
         super().__init__()
         self.width = width
         self.height = height
@@ -117,6 +117,7 @@ class PlayerBullet(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.rotate = rotate
         if self.rotate == "u":
             self.image = transform.rotate(self.image, 0)
@@ -129,16 +130,17 @@ class PlayerBullet(sprite.Sprite):
 
     def colides(self, blocks_colide, enemys):
         collides_blocks = sprite.spritecollide(self, blocks_colide, False)
-        for bullet, blocks in collides_blocks.items():
-            for block in blocks:
-                    if block.breaking_ables:
-                        block.kill()
-                    bullet.kill()
-        collides_enemy = sprite.groupcollide(self, enemys)
-        for bullet, blocks in collides_enemy.items():
-            for enemy in enemys:
-                enemy.take_damage(1)
-                bullet.kill()
+        for block in collides_blocks:
+            if block.breaking_ables:
+                block.kill()
+            self.kill()
+        collides_enemy = sprite.spritecollide(self, enemys, False)
+        for enemy in collides_enemy:
+            enemy.take_damage(1)
+            self.kill()
+
+        if is_edge_touched(self, self.min_x, self.min_y, self.max_x, self.max_y):
+            self.kill()
 
 
     def update(self, blocks, enemys):
@@ -176,6 +178,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_shoot = k_shoot
         self.lives = lives
         self.lifes_y = life_y
+        self.zone = zone
         self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.move = 1
         self.rotate = rotate # which need
@@ -273,7 +276,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         current_time = pg.time.get_ticks()
         if key_pressed[self.key_shoot] and current_time - self.last_shot_time >= self.shoot_delay:
-            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 3, 'assets/textures/bullet.png', self.agle)
+            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 3, 'assets/textures/bullet.png',self.zone , self.agle)
             bullets.add(bullet)
             self.last_shot_time = current_time
 

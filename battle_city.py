@@ -69,7 +69,7 @@ while game:
             if scene == 0:
                 stop_increment()
                 if exit_btn.is_pressed(event.pos):
-                    game = False 
+                    game = False
 
                 elif setting_btn.is_pressed(event.pos):
                     scene = 2
@@ -138,7 +138,7 @@ while game:
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
                     maxyms_scenes.last_call_time = pg.time.get_ticks()
                     maxyms_scenes.interval = 250
-                    maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), (32,32))
+                    maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks,maxyms_scenes.bases,  maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), (32,32), 64, 64)
                     maxyms_scenes.spawner.change_enemy_list([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_speed, enemy_shield, enemy_shield, enemy_shield, enemy_agility, enemy_mono, enemy_rc])
                     scene = 9
                 elif maxyms_scenes.reset_button.is_pressed(event.pos):
@@ -236,6 +236,10 @@ while game:
 
     elif scene == 9:
         maxyms_scenes.constructor_play(window)
+        if game_over():
+            reset_map()
+            maxyms_scenes.spawner.reset_enemys()
+            scene = 5
         
 
     # if hero_lives == 0:

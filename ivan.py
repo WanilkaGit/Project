@@ -36,8 +36,8 @@ map_lvl1 = [                               #Unbreakeble - u
 
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
-window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-player_lives = 3
+#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+player_lives = 2
 move_player1 = 1
 beginers = [0, 70]
 tile_size = [32, 32]
@@ -224,8 +224,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             players.remove(self)
 
 # функція що відповідає за натискання кнопок та переміщення 
-    def update(self):# тут буде переміщення в право ліво
-        global window
+    def update(self, window):# тут буде переміщення в право ліво
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
 
         self.colides()
@@ -259,7 +258,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         current_time = pg.time.get_ticks()
         if key_pressed[self.key_shoot] and current_time - self.last_shot_time >= self.shoot_delay:
-            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 1, 'assets/textures/bullet.png', self.agle)
+            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 3, 'assets/textures/bullet.png', self.agle)
             bullets.add(bullet)
             self.last_shot_time = current_time
 
@@ -282,6 +281,9 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
     dark_white_hides = list()
     enemy_coordinates = list()
     empty_coordinates = list()
+
+    map_size_x = len(map[0]) * tile_size[0] + begin_x
+    map_size_y = len(map) * tile_size[1] + begin_y
 
     # всі списки дивіться в кінотеатрах(коді)
     x = begin_x#  координати для обєктів
@@ -309,10 +311,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (beginers[0], beginers[1], level1_width, level1_height))
+                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (beginers[0], beginers[1], level1_width, level1_height))
+                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)
@@ -320,14 +322,15 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             x += tile_size[0]#  ікси плюс tile_size
         y += tile_size[1]#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x
-    return blocks, hides_blocks, players, enemy_coordinates
+    return blocks, hides_blocks, loozes, players, enemy_coordinates
 
 
 
 # функція що 
 def reset_map():
-    global blocks, hides_blocks, players, bullets
+    global blocks, hides_blocks, loozes, players, bullets
     blocks.empty()#  створюємо тусу
     hides_blocks.empty()
+    loozes.empty()
     players.empty()
     bullets.empty()

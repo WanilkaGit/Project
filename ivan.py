@@ -18,18 +18,18 @@ init()# ініціалізуєм пайгейм
 map_lvl1 = [                               #Unbreakeble - u
     "dddddddddddddddddddddddddddddddddu",#breakeable - b
     "   bbbb  bbbb  budb bbbbb bbbb bdu",#green_hide - g
-    "ubbb  b  b g u eudb bl be b  b bdu",#dark_white_hide - d
-    " e bbbb  bbbb   udb bbbb  b  b bdu",#enemy - e
-    "   b  b   g b   udb    b  b  b bdu",#player1 - p
-    "   bbbb  bbbb   udb bbbb  bbbb bdu",#lose - l
-    "  u             udb            bdu",#win - w
-    "    bbbbbbbbbbb udb  bb bb bb  bdu",#кожен елемент цього
-    "     uuuu   gg   ub    bbbb    bdu",#є частиню карти окрім
-    "  bbbg gg       uugggggggggggggggu",#пробілів
-    "  gg       buub  u     b  b     uu",#що вони означають написано вище
-    "    u  bub gggg ug  b  bbbb  b bgu",#теж зі знаком коментаря
-    "  bub  ggg      ugb b  b  b  b bgu",
-    "  ggg       bub ugb bu      ub bgu",
+    "ubbb  b  b g u eudb b  be b  b bdu",#dark_white_hide - d
+    " e bbbb  bbbb    db bbbb  b  b bdu",#enemy - e
+    "   b  b   g b    db    b  b  b bdu",#player1 - p
+    "   bbbb  bbbb    db bbbb  bbbb bdu",#lose - l
+    "  u              db            bdu",#win - w
+    "    bbbbbbbbbbb  db  bb bb bb  bdu",#кожен елемент цього
+    "     uuuu   gg    b    bbbb    bdu",#є частиню карти окрім
+    "  bbbg gg         gggggggggggggggu",#пробілів
+    "  gg       buub        b  b     uu",#що вони означають написано вище
+    "    u  bub gggg  g  b  bbbb  b bgu",#теж зі знаком коментаря
+    "  bub  ggg       gb b  b  b  b bgu",
+    "  ggg       bub  b bu      ub bgu",
     "       bbb  ggg  gb b  bbb   b bgu",
     "      pblbf     dddd   blb ggggggg"
 ]
@@ -42,7 +42,7 @@ move_player1 = 1
 beginers = [0, 70]
 tile_size = [32, 32]
 player_size = [28, 28]
-friend_is_on = True
+friend_is_on = False
 
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * tile_size[0]

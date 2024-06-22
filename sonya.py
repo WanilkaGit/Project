@@ -44,7 +44,14 @@ btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255,
 btn2.button_pressed = True
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
 
-btn = CheckButtonGroup(btn1, btn2, btn3)
+dificlty = CheckButtonGroup(btn1, btn2, btn3)
+
+coop_text = font.render('додати другого гравця', True, (255, 255, 255))
+add_coop = CheckButton(200, 450, 50, font, 'так', text_color=(255, 255, 255))
+not_add_coop = CheckButton(300, 450, 50, font, 'ні', text_color=(255, 255, 255))
+not_add_coop.button_pressed = True
+
+coop_group = CheckButtonGroup(add_coop, not_add_coop)
 
 enemy_defuld_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28)), 
                         pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult2.png"), (28, 28)))
@@ -124,8 +131,10 @@ def setting(window):      #меню налаштувань
     title2 = font.render('Виберіть складність гри:', True, (255, 255, 255))
     
     back_button_from_settings.draw(window)
-    btn.update(window)
-    change_lifes()
+    dificlty.update(window)
+    coop_group.update(window)
+    change_settings()
+    window.blit(coop_text, (90, 400))
     window.blit(title, (650, 30))
     window.blit(title2, (90, 100))
 
@@ -186,11 +195,15 @@ def add_point():
 coin = Buster(coin_img, 10, add_point())
 
 
-def change_lifes():
+def change_settings():
     if btn1.button_pressed:
         i.player_lives = 3
     elif btn2.button_pressed:
         i.player_lives = 2
     elif btn3.button_pressed:
         i.player_lives = 1
+    if add_coop.button_pressed:
+        i.friend_is_on = True
+    elif not_add_coop.button_pressed:
+        i.friend_is_on = False
     

@@ -43,6 +43,7 @@ beginers = [0, 70]
 tile_size = [32, 32]
 player_size = [28, 28]
 friend_is_on = True
+game_end = True
 
 # це те скільки вийде блоків на екрані 40 кількість пікселів на оин силвол
 level1_width = len(map_lvl1[0]) * tile_size[0]
@@ -54,6 +55,7 @@ blocks = sprite.Group()#  створюємо тусу
 hides_blocks = sprite.Group()
 players = sprite.Group()
 bullets = sprite.Group()
+loozes = sprite.Group()
 
 """----------------Картинки щоб швидше вставляти бо по іншому довго-------------------"""
 player1 = "assets/textures/player/player11.png"
@@ -270,10 +272,17 @@ def creating_lists_coordinate(list, x, y):
     list.append((x, y))
     return list
 
+def game_over():
+    global game_end, players
+    if not players and not loozes:
+        return game_end is False
+
 
 # створення карти
 def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
+
+
 
     breakables_lst = list()
     unbreakables = list()
@@ -315,7 +324,7 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)
-                blocks.add(l)
+                loozes.add(l)
             x += tile_size[0]#  ікси плюс tile_size
         y += tile_size[1]#  перміщаємось в низ на tile_size
         x = begin_x#  ікси begin_x

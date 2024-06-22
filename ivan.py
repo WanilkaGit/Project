@@ -164,6 +164,8 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.move = 1
         self.rotate = rotate # which need
         self.agle = agle# which has
+        self.last_shot_time = 0  # час останнього пострілу
+        self.shoot_delay = 300  # затримка між пострілами в мілісекундах
 
 # тут анімація руху гравця
     def animate(self):
@@ -254,9 +256,12 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             self.rect.x += self.speed# якщо так той демо в лівоdef move_animation():
             self.animate()
 
-        if key_pressed[self.key_shoot]:
-            bullet = PlayerBullet(self.rect.x + player_size[0]/2-1, self.rect.y + player_size[1]/2-1, 3, 5, 1, 'assets/textures/bullet.png', self.agle)
+        current_time = pg.time.get_ticks()
+        if key_pressed[self.key_shoot] and current_time - self.last_shot_time >= self.shoot_delay:
+            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 1, 'assets/textures/bullet.png', self.agle)
             bullets.add(bullet)
+            self.last_shot_time = current_time
+
         bullets.update()
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""

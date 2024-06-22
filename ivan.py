@@ -6,6 +6,7 @@ from pygame import*# імпорт пайгейма
 import pygame as pg
 from typing import Union
 
+
 init()# ініціалізуєм пайгейм
 
 #window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
@@ -35,6 +36,8 @@ map_lvl1 = [                               #Unbreakeble - u
 
 
 """ ----------------------------------ЗМІННІ-------------------------------------"""
+window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+player_lives = 3
 move_player1 = 1
 beginers = [0, 70]
 tile_size = [32, 32]
@@ -136,10 +139,9 @@ class PlayerBullet(sprite.Sprite):
         if self.rotate == "r":
             self.rect.x += self.speed
 
-
 """ ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, coordainates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
+    def __init__(self, coordainates, start_coordinates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, lives, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
         super().__init__()
         self.width, self.height = size
         self.image = transform.scale(image.load(imgs[0]), (self.width, self.height))
@@ -147,12 +149,14 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.image_move2 = transform.scale(image.load(imgs[1]), (self.width, self.height))
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = coordainates
+        self.start_coordinates = start_coordinates
         self.speed = speed
         self.key_up = k_u
         self.key_down = k_d
         self.key_left = k_l
         self.key_right = k_r
         self.key_shoot = k_shoot
+        self.lives = lives
         self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.move = 1
         self.rotate = rotate # which need
@@ -179,9 +183,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
                 self.image_move1 = transform.rotate(self.image_move1, 90)
                 self.rotate += 90
 
-# функція що відповідає за натискання кнопок та переміщення 
-    def update(self):# тут буде переміщення в право ліво
-        #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+    def colides(self):
         collided_blocks = pg.sprite.spritecollide(self, blocks, False)
         if collided_blocks:
             block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
@@ -203,6 +205,19 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         elif self.rect.top < self.min_y:
             self.rect.y = self.min_y
 
+    def new_live(self):
+        self.rect.x, self.rect.y = self.start_coordinates
+        self.lives -= 1
+
+    def blit_lives(self, window):
+        life_txt = font.render('Lifes: ' + str(self.lives))
+        window.blit(life_txt, (1000, 60))
+
+# функція що відповідає за натискання кнопок та переміщення 
+    def update(self):# тут буде переміщення в право ліво
+        #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+
+        self.colides()
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось
@@ -278,10 +293,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, (beginers[0], beginers[1], level1_width, level1_height))
+                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, (beginers[0], beginers[1], level1_width, level1_height))
+                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, (beginers[0], beginers[1], level1_width, level1_height))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

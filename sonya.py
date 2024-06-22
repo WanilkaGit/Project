@@ -21,8 +21,7 @@ score = 0
 score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
 time_delay = 2
-hero_lives = 3
-life_txt = font.render('Life: ' + str(hero_lives), True, (0,0,0))
+
 
 pause_btn = TextureButton(1300, 20, 50, 50, "assets/textures/ui/pause.png", font2)
 
@@ -149,7 +148,6 @@ def games(window):
     window.fill((93, 62, 10))
     window.blit(score_txt, (1000, 10))
     pause_btn.draw(window)
-    window.blit(life_txt, (1000, 60))
     players.draw(window)
     players.update()
     bullets.draw(window)

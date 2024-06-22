@@ -159,7 +159,7 @@ def games(window):
     window.blit(score_txt, (1000, 10))
     pause_btn.draw(window)
     players.draw(window)
-    players.update()
+    players.update(blocks, enemys)
     bullets.draw(window)
     enemys.update(window)
     blocks.draw(window)

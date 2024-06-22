@@ -127,7 +127,22 @@ class PlayerBullet(sprite.Sprite):
         if self.rotate == "r":
             self.image = transform.rotate(self.image, 90)
 
-    def update(self):
+    def colides(self, blocks, enemys):
+        collides_blocks = sprite.groupcollide(self, blocks, False, False)
+        for bullet, blocks in collides_blocks.items():
+            for block in blocks:
+                    if block.breaking_ables:
+                        block.kill()
+                    bullet.kill()
+        collides_enemy = sprite.groupcollide(self, enemys)
+        for bullet, blocks in collides_enemy.items():
+            for enemy in enemys:
+                enemy.take_damage()
+                bullet.kill()
+
+
+    def update(self, blocks, enemys):
+        self.colides(blocks, enemys)
         if self.rotate == "u":
             # self.speed = 0
             # self.speed += 1 if self.speed != 10 else None
@@ -189,7 +204,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
                 self.image_move1 = transform.rotate(self.image_move1, 90)
                 self.rotate += 90
 
-    def colides(self):
+    def colides(self, blocks):
         collided_blocks = pg.sprite.spritecollide(self, blocks, False)
         if collided_blocks:
             block = collided_blocks[0] #нам вистачає тільки першого блока зі списку
@@ -224,11 +239,11 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             players.remove(self)
 
 # функція що відповідає за натискання кнопок та переміщення 
-    def update(self):# тут буде переміщення в право ліво
+    def update(self, blocks, enemys):# тут буде переміщення в право ліво
         global window
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
 
-        self.colides()
+        self.colides(blocks)
         self.blit_lives(window)
         self.death()
         key_pressed = key.get_pressed()# задаєм в зміну значення
@@ -263,7 +278,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             bullets.add(bullet)
             self.last_shot_time = current_time
 
-        bullets.update()
+        bullets.update(blocks, enemys)
 
 """----------------------------------ФУНКЦІЇ------------------------------------------"""
 # створення списків можливий через цю функцію

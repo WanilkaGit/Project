@@ -476,7 +476,6 @@ class Enemy(pg.sprite.Sprite):
         if collides:
             collides[0].new_live()
             self.take_damage(1)
-            del self
 
         collides = pg.sprite.groupcollide(self.bullets, self.base_list, True, False)
         if collides:

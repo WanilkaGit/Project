@@ -239,7 +239,7 @@ while game:
         
 
     # if hero_lives == 0:
-    #     lose(window)
+
 
     fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
     window.blit(fps, (10, 10))

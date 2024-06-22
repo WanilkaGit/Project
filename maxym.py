@@ -376,7 +376,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullet = bullet
         self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
-        self.base_list = bases
+        self.base_list = pg.sprite.Group()
         self.players = players
         self.bullets = pg.sprite.Group()
         self.frame = 0
@@ -493,7 +493,7 @@ class Enemy(pg.sprite.Sprite):
 
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
- 
+
         new_enemy = Enemy((self.original_texture1, self.original_texture2), self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, self.base_list, zone)
         new_enemy.rect.x, new_enemy.rect.y = pos
         return new_enemy
@@ -516,7 +516,7 @@ class Enemy(pg.sprite.Sprite):
 #if randint(0, 200) == 1:
 #   назва_спавнеру.spawn()
 
-class EnemySpawner:
+class EnemySpawner(pg.sprite.Sprite):
     '''
     клас для спавну ворогів
     
@@ -540,8 +540,7 @@ class EnemySpawner:
         self.zone = zone
 
         #якщо при створенні вказано enemy_group то присвоюємо її до властивості self.enemy_group інакше робимо нову enemy_group
-        if enemy_group is not None: self.enemy_group = enemy_group
-        else: self.enemy_group = pg.sprite.Group()
+        self.enemy_group = pg.sprite.Group()
 
     def spawn(self):
         '''спавнить і видаляє ворога зі списку'''
@@ -582,7 +581,6 @@ class EnemySpawner:
     def update(self, display):
         '''функція для оновлення стану всіх ворогів заспавнених цим спавнером'''
         self.enemy_group.update(display)
-
 '''------------------------------------------------------просто функції----------------------------------------------------------------------------------------'''
 
 def is_on_screen(sprite: pg.sprite.Sprite, screen_width: int, screen_height: int) -> bool:

@@ -54,9 +54,8 @@ def stop_increment():
     incrementing = False
 
 def game_over():
-    global scene
-    if not players or not loozes:
-        return lose(window)
+    if not players or not loozes: return True
+    else: return False
 
 while game:
     window.blit(back, (0,0))
@@ -203,6 +202,11 @@ while game:
             last_call_time = current_time
             enemys.spawn_random()
             interval = randint(500, 3500)
+        
+        if game_over():
+            scene = 0
+            reset_map()
+            enemys.reset_enemys()
 
     elif scene == 2:
         setting(window)

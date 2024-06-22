@@ -918,7 +918,7 @@ class MaxymsScenes:
         display.blit(self.background, (0,0))
         pg.draw.rect(display, (50, 50, 50), (64, 64, 512, 512))
 
-        self.players.update(display)
+        self.players.update(display, self.game_blocks, self.spawner.enemy_group)
         self.spawner.update(display)
 
         self.players.draw(display)

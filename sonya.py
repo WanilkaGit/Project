@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score_txt
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score_txt, score
 import ivan as i
 pg.init()
 

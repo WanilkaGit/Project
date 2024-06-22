@@ -213,8 +213,12 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.lives -= 1
 
     def blit_lives(self, window):
-        life_txt = font3.render('Lifes: ' + str(self.lives))
+        life_txt = font3.render('Lifes: ' + str(self.lives), True, (0, 0, 0))
         window.blit(life_txt, (1000, self.lifes_y))
+    
+    def death(self):
+        if self.lives <= 0:
+            players.remove(self)
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self):# тут буде переміщення в право ліво
@@ -223,6 +227,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         self.colides()
         self.blit_lives(window)
+        self.death()
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
         if key_pressed[self.key_up]:# якщо в верх то віднімаєм піднімаємось

@@ -3,6 +3,8 @@ from random import randint, choice
 from typing import Union, Optional, Tuple, List
 import json
 pg.font.init()
+pg.init()
+
 font = pg.font.Font('assets/textures/fonts/Blazma-Regular.otf', 24)
 
 '''-----------------------------------------------------------усе пов'язане з кнопками--------------------------------------------------------------'''
@@ -360,7 +362,7 @@ class Enemy(pg.sprite.Sprite):
     
     zone вписувати тут не треба!!!!!!!!
     '''
-    def __init__(self, textures: Union[List[pg.Surface], Tuple[pg.Surface, pg.Surface]], speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, players: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
+    def __init__(self, textures: Union[List[pg.Surface], Tuple[pg.Surface, pg.Surface]], speed: Union[int, float], agility: int, firing_rate: int, health: Union[int, float], score: int, bullet: Bullet, blocks: pg.sprite.Group, players: pg.sprite.Group, bases: pg.sprite.Group, zone: Tuple[int, int, int, int] = (0, 70, 1200, 900)):
         super().__init__()
         self.original_texture1, self.original_texture2  = textures
         self.texture1, self.texture2 = self.original_texture1, self.original_texture2
@@ -374,6 +376,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullet = bullet
         self.dir = 1 #dir це direction тобіш напрямок якщо хтось не зрозумів
         self.blocks = blocks
+        self.base_list = bases
         self.players = players
         self.bullets = pg.sprite.Group()
         self.frame = 0
@@ -474,6 +477,12 @@ class Enemy(pg.sprite.Sprite):
             collides[0].new_live()
             self.take_damage(1)
             del self
+
+        collides = pg.sprite.groupcollide(self.bullets, self.base_list, True, False)
+        if collides:
+            for bullet, base_list in collides.items():
+                if base_list:
+                    base_list[0].kill()
     
     def take_damage(self, damage: Union[int, float]):
         '''Функція для нанесення шкоди ворогу якщо кількість життів ворога дорівнює нулю то видаляємо ворога'''
@@ -484,8 +493,8 @@ class Enemy(pg.sprite.Sprite):
 
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''
-
-        new_enemy = Enemy((self.original_texture1, self.original_texture2), self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, zone)
+ 
+        new_enemy = Enemy((self.original_texture1, self.original_texture2), self.speed, self.agility, self.firing_rate, self.health, self.score, self.bullet, self.blocks, self.players, self.base_list, zone)
         new_enemy.rect.x, new_enemy.rect.y = pos
         return new_enemy
 
@@ -626,7 +635,11 @@ class MaxymsScenes:
         self.game_blocks = pg.sprite.Group()
         self.hides_blocks = pg.sprite.Group()
         self.players = pg.sprite.Group()
-        self.spawner = EnemySpawner([], zone = (0, 70, 512, 582))
+        self.bases = pg.sprite.Group()
+        self.spawner = EnemySpawner([], zone = (64, 64, 576, 576))
+
+        self.d_w, self.d_h = pg.display.Info().current_w, pg.display.Info().current_h
+        self.background = pg.transform.scale(pg.image.load('assets/textures/background.jpg'), (self.d_w,self.d_h))
 
         self.last_call_time = 0
         self.interval = 250
@@ -645,7 +658,7 @@ class MaxymsScenes:
 
         self.save_map_button = Button(80, 730, 200, 80, font, 'Зберегти', (100, 10, 10))
         self.load_map_button = Button(300, 730, 200, 80, font, 'Завантажити', (100, 10, 10))
-        self.map_name_line = LineEdit(300, 20, 280, 40, font, 12, (255,255,255), (150, 150, 150), (100, 100, 100), (70, 70, 70), 'введи назву карти', 5)
+        self.map_name_line = LineEdit(300, 20, 280, 40, font, 12, (255,255,255), (150, 150, 150), (100, 100, 100), (100, 100, 100), 'введи назву карти', 5)
         self.play_constructor_button = Button(520, 730, 200, 80, font, 'Грати', (100, 10, 10))
         self.reset_button = Button(1300, 730, 200, 80, font, 'Очистити карту', (100, 10, 10))
 
@@ -819,7 +832,7 @@ class MaxymsScenes:
     def map_constructor(self, display: pg.Surface): # scene = 5
         '''сцена з конструктором карт'''
         mouse_pos = pg.mouse.get_pos()
-        display.fill((0, 0, 0))
+        display.blit(self.background, (0,0))
         pg.draw.rect(display, (100, 100, 100), self.canvas)
         if pg.mouse.get_pressed()[0]:
             if self.brekable_button.is_pressed(mouse_pos):
@@ -902,15 +915,18 @@ class MaxymsScenes:
     def constructor_play(self, display: pg.Surface): # scene = 9
         '''сцена де ти можеш протестувати тещо ти побудував в сцені з конструктором карт'''
         from ivan import bullets
-        display.fill((0, 0, 0))
+        display.blit(self.background, (0,0))
+        pg.draw.rect(display, (50, 50, 50), (64, 64, 512, 512))
 
-        self.players.update()
+        self.players.update(display)
         self.spawner.update(display)
 
         self.players.draw(display)
         self.game_blocks.draw(display)
         self.hides_blocks.draw(display)
+        self.bases.draw(display)
         bullets.draw(display)
+
         current_time = pg.time.get_ticks()
         if current_time - self.last_call_time > self.interval:
             self.last_call_time = current_time

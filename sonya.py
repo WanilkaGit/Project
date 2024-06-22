@@ -74,12 +74,12 @@ enemy_rc_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enem
 bullet = pg.transform.scale(pg.image.load("assets/textures/bullet.png"), (3, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)
 
-enemy_defuld = Enemy(enemy_defuld_sprite, 1 , 60, 120, 1, 100, bullet_obj, blocks, players)
-enemy_speed = Enemy(enemy_speed_sprite, 2 , 45, 110, 1, 150, bullet_obj, blocks, players)
-enemy_shield = Enemy(enemy_shield_sprite, 1 , 63, 125, 3, 150, bullet_obj, blocks, players)
-enemy_agility = Enemy(enemy_agility_sprite, 1 , 7, 110, 1, 150, bullet_obj, blocks, players)
-enemy_mono = Enemy(enemy_mono_sprite, 1 , 0, 100, 5, 200, bullet_obj, blocks, players)
-enemy_rc = Enemy(enemy_rc_sprite, 3, 45, 0, 1, 150, bullet_obj, blocks, players)
+enemy_defuld = Enemy(enemy_defuld_sprite, 1 , 60, 120, 1, 100, bullet_obj, blocks, players, loozes)
+enemy_speed = Enemy(enemy_speed_sprite, 2 , 45, 110, 1, 150, bullet_obj, blocks, players, loozes)
+enemy_shield = Enemy(enemy_shield_sprite, 1 , 63, 125, 3, 150, bullet_obj, blocks, players, loozes)
+enemy_agility = Enemy(enemy_agility_sprite, 1 , 7, 110, 1, 150, bullet_obj, blocks, players, loozes)
+enemy_mono = Enemy(enemy_mono_sprite, 1 , 0, 100, 5, 200, bullet_obj, blocks, players, loozes)
+enemy_rc = Enemy(enemy_rc_sprite, 3, 45, 0, 1, 150, bullet_obj, blocks, players, loozes)
 
 
 enemys = EnemySpawner([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_speed, enemy_shield, enemy_shield, enemy_shield, enemy_agility, enemy_mono, enemy_rc], zone = (beginers[0], beginers[1], level1_width, level1_height))
@@ -159,7 +159,7 @@ def games(window):
     window.blit(score_txt, (1000, 10))
     pause_btn.draw(window)
     players.draw(window)
-    players.update(blocks, enemys)
+    players.update(window, blocks, enemys)
     bullets.draw(window)
     enemys.update(window)
     blocks.draw(window)

@@ -153,7 +153,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_left = k_l
         self.key_right = k_r
         self.key_shoot = k_shoot
-        self.zone = zone
+        self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.move = 1
         self.rotate = rotate # which need
         self.agle = agle# which has
@@ -194,14 +194,14 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
             elif self.agle == "r":
                 self.rect.right = block.rect.left
 
-        if self.rect.right > self.zone[2]:
-            self.rect.x = self.zone[2] - self.rect.width
-        elif self.rect.left < self.zone[0]:
-            self.rect.x = self.zone[0]
-        if self.rect.bottom > self.zone[3]:
-            self.rect.y = self.zone[3] - self.rect.height
-        elif self.rect.top < self.zone[1]:
-            self.rect.y = self.zone[1]
+        if self.rect.right > self.max_x:
+            self.rect.x = self.max_x - self.rect.width
+        elif self.rect.left < self.min_x:
+            self.rect.x = self.min_x
+        if self.rect.bottom > self.max_y:
+            self.rect.y = self.max_y - self.rect.height
+        elif self.rect.top < self.min_y:
+            self.rect.y = self.min_y
 
         key_pressed = key.get_pressed()# задаєм в зміну значення
 

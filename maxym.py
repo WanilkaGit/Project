@@ -378,7 +378,7 @@ class Enemy(pg.sprite.Sprite):
         self.bullets = pg.sprite.Group()
         self.frame = 0
 
-        self.zone = zone
+        self.min_x, self.min_y, self.max_x, self.max_y = zone
 
     def __animate(self):
         if self.frame <= 2:
@@ -413,17 +413,17 @@ class Enemy(pg.sprite.Sprite):
             self.__random_rotate() 
 
         #тут перевіряємо чі знаходиться танк на карті (константи треба змінити в майбутньому)
-        if self.rect.right > self.zone[2]:
-            self.rect.x = self.zone[2] - self.rect.width
+        if self.rect.right > self.max_x:
+            self.rect.x = self.max_x - self.rect.width
             self.__random_rotate()
-        elif self.rect.left < self.zone[0]:
-            self.rect.x = self.zone[0]
+        elif self.rect.left < self.min_x:
+            self.rect.x = self.min_x
             self.__random_rotate()
-        if self.rect.bottom > self.zone[3]:
-            self.rect.y = self.zone[3] - self.rect.height
+        if self.rect.bottom > self.max_y:
+            self.rect.y = self.max_y - self.rect.height
             self.__random_rotate()
-        elif self.rect.top < self.zone[1]:
-            self.rect.y = self.zone[1]
+        elif self.rect.top < self.min_y:
+            self.rect.y = self.min_y
             self.__random_rotate()
         
     def update(self, display: pg.Surface):
@@ -435,7 +435,7 @@ class Enemy(pg.sprite.Sprite):
 
         #тут генеруємо випадкове число якщо воно рівне одиниці то танк зробить постріл
         if randint(0, self.firing_rate) == 1:
-            new_bullet = self.bullet.new(self.dir, self.zone)
+            new_bullet = self.bullet.new(self.dir, (self.min_x, self.min_y, self.max_x, self.max_y))
             new_bullet.rect.center = self.rect.center
             self.bullets.add(new_bullet)
 

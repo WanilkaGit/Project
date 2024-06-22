@@ -1,6 +1,6 @@
 import pygame as pg
 from maxym import Button, TextureButton, CheckButton, Bullet, Enemy, EnemySpawner, CheckButtonGroup
-from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes
+from ivan import blocks, hides_blocks, font2, players, bullets, level1_width, level1_height, beginers, loozes, score_txt, score
 import ivan as i
 pg.init()
 
@@ -10,9 +10,6 @@ pg.font.init()
 font_path = r"assets/textures/fonts/Blazma-Regular.otf"
 font_size = 36
 font = pg.font.Font(font_path, font_size)
-
-score = 0
-score_txt = font.render("Score: "+str(score), True, (0,0,0))
 
 time_delay = 2
 
@@ -41,8 +38,9 @@ btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255
 dificlty = CheckButtonGroup(btn1, btn2, btn3)
 
 fps_text = font.render('показувати фпс', True, (255, 255, 255))
-fps_on = CheckButton(100, 250, 50, font, 'так', text_color=(255, 255, 255))
-fps_off = CheckButton(100, 250, 50, font, 'ні', text_color=(255, 255, 255))
+fps_on = CheckButton(200, 600, 50, font, 'так', text_color=(255, 255, 255))
+fps_off = CheckButton(300, 600, 50, font, 'ні', text_color=(255, 255, 255))
+fps_off.button_pressed = True
 
 fps_chg = CheckButtonGroup(fps_on, fps_off)
 
@@ -107,8 +105,10 @@ def setting(window):      #меню налаштувань
     back_button_from_settings.draw(window)
     dificlty.update(window)
     coop_group.update(window)
+    fps_chg.update(window)
     change_settings()
     window.blit(coop_text, (90, 400))
+    window.blit(fps_text, (90, 550))
     window.blit(title, (650, 30))
     window.blit(title2, (90, 100))
 
@@ -130,7 +130,7 @@ def restart():      #рестарт гри
 
 def games(window):
     window.fill((93, 62, 10))
-    window.blit(score_txt, (1000, 10))
+    window.blit(score_txt, (1100, 20))
     pause_btn.draw(window)
     players.draw(window)
     players.update(window, blocks, enemys.enemy_group)

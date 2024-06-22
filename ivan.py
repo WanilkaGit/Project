@@ -5,14 +5,9 @@ from random import choices, choice
 from pygame import*# імпорт пайгейма
 import pygame as pg
 from typing import Union
-
+score = 0
 
 init()# ініціалізуєм пайгейм
-
-#window = pg.display.set_mode((0, 0), pg.FULLSCREEN)
-#W, H = pg.display.Info().current_w, pg.display.Info().current_h
-#background_image = pg.image.load(r'assets/textures/background.jpg')
-#background_image = pg.transform.scale(background_image, (W, H))
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [                               #Unbreakeble - u
@@ -86,6 +81,8 @@ font_path = r"assets//textures//fonts//Blazma-Regular.otf"
 font_size = 36
 font3 = font.Font(font_path, font_size)
 
+score_txt = font3.render('score: ' + str(score), True, (0, 0, 0))
+
 """ ----------------------------------Кнопки-------------------------------------"""
 
 # створюєм вікно
@@ -129,13 +126,17 @@ class PlayerBullet(sprite.Sprite):
             self.image = transform.rotate(self.image, 90)
 
     def colides(self, blocks_colide, enemys):
+        global score
         collides_blocks = sprite.spritecollide(self, blocks_colide, False)
         for block in collides_blocks:
             if block.breaking_ables:
                 block.kill()
+                score += 1
             self.kill()
         collides_enemy = sprite.spritecollide(self, enemys, False)
         for enemy in collides_enemy:
+            if enemy.health <= 1:
+                score += enemy.score
             enemy.take_damage(1)
             self.kill()
 
@@ -239,11 +240,14 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
     
     def death(self):
         if self.lives <= 0:
-            players.remove(self)
+            self.kill()
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self, window, blocks, enemys):# тут буде переміщення в право ліво
+        global score_txt
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
+
+        score_txt = font3.render('score: ' + str(score), True, (0, 0, 0))
 
         self.colides(blocks)
         self.blit_lives(window)
@@ -291,8 +295,6 @@ def creating_lists_coordinate(list, x, y):
 # створення карти
 def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0, begin_y: int = 70):# стартова позиція
     global blocks, hides_blocks, players, unbreakables, breakables, green_hides, dark_white_hides, enemy_coordinates, empty_coordinates
-
-
     breakables_lst = list()
     unbreakables = list()
     green_hides = list()
@@ -329,10 +331,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), (x, y), player_size, players_image, 1, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
+                player = Player((x, y), (x, y), player_size, players_image, 2, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), (x,y), player_size, players2_image, 1, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
+                friend = Player((x, y), (x,y), player_size, players2_image, 2, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

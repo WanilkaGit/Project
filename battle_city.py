@@ -34,15 +34,6 @@ interval = 100
 incrementing = True
 score = 0
 
-
-# def increment_score():
-#     global score, incrementing
-#     if incrementing:
-#         score += 1
-#         save_to_file({'score': score}, filename)
-#         print(f'Score: {score}')
-#         Timer(1, increment_score).start()
-
 def start_increment():
     global incrementing
     if not incrementing:
@@ -91,13 +82,6 @@ while game:
                 def save_to_file(data, filename):
                     with open(filename, 'w') as file:
                         json.dump(data, file)
-                # реалізаці вигрузки даних з файлу
-                # try:
-                #     with open(filename, 'r') as file:
-                #         data = json.load(file)
-                #         score = data.get('score', 0)
-                # except FileNotFoundError:
-                #     pass
                 start_increment()
                         #якщо меню гри
                 if pause_btn.is_pressed(event.pos):
@@ -193,8 +177,6 @@ while game:
     elif scene == 1:
         games(window)
         if is_it_is:
-            # create_map(map_lvl1, tile_size)
-            # enemys.spawns = ivan.enemy_coordinates
             is_it_is = False
         
         current_time = pg.time.get_ticks()
@@ -240,13 +222,9 @@ while game:
             reset_map()
             maxyms_scenes.spawner.reset_enemys()
             scene = 5
-        
-
-    # if hero_lives == 0:
-
-
-    fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
-    window.blit(fps, (10, 10))
+    if fps_on.button_pressed:
+        fps = font.render(f'FPS: {str(round(clock.get_fps()))}',True, (255,0,0))
+        window.blit(fps, (10, 10))
     clock.tick(30)
     pg.display.update()
 pg.quit()

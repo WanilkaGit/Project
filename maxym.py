@@ -476,7 +476,6 @@ class Enemy(pg.sprite.Sprite):
         if collides:
             collides[0].new_live()
             self.take_damage(1)
-            del self
 
         collides = pg.sprite.groupcollide(self.bullets, self.base_list, True, False)
         if collides:
@@ -489,7 +488,7 @@ class Enemy(pg.sprite.Sprite):
         self.health -= damage
         if self.health <= 0:
             self.kill()
-            del self #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
+ #del видаляє обєкт повністю замість вбудованного збирача сміття в пайтоні я роблю це провсяк випадок
 
     def new(self, pos: Tuple[int, int], zone: Tuple[int, int, int, int]):
         '''робить новий екземпляр классу Enemy на основі себе'''

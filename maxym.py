@@ -515,7 +515,7 @@ class Enemy(pg.sprite.Sprite):
 #if randint(0, 200) == 1:
 #   назва_спавнеру.spawn()
 
-class EnemySpawner(pg.sprite.Sprite):
+class EnemySpawner:
     '''
     клас для спавну ворогів
     
@@ -539,7 +539,8 @@ class EnemySpawner(pg.sprite.Sprite):
         self.zone = zone
 
         #якщо при створенні вказано enemy_group то присвоюємо її до властивості self.enemy_group інакше робимо нову enemy_group
-        self.enemy_group = pg.sprite.Group()
+        if enemy_group is not None: self.enemy_group = enemy_group
+        else: self.enemy_group = pg.sprite.Group()
 
     def spawn(self):
         '''спавнить і видаляє ворога зі списку'''

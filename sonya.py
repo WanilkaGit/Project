@@ -44,17 +44,23 @@ btn1 = CheckButton(100, 250, 50, font, 'Легкий', text_color=(255, 255, 255
 btn2 = CheckButton(300, 250, 50, font, 'Середній', text_color=(255, 255, 255))
 btn3 = CheckButton(500, 250, 50, font, 'Важкий', text_color=(255, 255, 255))
 
-enemy_defuld_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28))
+enemy_defuld_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult1.png"), (28, 28)), 
+                        pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankdefult2.png"), (28, 28)))
 
-enemy_speed_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankspeed1.png"), (28, 28))
+enemy_speed_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankspeed1.png"), (28, 28)), 
+                        pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankspeed2.png"), (28, 28)))
 
-enemy_shield_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankshield1.png"), (28, 28))
+enemy_shield_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankshield1.png"), (28, 28)),
+                        pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankshield2.png"), (28, 28)))
 
-enemy_agility_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankagility1.png"), (28, 28))
+enemy_agility_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankagility1.png"), (28, 28)),
+                        pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankagility2.png"), (28, 28)))
 
-enemy_mono_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankmono1.png"), (28, 28))
+enemy_mono_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankmono1.png"), (28, 28)),
+                        pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankmono2.png"), (28, 28)))
 
-enemy_rc_sprite = pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankrc1.png"), (16, 16))
+enemy_rc_sprite = (pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankrc1.png"), (16, 16)),
+                    pg.transform.scale(pg.image.load("assets/textures/enemys/enemytankrc2.png"), (16, 16)))
 
 bullet = pg.transform.scale(pg.image.load("assets/textures/bullet.png"), (3, 5))
 bullet_obj = Bullet(bullet, 3, damage = 1)

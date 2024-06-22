@@ -127,14 +127,16 @@ while game:
             elif scene == 5:
                 stop_increment()  # Якщо сцена - редактор карт
                 if maxyms_scenes.save_map_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
+                    maxyms_scenes.load_slots_names()
                     scene = 7
                 elif maxyms_scenes.load_map_button.is_pressed(event.pos):
+                    maxyms_scenes.load_slots_names()
                     scene = 8 
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
                     maxyms_scenes.last_call_time = pg.time.get_ticks()
                     maxyms_scenes.interval = 250
                     maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks, maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), (32,32))
-                    maxyms_scenes.spawner.change_enemy_list([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_mono, enemy_mono, enemy_agility, enemy_mono])
+                    maxyms_scenes.spawner.change_enemy_list([enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_defuld, enemy_speed, enemy_speed, enemy_speed, enemy_shield, enemy_shield, enemy_shield, enemy_agility, enemy_mono, enemy_rc])
                     scene = 9
                 elif maxyms_scenes.reset_button.is_pressed(event.pos):
                     maxyms_scenes.constructor_blocks = pg.sprite.Group()
@@ -180,6 +182,8 @@ while game:
                     reset_map()
                     maxyms_scenes.spawner.reset_enemys()
                     scene = 5
+        if scene == 5:
+            maxyms_scenes.map_name_line.update(event)
 
     if scene == 0:
         main_menu(window)

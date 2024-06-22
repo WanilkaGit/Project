@@ -105,7 +105,7 @@ class Blocks(sprite.Sprite):# основний клас тут основні п
 
 """ ----------------------------------клас пулі-------------------------------------"""
 class PlayerBullet(sprite.Sprite):
-    def __init__(self, x, y, width, height, speed, img, score, score_y, zone = (0, 70, 1000, 1000), rotate: str = "u"):
+    def __init__(self, x, y, width, height, speed, img, zone = (0, 70, 1000, 1000), rotate: str = "u"):
         super().__init__()
         self.width = width
         self.height = height
@@ -116,9 +116,6 @@ class PlayerBullet(sprite.Sprite):
         self.rect.y = y
         self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.rotate = rotate
-        self.score = score
-        self.score_y = score_y
-
         if self.rotate == "u":
             self.image = transform.rotate(self.image, 0)
         if self.rotate == "d":
@@ -138,20 +135,17 @@ class PlayerBullet(sprite.Sprite):
             self.kill()
         collides_enemy = sprite.spritecollide(self, enemys, False)
         for enemy in collides_enemy:
+            if enemy.health <= 1:
+                score += enemy.score
             enemy.take_damage(1)
             self.kill()
 
         if is_edge_touched(self, self.min_x, self.min_y, self.max_x, self.max_y):
             self.kill()
 
-    def blit_score(self, window):
-        life_txt = font3.render('Score: ' + str(self.score), True, (0, 0, 0))
-        window.blit(life_txt, (1500, self.score_y))
-
 
     def update(self, blocks, enemys):
         self.colides(blocks, enemys)
-        self.blit_score()
         if self.rotate == "u":
             # self.speed = 0
             # self.speed += 1 if self.speed != 10 else None
@@ -168,7 +162,7 @@ class PlayerBullet(sprite.Sprite):
 
 """ ----------------------------------клас гравця-------------------------------------"""
 class Player(sprite.Sprite):# клас гравця з супер класом сетінгс
-    def __init__(self, coordainates, start_coordinates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, lives, life_y, score, score_y, window, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
+    def __init__(self, coordainates, start_coordinates, size, imgs, speed, k_u, k_d, k_l, k_r, k_shoot, lives, life_y, zone = (0, 0, 1000, 1000), rotate = 0, agle = "u"):
         super().__init__()
         self.width, self.height = size
         self.image = transform.scale(image.load(imgs[0]), (self.width, self.height))
@@ -185,9 +179,6 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
         self.key_shoot = k_shoot
         self.lives = lives
         self.lifes_y = life_y
-        self.score = score
-        self.score_y = score_y
-        self.window = window
         self.zone = zone
         self.min_x, self.min_y, self.max_x, self.max_y = zone
         self.move = 1
@@ -246,16 +237,17 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
     def blit_lives(self, window):
         life_txt = font3.render('Життя: ' + str(self.lives), True, (0, 0, 0))
         window.blit(life_txt, (1100, self.lifes_y))
+    
     def death(self):
         if self.lives <= 0:
-            players.remove(self)
+            self.kill()
 
 # функція що відповідає за натискання кнопок та переміщення 
     def update(self, window, blocks, enemys):# тут буде переміщення в право ліво
         #записуємо всі блоки з якими стикнувся танк в змінну collided_blocks якщо список не пустий перевіряємо колізію
 
         self.colides(blocks)
-        self.blit_lives(self.window)
+        self.blit_lives(window)
         self.death()
         key_pressed = key.get_pressed()# задаєм в зміну значення
 
@@ -285,7 +277,7 @@ class Player(sprite.Sprite):# клас гравця з супер класом �
 
         current_time = pg.time.get_ticks()
         if key_pressed[self.key_shoot] and current_time - self.last_shot_time >= self.shoot_delay:
-            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 3, 'assets/textures/bullet.png', score, self.score_y, window, self.zone , self.agle)
+            bullet = PlayerBullet(self.rect.x + self.width // 2 - 1, self.rect.y + self.height // 2 - 1, 3, 5, 3, 'assets/textures/bullet.png',self.zone , self.agle)
             bullets.add(bullet)
             self.last_shot_time = current_time
 
@@ -336,10 +328,10 @@ def create_map(map: Union[ list , str , tuple], tile_size: int, begin_x: int = 0
             if c == "e":
                 enemy_coordinates = creating_lists_coordinate(enemy_coordinates, x, y)
             if c == "p":
-                player = Player((x, y), (x, y), player_size, players_image, 2, K_w, K_s, K_a, K_d, K_e, player_lives, 60, score, 120, (begin_x, begin_y, map_size_x, map_size_y))
+                player = Player((x, y), (x, y), player_size, players_image, 2, K_w, K_s, K_a, K_d, K_e, player_lives, 60, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(player)
             if c == "f" and friend_is_on:
-                friend = Player((x, y), (x,y), player_size, players2_image, 2, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 180, score, 240, (begin_x, begin_y, map_size_x, map_size_y))
+                friend = Player((x, y), (x,y), player_size, players2_image, 2, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_RCTRL, player_lives, 120, (begin_x, begin_y, map_size_x, map_size_y))
                 players.add(friend)
             if c == "l":
                 l = Blocks((x,y), tile_size, 0, 'assets/textures/blocks/base.png', False)

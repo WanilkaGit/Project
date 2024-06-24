@@ -57,7 +57,7 @@ while game:
             if event.key == pg.K_ESCAPE:
                 game = False         
         if event.type == pg.MOUSEBUTTONDOWN:
-            if scene == 0:
+            if scene == 0:#якщо меню гри
                 stop_increment()
                 if exit_btn.is_pressed(event.pos):
                     game = False
@@ -69,6 +69,8 @@ while game:
                     scene = 3
 
                 elif play_btn.is_pressed(event.pos):
+                    ivan.score = 0
+                    change_settings()
                     create_map(map_lvl1, tile_size, beginers[0], beginers[1])
                     enemys.spawns = ivan.enemy_coordinates
                     scene = 1
@@ -77,13 +79,7 @@ while game:
                     scene = 5
 
             if scene == 1:
-                filename = 'score.json'
-
-                def save_to_file(data, filename):
-                    with open(filename, 'w') as file:
-                        json.dump(data, file)
-                start_increment()
-                        #якщо меню гри
+                        
                 if pause_btn.is_pressed(event.pos):
                     scene = 4
 
@@ -120,6 +116,7 @@ while game:
                     maxyms_scenes.load_slots_names()
                     scene = 8 
                 elif maxyms_scenes.play_constructor_button.is_pressed(event.pos) and maxyms_scenes.check_provisos():
+                    change_settings()
                     maxyms_scenes.last_call_time = pg.time.get_ticks()
                     maxyms_scenes.interval = 250
                     maxyms_scenes.game_blocks, maxyms_scenes.hides_blocks,maxyms_scenes.bases,  maxyms_scenes.players, maxyms_scenes.spawner.spawns = create_map(maxyms_scenes.map_to_list(maxyms_scenes.constructor_blocks), (32,32), 64, 64)
@@ -167,6 +164,7 @@ while game:
             elif scene == 9: # якщо сцена гри в зроблену власноруч карту
                 if maxyms_scenes.back_to_constructor_from_test_button.is_pressed(event.pos):
                     reset_map()
+                    change_settings()
                     maxyms_scenes.spawner.reset_enemys()
                     scene = 5
         if scene == 5:
@@ -183,7 +181,7 @@ while game:
         if current_time - last_call_time > interval:
             last_call_time = current_time
             enemys.spawn_random()
-            interval = randint(500, 3500)
+            interval = randint(1500, 5300)
         
         if game_over():
             scene = 0
@@ -200,16 +198,16 @@ while game:
         pause(window)
     
     elif scene == 5:
+        ivan.score = 0
         maxyms_scenes.map_constructor(window)
     
     elif scene == 6:
         restart()
+        reset_map()
+        enemys.reset_enemys()
+        create_map(map_lvl1, tile_size, beginers[0], beginers[1])
+        enemys.spawns = ivan.enemy_coordinates
         scene = 1
-        restart_text.reset(window)
-        
-        if restart_text.rect.x >= 300 and restart_text.rect.x <= 900:
-            restart_text.stop()
-        restart_text.plays()
 
     elif scene == 7:
         maxyms_scenes.save_map_scene(window)

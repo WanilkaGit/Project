@@ -111,10 +111,9 @@ def setting(window):      #меню налаштувань
     window.blit(title2, (90, 100))
 
 def pause(window):            #меню паузи
-    #window.fill((135, 95, 22))
     window.blit(background_image, (0,0))
     title = font.render('---Pause---', True, (255, 255, 255))
-    title2 = font.render('Рахунок: '+ str(score), True, (255, 255, 255))
+    title2 = font.render('Рахунок: '+ str(i.score), True, (255, 255, 255))
     window.blit(title,(500, 100))
     window.blit(title2,(300, 150))
     start_button.draw(window)
@@ -122,19 +121,21 @@ def pause(window):            #меню паузи
     restart_btn.draw(window)
     
 def restart():      #рестарт гри
-    global score, hero_lives
-    score = 0
-    hero_lives = 3
+    global score
+    i.score = 0
+    change_settings()
 
 def games(window):
-    score_txt = font.render('score: ' + str(score), True, (0, 0, 0))
+    score_txt = font.render('score: ' + str(i.score), True, (0, 0, 0))
     window.fill((93, 62, 10))
     window.blit(score_txt, (1100, 20))
+
+    enemys.update(window)
+    players.update(window, blocks, enemys.enemy_group)
+
     pause_btn.draw(window)
     players.draw(window)
-    players.update(window, blocks, enemys.enemy_group)
     bullets.draw(window)
-    enemys.update(window)
     blocks.draw(window)
     loozes.draw(window)
     hides_blocks.draw(window)

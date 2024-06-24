@@ -11,22 +11,22 @@ init()# ініціалізуєм пайгейм
 
 """------------------------------------Map--------------------------------------"""
 map_lvl1 = [                               #Unbreakeble - u
-    "dddddddddddddddddddddddddddddddddu",#breakeable - b
-    "   bbbb  bbbb  budb bbbbb bbbb bdu",#green_hide - g
-    "ubbb  b  b g u eudb b  be b  b bdu",#dark_white_hide - d
-    " e bbbb  bbbb    db bbbb  b  b bdu",#enemy - e
-    "   b  b   g b    db    b  b  b bdu",#player1 - p
-    "   bbbb  bbbb    db bbbb  bbbb bdu",#lose - l
-    "  u              db            bdu",#win - w
-    "    bbbbbbbbbbb  db  bb bb bb  bdu",#кожен елемент цього
-    "     uuuu   gg    b    bbbb    bdu",#є частиню карти окрім
-    "  bbbg gg         gggggggggggggggu",#пробілів
-    "  gg       buub        b  b     uu",#що вони означають написано вище
-    "    u  bub gggg  g  b  bbbb  b bgu",#теж зі знаком коментаря
-    "  bub  ggg       gb b  b  b  b bgu",
-    "  ggg       bub  b bu      ub bgu",
-    "       bbb  ggg  gb b  bbb   b bgu",
-    "      pblbf     dddd   blb ggggggg"
+    "   gggge gggg    bb           gggg",#breakeable - b
+    "   bbbb  bbbb    db bbbbb bbbbhbdg",#green_hide - g
+    "   b  b  bgg   e du b  be b  b bdg",#dark_white_hide - d
+    " e bbbb  bbbb    db bbbb  b  b bdg",#enemy - e
+    "   b  b   ggb    db e  b  b  b bdg",#player1 - p
+    "   bbbb  bbbb    db bbbb  bbbb bdg",#lose - l
+    "  u              du          e bdg",#win - w
+    "    bbbbbbbbbbb  db  bbgbbgbb  bdg",#кожен елемент цього
+    "            gg   db    bbbb    bdg",#є частиню карти окрім
+    "  bbbg gg         gggggggggggggggg",#пробілів
+    "  gggg     buub        b  b     ug",#що вони означають написано вище
+    "       bub gggg  g  b  bbbb  b bgg",#теж зі знаком коментаря
+    "  bub  ggg       gb b  b  b  b bgg",
+    "  ggg       bub  b bu      ub bg g",
+    "       bbb  ggg  gb b  bbb   b bgg",
+    "      pblbf     bdddb  blb ggggggg"
 ]
 
 
@@ -131,7 +131,6 @@ class PlayerBullet(sprite.Sprite):
         for block in collides_blocks:
             if block.breaking_ables:
                 block.kill()
-                score += 1
             self.kill()
         collides_enemy = sprite.spritecollide(self, enemys, False)
         for enemy in collides_enemy:

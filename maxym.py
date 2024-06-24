@@ -380,6 +380,7 @@ class Enemy(pg.sprite.Sprite):
         self.players = players
         self.bullets = pg.sprite.Group()
         self.frame = 0
+        self.__random_rotate()
 
         self.min_x, self.min_y, self.max_x, self.max_y = zone
 
@@ -912,9 +913,10 @@ class MaxymsScenes:
 
     def constructor_play(self, display: pg.Surface): # scene = 9
         '''сцена де ти можеш протестувати тещо ти побудував в сцені з конструктором карт'''
-        from ivan import bullets
+        from ivan import bullets, score
         display.blit(self.background, (0,0))
         pg.draw.rect(display, (50, 50, 50), (64, 64, 512, 512))
+        score_text = font.render(f'рахунок: {score}', True, (0,0,0))
 
         self.players.update(display, self.game_blocks, self.spawner.enemy_group)
         self.spawner.update(display)
@@ -929,8 +931,9 @@ class MaxymsScenes:
         if current_time - self.last_call_time > self.interval:
             self.last_call_time = current_time
             self.spawner.spawn_random()
-            self.interval = randint(500, 3500)
+            self.interval = randint(1500, 5300)
 
+        display.blit(score_text, (300, 20))
         self.back_to_constructor_from_test_button.draw(display)
 
 maxyms_scenes = MaxymsScenes()
